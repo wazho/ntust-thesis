@@ -19,7 +19,7 @@ Antonios Liapis 開發了策略型遊戲的抽象化地圖生成工具 - Sentien
 
 後續的研究中，Antonios Liapis 將基因演算法調整為兩階段演化，第一階段演化為地圖草圖演化，第二階段為地圖片段 (map segments) 演化~\cite{liapis2017multi}。地圖片段的結構類似於地圖草稿，由 NxN 的瓦磚所構成，瓦磚的種類能夠像是空磚、牆、連接處、出口、怪物或寶箱等，其中連接處是為了讓地圖片段彼此能夠接合以填滿地圖。利用地圖草稿所轉化成的初始地圖片段可作為演化用的胚胎 (embryogeny)，於此階段定義的牆、連接處會呈顯穩定狀態，不隨著演化過程而改變，其餘瓦磚有機會由空磚突變為怪物、寶箱或牆，反之亦然。並探討不同的目標函數與胚胎，如何影響的圖片段的最佳解與外觀。
 
-\begin{figure}[t!]
+\begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/Multi-segment演化框架.pdf}
     \caption{Antonios Liaps 提出的兩階段式關卡演化。} 
