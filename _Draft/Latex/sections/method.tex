@@ -20,3 +20,69 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 延續上一小節的關卡結構，房間視為染色體 (chromosome)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在++3.3.1++小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在++3.3.2++小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於++3.3.3++小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
 
+\subsection{各項適應性函數}
+
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，我們使用 A-Star 演算法尋找入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。
+
+
+\subsubsection{死角點 (Neglected)}
+
+由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與主要動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
+
+\begin{equation}
+Under construction
+\end{equation}
+
+\subsubsection{阻攔點 (Block)}
+
+敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。會配置於動線之上，$mp_{i}$ 為空間動線權重；$e_j$ 為該敵人於空間之動線權重，倘敵人並未落在動線上，則該項為 0。
+
+\begin{equation}
+f_{blk}=\frac{\sum_{j=1}^{M} e_{j}}{\sum_{i=1}^{N} mp_{i}}
+\end{equation}
+
+\subsubsection{攔截點 (Intercept)}
+
+與阻攔點近似，但敵人會被配置於動線附近非動線上，以快速追擊玩家為目的。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
+
+\begin{equation}
+f_{itc}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), E_{i} \neq MP_{j}
+\end{equation}
+
+\subsubsection{巡邏點 (Patrol)}
+
+確保各敵人擁有足夠的空間能夠進行移動。將計算敵人 ($E_{i}$) 與指定半徑 ($R$) 內的座標數量 ($P_j$) 總值，當中並不包含不可通行的牆壁。於本次實驗中，我們將採用 $R=3$ 作為實驗範例，該數值可由遊戲設計師決定。
+
+\begin{equation}
+f_{ptl}=\sum_{i=1}^{N} \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big), dist\big(E_{i}, P_{j}\big) \leq R, P_{j} \notin \{ wall \}
+\end{equation}
+
+\subsubsection{守衛點 (Guard)}
+
+為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵人 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
+
+\begin{equation}
+f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
+\end{equation}
+
+\subsubsection{至高點 (Dominated)}
+
+當玩家可能所在動線上之位置 ($MP_{j}$) 與敵人的位置 ($E_{i}$) 具有高低差時，敵人便適合採取遠程攻擊；為了提供玩家思考對付遠程敵人的緩衝時間，將敵人配置於動線末端附近是較好的選擇，$j$ 隨著動線的順序演進，影響程度逐漸增幅。
+
+\begin{equation}
+f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)} \times mp_{j} \times j \times high(E_{i}, MP_{j}) \Big)
+\end{equation}
+
+\subsubsection{支援點 (Support)}
+
+敵人 ($E_{i}$, $E_{j}$) 之間擁有一定程度的護援關係，當敵人彼此的距離愈低其影響程度越大，同時該敵人 ($E_{i}$) 必須遠離動線 ($MP_{k}$)。
+
+\begin{equation}
+f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
+\end{equation}
+
+\subsection{不同交配方式}
+
+\subsection{不同的突變方式}
+
+\subsection{終止條件的設立}

@@ -1,5 +1,7 @@
 :: Close the PDF software
 taskkill /IM "PDFXEdit.exe"
+:: Remove olds
+del %output_path%%file_name%.pdf
 :: Output path
 set file_name=my_ntust_thesis
 set output_path=%~dp0
