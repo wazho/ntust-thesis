@@ -1,9 +1,23 @@
 \chapter{相關研究}
 \label{cha:related_works}
 
-我們所參考的文獻主要分為兩個類型，分別為程序化生成任務內容與程序化遊戲物件擺放。
+本章劃分成四小節，第一節
 
-\section{Mission/Space 框架}
+
+
+\section{含有敘事脈絡的關卡}
+
+
+
+
+
+\section{關卡生成 (Level Generation)}
+\label{sec:related_levelgeneration}
+
+本節紀載了至今的關卡生成框架與方法，同時收錄數款應用了關卡生成技術之遊戲。而參考的文獻主要分為兩種類型，分別為~\ref{ssec:related_missionspace} 小節的程序化生成任務內容與~\ref{ssec:related_mapsketches} 小節的程序化遊戲物件擺放。
+
+\subsection{Mission/Space 框架}
+\label{ssec:related_missionspace}
 
 Joris Dormans 認為一個完整的關卡需要包含任務與空間二者~\cite{dormans2010adventures}~\cite{dormans2011level}~\cite{dormans2012engineering}；需要有一特定的空間佈局，及一系列需要於此空間中被執行的任務。關卡任務代表玩家需要按照任務流程，來依序挑戰才能夠完成該關卡；關卡的空間由其地理佈局所組成，或者由與地圖相似的節點網絡所構成。由於任務與空間之間的交錯混雜，導致關卡設計者最終採取簡單卻有效的策略，也就是讓任務與空間同構。雖然同構在設計上不是唯一的選擇，但對於某些遊戲是非常合適的，特別是一具有線性的關卡設計。而 Joris Dormans 亦提出了一種自動關卡設計的方法~\cite{dormans2010adventures}~\cite{dormans2012engineering}，藉由產生一個任務，再利用這個任務去產生適合此任務的空間。舉例來說，關卡設計者透過生成任務的介面來建立任務圖 (mission graph)，玩家必須執行這些任務才能夠完成關卡，接下來將任務轉換為空間，並將任務依序安排至該空間圖 (space graph) 中。設計者接著在地圖添加更細節的內容，直到地圖充滿任務的要素並作為遊戲的關卡。
 
@@ -11,7 +25,8 @@ Joris Dormans 認為一個完整的關卡需要包含任務與空間二者~\cite
 
 改寫系統 (rewrite system) 由具有左側與右側的規則 (rules) 所組成，能夠將規則中指定的一符號集能夠被另一符號集所取代。改寫規則當中所使用的符號，便是在遊戲中經常會出現一些具有代表性的物件、要素或任務目標等，在字母表 (alphabet) 中定義以抽象化描述遊戲中的週期性結構 (recurrent construction)。改寫系統能夠套用在構成任務的圖形語法 (graph grammars)及構成空間的形狀語法 (shape grammars)，二者能夠獨立生成出結果，不過建議能夠將改寫系統套用在任務圖上，使其能夠產生出空間圖。本文提及之任務圖和空間圖是經過改良後的版本，定義其規則時會有些微上的不同，但更能夠體現出遊戲的關卡結構。
 
-\section{Map Sketches 與 Segments 的演化}
+\subsection{Map Sketches 與 Segments 的演化}
+\label{ssec:related_mapsketches}
 
 Antonios Liapis 開發了策略型遊戲的抽象化地圖生成工具 - Sentient Sketchbook~\cite{liapis2013generating}。在 Sentient Sketchbook 中，遊戲關卡設計師能夠以低分辯率、高階抽象的方式來編輯地圖草圖 (map sketches)，構成地圖的瓦磚類型有資源磚、基地磚、不可通行磚與可通行磚等。典型的戰略型遊戲中，每位玩家都必須從隨機選擇的基地開始採集資源以建構戰鬥單位，並利用這些戰鬥單位摧毀敵方基地以完成遊戲。
 
@@ -26,3 +41,21 @@ Antonios Liapis 開發了策略型遊戲的抽象化地圖生成工具 - Sentien
     \label{fig:multi-segment-evolution}
   \end{center}
 \end{figure}
+
+\subsection{遊戲 - Unexplored}
+\label{ssec:related_unexplored}
+
+Unexplored 是由 ~\ref{ssec:related_missionspace} 小節提及之框架作者 Joris Dormans 所製作，Joris Dormans 基於 Mission/Space 框架並提出改良的即時型戰鬥 roguelike 遊戲（若再細分可歸類於 roguelite 遊戲類型）。在市面上普遍的 roguelike 遊戲中，最常見的關卡生成策略即是視地下城玩家起點位置為樹之根，再以此根持續添加生成或預先設計的
+
+Joris Dormans 稱改良後的方法為環狀地下城生成 (cyclic dungeon generation)，在每一層的地牢中
+
+
+
+\subsection{遊戲 - CCC}
+\label{ssec:related_}
+
+
+
+
+
+
