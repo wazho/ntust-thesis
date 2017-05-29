@@ -16,7 +16,7 @@
 \section{任務語法}
 \label{method-missiongrammars}
 
-
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。
 
 \section{房型建構}
 \label{method-spacepieces}
@@ -47,10 +47,11 @@ Under construction
 \subsubsection{阻攔點 (Block)}
 \label{method-segments-fitnesses-block}
 
-敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。會配置於動線之上，$mp_{i}$ 為空間動線權重；$e_j$ 為該敵人於空間之動線權重，倘敵人並未落在動線上，則該項為 0。
+敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。敵人會配置於動線上，$mp_{i}$ 為空間動線權重；$e_j$ 為該敵人於空間之動線權重，倘敵人並未落在動線上，則該項為 0。
 
 \begin{equation}
-f_{blk}=\frac{\sum_{j=1}^{M} e_{j}}{\sum_{i=1}^{N} mp_{i}}
+% The old one: f_{blk}=\frac{\sum_{j=1}^{M} e_{j}}{\sum_{i=1}^{N} mp_{i}}
+f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
 \end{equation}
 
 \subsubsection{攔截點 (Intercept)}
@@ -59,17 +60,26 @@ f_{blk}=\frac{\sum_{j=1}^{M} e_{j}}{\sum_{i=1}^{N} mp_{i}}
 與阻攔點近似，但敵人會被配置於動線附近非動線上，以快速追擊玩家為目的。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
 
 \begin{equation}
-f_{itc}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), E_{i} \neq MP_{j}
+    f_{itc} = \frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
+    E_{i} \neq MP_{j}
 \end{equation}
 
 \subsubsection{巡邏點 (Patrol)}
 \label{method-segments-fitnesses-patrol}
 
-確保各敵人擁有足夠的空間能夠進行移動。將計算敵人 ($E_{i}$) 與指定半徑 ($R$) 內的座標數量 ($P_j$) 總值，當中並不包含不可通行的牆壁。於本次實驗中，我們將採用 $R=3$ 作為實驗範例，該數值可由遊戲設計師決定。
+確保各敵人擁有足夠的空間能夠進行移動。將計算敵人 ($E_{i}$) 與指定半徑 ($r$) 內的座標數量 ($P_j$) 總值，當中並不包含不可通行的牆壁等類型。於本次實驗中，我們將採用 $R=3$ 作為實驗範例，該數值可由遊戲設計師決定。
 
 \begin{equation}
-f_{ptl}=\sum_{i=1}^{N} \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big), dist\big(E_{i}, P_{j}\big) \leq R, P_{j} \notin \{ wall \}
+    % The old one: f_{ptl}=\sum_{i=1}^{N} \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big), dist\big(E_{i}, P_{j}\big) \leq r, P_{j} \notin \{ wall \}
+    f_{ptl} = \sum_{i=1}^{N} \Big( d_{i} \times \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big) \Big), 
+    d_{i} = \begin{cases}
+                \frac{1}{2^{i}},   & \mbox{if } i \neq N \\
+                \frac{1}{2^{i-1}}, & \mbox{if } i = N
+            \end{cases}
 \end{equation}
+\begin{gather*}
+    dist\big(E_{i}, P_{j}\big) \leq r,  P_{j} \notin wall
+\end{gather*}
 
 \subsubsection{守衛點 (Guard)}
 \label{method-segments-fitnesses-guard}
@@ -98,13 +108,28 @@ f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
+\subsubsection{點 ()}
+\label{method-segments-fitnesses-}
+
+
+
+\subsubsection{點 ()}
+\label{method-segments-fitnesses-}
+
+
+
 \subsection{不同交配方式}
 \label{method-segments-crossover}
+
+
+
 
 \subsection{不同的突變方式}
 \label{method-segments-mutation}
 
+
+
+
 \subsection{終止條件的設立}
 \label{method-segments-termination}
-
 
