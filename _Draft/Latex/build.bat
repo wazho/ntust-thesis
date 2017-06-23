@@ -1,3 +1,7 @@
+:: At first, please check your environment variable has 'xelatex' and 'bibtex'.
+:: Add the path like "C:\Program Files\MiKTeX 2.9\miktex\bin\x64" in Path.
+:: And install the packages of latex that are 'l3kernel', 'xparse', 't3enc' ... etc
+
 :: Close the PDF software
 taskkill /IM "PDFXEdit.exe"
 :: Remove olds
