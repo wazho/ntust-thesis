@@ -1,7 +1,7 @@
 \chapter{研究方法}
 \label{cha:methodology}
 
-這本篇論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。我們將「Mission/Space框架」與「Multi-segment演化」兩種關卡生成方法結合，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
+本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
 圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過巨觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，採用基因演算法的過程，令各房間遵守適應性函數的限制得到符合訴求的最佳解。
 
@@ -18,17 +18,49 @@
 
 我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。
 
+在任務語法的設計階段，我們參考遊戲 Spiral Knight 的關卡地圖，分析其遊戲進程結構，繪製期望的任務圖並將觀察到的遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+
+\subsection{建立任務字符表}
+\label{method-missiongrammars-alphabet}
+
+
+
+\subsection{建立任務規則}
+\label{method-missiongrammars-rules}
+
+
+
+
+\subsection{產生任務圖}
+\label{method-missiongrammars-graph}
+
+\begin{algorithm}
+    \caption{任務語法的改寫系統}
+    \label{alg:algorithm-missiongrammars-rewritesystem}
+    \begin{algorithmic}
+        \IF{some condition is true}
+            \STATE do some processing
+        \ELSIF{some other condition is true}
+            \STATE do some different processing
+        \ELSE
+            \STATE do the default actions
+        \ENDIF
+    \end{algorithmic}
+\end{algorithm}
+
+
+
 \section{房型建構}
 \label{method-spacepieces}
 
-Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境以三維空間為主。在空間語法中我們將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖 OOOOO。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到\ref{method-segments} 節提出之方法達成。
+Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境以三維空間為主。在空間語法中我們將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖 OOOOO。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{method-segments} 節提出之方法達成。
 
-我們對於空間語法做了修改以利實驗環境建置，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個正立方體體素 (voxels) 所構成。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在我們創建的房間容器會對應一任務語法之字母表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
+我們對於空間語法做了修改以利實驗環境建置，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個正立方體體素 (voxels) 所構成。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在我們創建的房間容器會對應一任務語法之字符表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
 
 \section{地圖片段}
 \label{method-segments}
 
-延續上一小節的關卡結構，房間視為染色體 (chromosome)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在\ref{method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在\ref{method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於\ref{method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
+延續上一小節的關卡結構，房間視為單一染色體 (chromosome) 之個體 (individual)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
 
 \subsection{各項適應性函數}
 \label{method-segments-fitnesses}
