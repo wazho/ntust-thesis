@@ -1,0 +1,73 @@
+\renewcommand\thetable{\arabic{chapter}-\arabic{table}}
+%\renewcommand\thefigure{\arabic{chapter}-\arabic{figure}} 
+\chapter{實驗結果與分析}
+\label{cha:experiment}
+
+為了探討前述方法是否符合需求目標，將進行以下實驗：~\ref{sec:experiment-xxx} 小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。~\ref{sec:experiment-zzzz} 小節，進行評估不同的交配策略下，何者優劣優勢之情形。
+
+\section{實驗定義}
+\label{sec:experiment-definition}
+
+在任務語法階段時，
+
+進行相關實驗時，每一次世代的演化過程，有 80\% 機率父母代間會進行兩點交配 (two-point crossover)；10\% 機率衍生子代會進行突變，染色體個體中有 5\% 至 20\% 的基因數量會轉換成其它的物件種類。
+
+
+
+
+
+
+\section{資料收集}
+\label{sec:experiment-datacollection}
+
+在資料收集階段中，將收集~\ref{method-segments} 基因演算法於各實驗、世代與其個體（單一染色體）中基因類型的得分狀況。    
+
+\begin{table}[h]
+  \centering
+  \caption{原始資料之欄位}
+  \label{tbl:structure-of-rawdata}
+  \bigskip
+  \begin{tabular}{| l | l | l | l | l | l | l | l |}
+    \hline
+    實驗編號 & 世代編號 & 染色體編號 & 指標 & 得分 & 座標 & 類型 & 房間 \\
+    1 & 1 & 1 & Block     & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
+    1 & 1 & 1 & Intercept & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
+    1 & 1 & 1 & Patrol    & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
+    1 & 1 & 1 & Guard     & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
+    1 & 1 & 1 & Support   & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
+    1 & 1 & 1 & Block     & 0 & (24.0, 1.0, 12.0) & Empty & Room A \\
+    1 & 1 & 1 & Intercept & 0 & (24.0, 1.0, 12.0) & Empty & Room A \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+
+\section{各世代演化狀態}
+\label{sec:experiment-evolutions}
+
+由於各點基因，其中的空格、敵人兩種類型，於每一遊玩特徵的指標都具有高度意義與相關性。
+
+
+
+\section{Section C}
+\label{sec:experiment-zzz}
+
+
+
+
+\section{演化結果與其品質}
+\label{sec:experiment-xxx}
+
+
+
+\section{房型規模之比較}
+\label{sec:experiment-yyy}
+
+
+
+
+\section{評估交配策略優勢}
+\label{sec:experiment-zzzz}
+
+
