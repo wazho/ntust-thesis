@@ -1,7 +1,7 @@
 \chapter{研究方法}
 \label{cha:methodology}
 
-本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
+本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
 圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過巨觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，採用基因演算法的過程，令各房間遵守適應性函數的限制得到符合訴求的最佳解。
 
@@ -12,6 +12,14 @@
     \label{fig:system-framework}
   \end{center}
 \end{figure}
+
+關卡產生的遞迴過程如
+
+
+\section{關卡佈局}
+\label{method-levellayout}
+
+
 
 \section{任務語法}
 \label{method-missiongrammars}
@@ -29,6 +37,46 @@
 \label{method-missiongrammars-rules}
 
 
+\subsubsection{排除非法規則}
+\label{method-missiongrammars-rules-illegals}
+
+設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。以下所列舉之條件，彼此有涵蓋部分交集處，因
+
+\paragraph{左側超過右側節點數量。}
+
+當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。
+
+\paragraph{左側為空。}
+
+左側為空將無法進行子圖搜索，因此左側節點必須至少一個節點。
+
+\paragraph{存在孤立節點。}
+
+孤立的節點將會導致任務圖破碎。
+
+\paragraph{存在孤立連接線。}
+
+孤立的連接線無法正確表示其連接資訊，將無法正常進行改寫系統。
+
+\paragraph{左右規則同構。}
+
+若左右規則同構將導致改寫系統陷入無限循環。
+
+\paragraph{節點間存在多重關係。}
+
+兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。
+
+\paragraph{存在循環結構。}
+
+任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。
+
+\paragraph{存在兩個以上根結點。}
+
+若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。
+
+\paragraph{Any 節點對應不一致。}
+
+當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。
 
 
 \subsection{產生任務圖}
@@ -62,7 +110,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 延續上一小節的關卡結構，房間視為單一染色體 (chromosome) 之個體 (individual)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
 
-\subsection{各項適應性函數}
+\subsection{演化之適應性函數}
 \label{method-segments-fitnesses}
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，我們使用 A-Star 演算法尋找入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。
@@ -146,9 +194,20 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 % \subsubsection{點 ()}
 % \label{method-segments-fitnesses-}
 
+\subsection{負數權重的適應性函數}
+\label{method-segments-minusscores}
+
+
+
+\subsection{多項適應性函數合併}
+\label{method-segments-multiobjectives}
+
+在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房型的設定中，我們將守衛點、阻攔點的權重調整至 1，其餘指標將不採計得分即不調整權重，倘若場面上存在著二個敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻攔點指標，才是理想中的遊玩特徵。因此，我們定義首次出現相關遊玩特徵的得分將會最高，並依照數量逐漸下降成長幅度且逼近於 1，呈現近似於底數大於 1 的對數函數圖形。藉著取代原先的線性成長關係以外，便可以達到數值的正規化，強制將值域上限規範至 1 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準。
+
+然而在對數函數中，當真數為 1（符合指標的敵人數量為 1）時，所得之值為 0 並不符合我們的訴求。
+
 \subsection{不同交配方式}
 \label{method-segments-crossover}
-
 
 
 
@@ -157,7 +216,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 
 
-
 \subsection{終止條件的設立}
 \label{method-segments-termination}
+
 

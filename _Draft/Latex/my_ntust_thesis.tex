@@ -1,7 +1,7 @@
 % this file is encoded in utf-8
 % v1.7
 
-\documentclass[12pt, a4paper]{ntust_report} 
+\documentclass[12pt, a4paper]{_environment_source/ntust_report} 
 
 \usepackage{fontspec}                            %加這個就可以設定字體 
 \usepackage{xeCJK}                               %讓中英文字體分開設置 
@@ -11,12 +11,12 @@
 \XeTeXlinebreaklocale "zh"         %這兩行一定要加，中文才能自動換行 
 \XeTeXlinebreakskip = 0pt plus 1pt %這兩行一定要加，中文才能自動換行
 
-\input{common_env}  %基本的環境設定  無需改變  
+\input{_environment_source/common_env}  %基本的環境設定  無需改變  
 
 \begin{document}
 
 
-	\input{chinese_trans} %在此檔案處定義文章中的中文名詞
+	\input{_environment_source/chinese_trans} %在此檔案處定義文章中的中文名詞
 
 	%----------------------------------------------------------------------------------------------------------------------------------------------------------
 	%%% 以下是載入前頁、本文、後頁
@@ -50,8 +50,6 @@
 	\input{sections/relatedwork.tex}
 	\input{sections/method.tex}
 	\input{sections/experiment.tex}
-	% \input{sections/design.tex}
-	% \input{sections/evaluation.tex}
 	\input{sections/conclusion.tex}
 
 	%----------------------------------------------------------------------------------------------------------------------------------------------------------
