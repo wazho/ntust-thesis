@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過巨觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，採用基因演算法的過程，令各房間遵守適應性函數的限制得到符合訴求的最佳解。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過巨觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，採用基因演算法的過程，令各房間遵守適應性函數的限制得到符合訴求的最適解。
 
 \begin{figure}[h]
   \begin{center}
@@ -17,12 +17,13 @@
 
 
 \section{關卡佈局}
-\label{method-levellayout}
+\label{sec:method-levellayout}
 
-
+關卡佈局，
 
 \section{任務語法}
-\label{method-missiongrammars}
+
+\label{sec:method-missiongrammars}
 
 我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。
 
@@ -40,43 +41,28 @@
 \subsubsection{排除非法規則}
 \label{method-missiongrammars-rules-illegals}
 
-設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。以下所列舉之條件，彼此有涵蓋部分交集處，因
+設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。以下所列舉之條件，彼此有涵蓋部分交集處，因........。
 
-\paragraph{左側超過右側節點數量。}
-
-當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。
-
-\paragraph{左側為空。}
-
-左側為空將無法進行子圖搜索，因此左側節點必須至少一個節點。
-
-\paragraph{存在孤立節點。}
-
-孤立的節點將會導致任務圖破碎。
-
-\paragraph{存在孤立連接線。}
-
-孤立的連接線無法正確表示其連接資訊，將無法正常進行改寫系統。
-
-\paragraph{左右規則同構。}
-
-若左右規則同構將導致改寫系統陷入無限循環。
-
-\paragraph{節點間存在多重關係。}
-
-兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。
-
-\paragraph{存在循環結構。}
-
-任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。
-
-\paragraph{存在兩個以上根結點。}
-
-若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。
-
-\paragraph{Any 節點對應不一致。}
-
-當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。
+\begin{table}[h]
+  \centering
+  \caption{非法的任務規則定義}
+  \label{tbl:illegal-mission-rules}
+  \bigskip
+  \begin{tabular}{| p{4cm} | p{9cm} |}
+    \hline
+    \multicolumn{1}{ |c| }{非法規則之標籤} & \multicolumn{1}{ |c| }{標籤的狀況描述} \\\hline
+    LeftMoreThanRight  & 當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。 \\\hline
+    EmptyLeft          & 左側為空將無法進行子圖搜索，因此左側節點必須至少一個節點。 \\\hline
+    IsolatedNode       & 孤立的節點將會導致任務圖破碎。 \\\hline
+    IsolatedConnection & 孤立的連接線無法正確表示其連接資訊，將無法正常進行改寫系統。 \\\hline
+    ExactlyDuplicated  & 若左右規則同構將導致改寫系統陷入無限循環。 \\\hline
+    MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
+    CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
+    OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
+    OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 
 \subsection{產生任務圖}
@@ -197,7 +183,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsection{負數權重的適應性函數}
 \label{method-segments-minusscores}
 
-
+在~\ref{method-segments-fitnesses-guard} 守衛點指標的設計，當權重為正數時能夠體現出在需要被守護的物件周圍出現敵人進行守護，且在多個物件的情形下平均分配敵人的單位；反之，。
 
 \subsection{多項適應性函數合併}
 \label{method-segments-multiobjectives}
