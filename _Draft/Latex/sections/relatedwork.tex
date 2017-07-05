@@ -1,17 +1,22 @@
 \chapter{相關研究}
 \label{cha:relatedworks}
 
-本章劃分成四小節，第一節
+本章劃分成四小節，第一節介紹了 ....
 
 
 
 \section{含有敘事脈絡的關卡}
+\label{sec:flow-in-games}
 
-content here.
+Jenova Chen 在~\cite{chen2007flow} 提到，心理學領域的心流理論 (Flow) 應如何被運用到遊戲設計中，且藉由該理論來改善遊戲設計中的 ...............。
 
-content here.
-
-content here.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{心流體驗應用於遊戲設計。} 
+    \label{fig:flow-in-games}
+  \end{center}
+\end{figure}
 
 \section{關卡生成 (Level Generation)}
 \label{sec:relatedworks-levelgeneration}
@@ -36,6 +41,14 @@ Joris Dormans 認為一個完整的關卡需要包含任務與空間二者~\cite
 
 改寫系統 (rewrite system) 由具有左側與右側的規則 (rules) 所組成，能夠將規則中指定的一符號集能夠被另一符號集所取代。改寫規則當中所使用的符號，便是在遊戲中經常會出現一些具有代表性的物件、要素或任務目標等，在字符表 (alphabet) 中定義以抽象化描述遊戲中的週期性結構 (recurrent construction)。改寫系統能夠套用在構成任務的圖形語法 (graph grammars) 及構成空間的形狀語法 (shape grammars)，二者能夠獨立生成出結果，不過建議能夠將改寫系統套用在任務圖上，使其能夠產生出空間圖。本文提及之任務圖和空間圖是經過改良後的版本，定義其規則時會有些微上的不同，但更能夠體現出遊戲的關卡結構。
 
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{Mission/Space 框架之主要結構。} 
+    \label{fig:structure-of-mission-space-framework}
+  \end{center}
+\end{figure}
+
 \subsubsection{Dungeon Crawl}
 \label{sssec:relatedworks-proceduralmission-dungeoncrawl}
 
@@ -51,6 +64,14 @@ content here.
 Unexplored 是由 ~\ref{sssec:relatedworks-proceduralmission-missionspace} 小節提及之框架作者 Joris Dormans 所製作，Joris Dormans 基於 Mission/Space 框架並提出改良的即時型戰鬥 roguelike 遊戲（若再細分可歸類於 roguelite 遊戲類型）。在市面上普遍的 roguelike 遊戲中，最常見的關卡生成策略即是視地下城玩家起點位置為樹之根，再以此根持續添加生成或預先設計的
 
 Joris Dormans 稱改良後的方法為環狀地下城生成 (cyclic dungeon generation)，在每一層的地牢中 ...
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{Unexplored 的關卡設計。} 
+    \label{fig:unexplored}
+  \end{center}
+\end{figure}
 
 \subsection{程序化遊戲物件擺放}
 \label{ssec:relatedworks-proceduralgamepatterns}

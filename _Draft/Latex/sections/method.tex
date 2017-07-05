@@ -83,13 +83,38 @@
 \end{algorithm}
 
 
-
 \section{房型建構}
 \label{method-spacepieces}
 
-Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境以三維空間為主。在空間語法中我們將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖 OOOOO。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{method-segments} 節提出之方法達成。
+Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境以三維空間為主。在空間語法中將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖~\ref{fig:gameobject-list}。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{method-segments} 節提出之方法達成。
 
-我們對於空間語法做了修改以利實驗環境建置，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個正立方體體素 (voxels) 所構成。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在我們創建的房間容器會對應一任務語法之字符表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{能夠直接影響遊戲性的遊戲物件，分別為敵方、寶箱與陷阱。} 
+    \label{fig:gameobject-list}
+  \end{center}
+\end{figure}
+
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在創建的房間容器會對應一任務語法之字符表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{房型之結構圖。} 
+    \label{fig:spacepieces-structure}
+  \end{center}
+\end{figure}
+
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房型的建置工作。
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{裝飾物放置於體素結構的情形示意。} 
+    \label{fig:decorations-with-directions}
+  \end{center}
+\end{figure}
 
 \section{地圖片段}
 \label{method-segments}
@@ -101,13 +126,13 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，我們使用 A-Star 演算法尋找入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。
 
-\subsubsection{死角點 (Neglected)}
-\label{method-segments-fitnesses-neglected}
+\subsubsection{守衛點 (Guard)}
+\label{method-segments-fitnesses-guard}
 
-由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與主要動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
+為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵人 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
 
 \begin{equation}
-Under construction
+    f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
 \end{equation}
 
 \subsubsection{阻攔點 (Block)}
@@ -116,8 +141,7 @@ Under construction
 敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。敵人會配置於動線上，$mp_{i}$ 為空間動線權重；$e_j$ 為該敵人於空間之動線權重，倘敵人並未落在動線上，則該項為 0。
 
 \begin{equation}
-% The old one: f_{blk}=\frac{\sum_{j=1}^{M} e_{j}}{\sum_{i=1}^{N} mp_{i}}
-f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
+    f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
 \end{equation}
 
 \subsubsection{攔截點 (Intercept)}
@@ -147,15 +171,6 @@ f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
     dist\big(E_{i}, P_{j}\big) \leq r,  P_{j} \notin wall
 \end{gather*}
 
-\subsubsection{守衛點 (Guard)}
-\label{method-segments-fitnesses-guard}
-
-為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵人 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
-
-\begin{equation}
-f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
-\end{equation}
-
 \subsubsection{至高點 (Dominated)}
 \label{method-segments-fitnesses-dominated}
 
@@ -174,6 +189,15 @@ f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
+\subsubsection{死角點 (Neglected)}
+\label{method-segments-fitnesses-neglected}
+
+由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與主要動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
+
+\begin{equation}
+Under construction
+\end{equation}
+
 % \subsubsection{點 ()}
 % \label{method-segments-fitnesses-}
 
@@ -183,7 +207,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsection{負數權重的適應性函數}
 \label{method-segments-minusscores}
 
-在~\ref{method-segments-fitnesses-guard} 守衛點指標的設計，當權重為正數時能夠體現出在需要被守護的物件周圍出現敵人進行守護，且在多個物件的情形下平均分配敵人的單位；反之，。
+在~\ref{method-segments-fitnesses-guard} 守衛點指標的設計中，當權重為正數時能夠體現出「需要被守護的物件周圍出現敵方單位進行守衛」的遊玩特徵，且在多個物件的情形下儘可能平均分配敵方單位；反之，負數權重便會體現出「愈不平均數量的守衛情形」。緣故為設計守衛點指標時，並無針對寶箱的數量進行控管而導致。
 
 \subsection{多項適應性函數合併}
 \label{method-segments-multiobjectives}
