@@ -6,9 +6,11 @@
 taskkill /IM "PDFXEdit.exe"
 :: Output path
 set file_name=my_ntust_thesis
+set new_file_name=Ze_Hao_Wang-M10415096-Game_Design_Goal_Oriented_Approach_for_Procedural_Content_Generation
 set output_path=%~dp0
 :: Remove olds
 del %output_path%%file_name%.pdf
+del %output_path%%new_file_name%.pdf
 :: Excute xelatex to generate the aux
 xelatex .\%file_name%.tex -output-directory=%output_path%
 :: Use bibtex with aux to create the bbl
@@ -17,8 +19,9 @@ if exist %output_path%%file_name%.aux bibtex %output_path%%file_name%.aux
 if exist %output_path%%file_name%.bbl xelatex .\%file_name%.tex -output-directory=%output_path%
 :: Create the index fo references
 if exist %output_path%%file_name%.bbl xelatex .\%file_name%.tex -output-directory=%output_path%
-:: Open it
-if exist %output_path%%file_name%.pdf start %output_path%%file_name%.pdf
+:: Rename is and open it
+if exist %output_path%%file_name%.pdf ren %output_path%%file_name%.pdf %new_file_name%.pdf
+if exist %output_path%%new_file_name%.pdf start %output_path%%new_file_name%.pdf
 :: Remove caches
 del %output_path%%file_name%.lof
 del %output_path%%file_name%.lot
