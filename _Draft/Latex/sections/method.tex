@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，採用基因演算法的演化運算，令各房間遵守適應性函數的限制得到符合訴求的最適解。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解。
 
 \begin{figure}[h]
   \begin{center}
@@ -18,7 +18,7 @@
 
 我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。
 
-在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Issac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察到的遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Issac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
 \begin{figure}[h]
   \begin{center}
@@ -28,8 +28,20 @@
   \end{center}
 \end{figure}
 
-\subsection{建立任務字符表}
+\subsection{建立任務符號表}
 \label{ssec:method-missiongrammars-alphabet}
+
+在本小節，會說明在 Dungeon Generator 工具中如何操作符號表，進行新增、修改與刪除等動作；以及解析 \textbf{The binding of Issac} 遊戲關卡，萃取其遊玩特徵並作為任務語法的節點。
+
+在任務語法中，任務節點可表示表示為一項事件、動作或物件等。
+
+\subsubsection{任務符號表使用說明}
+\label{sssec:method-missiongrammars-alphabet-manual}
+
+content here.
+
+\subsubsection{萃取遊玩特徵}
+\label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
 content here.
 
@@ -77,19 +89,36 @@ content here.
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-content here.
+演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} 中，.... (編輯中)。
 
 \begin{algorithm}
     \caption{任務語法的改寫系統}
     \label{alg:algorithm-missiongrammars-rewritesystem}
     \begin{algorithmic}
-        \IF{some condition is true}
-            \STATE do some processing
-        \ELSIF{some other condition is true}
-            \STATE do some different processing
-        \ELSE
-            \STATE do the default actions
+        \IF{matchedRule is found from root}
+            \STATE{
+                matchedRule = FindMatchs(TransToVFGraph(root)) \\
+                移除與 matchedRule 相符子圖的連接線 \\
+                將相符子圖的節點，依照對應索引值替換成 matchedRule 的規則右側 \\
+                將 matchedRule 剩餘的節點填充至任務圖中 \\
+                依照 matchedRule 的連接情況，移轉到任務圖中 \\
+                移除節點的索引值相關資訊 \\
+            }
         \ENDIF
+        \FORALL{child = root->children}
+            \STATE{
+                RewriteSystem1(child)
+            }
+        \ENDFOR
+        \RETURN root
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{利用 VF Graph 進行子圖同構的搜尋}
+    \label{alg:algorithm-missiongrammars-rewritesystem-findmatchs}
+    \begin{algorithmic}
+        \RETURN 編輯中
     \end{algorithmic}
 \end{algorithm}
 
@@ -106,7 +135,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
   \end{center}
 \end{figure}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在創建的房間容器會對應一任務語法之字符表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
 
 \begin{figure}[h]
   \begin{center}
@@ -147,12 +176,12 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 \subsubsection{入口}
 \label{sssec:method-spacepieces-types-entrance}
 
-入口為玩家的起始房間，
+入口為玩家的起始房間，... (編輯中)。
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 入口} 
+    \caption{房間類型 - 入口}
     \label{fig:roomtype-entrance}
   \end{center}
 \end{figure}
@@ -165,7 +194,7 @@ content here.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 通道} 
+    \caption{房間類型 - 通道}
     \label{fig:roomtype-path}
   \end{center}
 \end{figure}
@@ -178,7 +207,7 @@ content here.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 探索房} 
+    \caption{房間類型 - 探索房}
     \label{fig:roomtype-exploration}
   \end{center}
 \end{figure}
@@ -191,7 +220,7 @@ content here.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 戰鬥房} 
+    \caption{房間類型 - 戰鬥房}
     \label{fig:roomtype-battle}
   \end{center}
 \end{figure}
@@ -204,7 +233,7 @@ content here.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 獎勵房} 
+    \caption{房間類型 - 獎勵房}
     \label{fig:roomtype-reward}
   \end{center}
 \end{figure}
@@ -217,7 +246,7 @@ content here.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 出口} 
+    \caption{房間類型 - 出口}
     \label{fig:roomtype-reward}
   \end{center}
 \end{figure}
