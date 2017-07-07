@@ -56,7 +56,7 @@ content here.
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多半是為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，此外能利用於改寫系統的疊代結果已趨於穩定，無剩餘的非終端節點存在任務圖的情形下，作為持續進行改寫系統的強制約束條件。
+任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多半是為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，此外能利用於改寫系統的疊代結果已趨於穩定，任務圖無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
@@ -93,12 +93,12 @@ content here.
 
 設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。以下所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
-\begin{table}[h]
+\begin{table}[h!]
   \centering
   \caption{非法的任務規則定義}
   \label{tbl:illegal-mission-rules}
   \bigskip
-  \begin{tabular}{| p{4cm} | p{9cm} |}
+  \begin{tabular}{| p{4cm} | p{10cm} |}
     \hline
     \multicolumn{1}{ |c| }{非法規則之標籤} & \multicolumn{1}{ |c| }{標籤的狀況描述} \\\hline
     LeftMoreThanRight  & 當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。 \\\hline
@@ -114,7 +114,9 @@ content here.
   \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. 
+
+\begin{figure}[h!]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效} 
