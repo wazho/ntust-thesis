@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
 
 \begin{figure}[h]
   \begin{center}
@@ -16,7 +16,7 @@
 \section{任務語法}
 \label{sec:method-missiongrammars}
 
-我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
 在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Issac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
@@ -33,32 +33,43 @@
 
 在本小節，會說明在 Dungeon Generator 工具中如何操作符號表，進行新增、修改與刪除等動作；以及解析 \textbf{The binding of Issac} 遊戲關卡，萃取其遊玩特徵並作為任務語法的節點。
 
-在任務語法中，任務節點可表示表示為一項事件、動作或物件等。
+在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。
+
+\subsubsection{萃取遊玩特徵}
+\label{sssec:method-missiongrammars-alphabet-extractpatterns}
+
+然而此步驟通常與下一步驟「建立任務規則」同時進行，......。
 
 \subsubsection{任務符號表使用說明}
 \label{sssec:method-missiongrammars-alphabet-manual}
 
 content here.
 
-\subsubsection{萃取遊玩特徵}
-\label{sssec:method-missiongrammars-alphabet-extractpatterns}
-
-content here.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{利用 Dungeon Generator 建立符號表} 
+    \label{fig:missiongrammars-alphabet-manual}
+  \end{center}
+\end{figure}
 
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-content here.
+任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多半是為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，此外能利用於改寫系統的疊代結果已趨於穩定，無剩餘的非終端節點存在任務圖的情形下，作為持續進行改寫系統的強制約束條件。
 
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-content here.
+玩家在進行遊戲時，會有一條以上的主要任務流程、劇情安排，
+
+
+遊戲設計師能夠依照需求定義出無窮的疊代規則，舉例來說，
 
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-content here.
+為了要構築出
 
 \subsubsection{排除非法規則}
 \label{sssec:method-missiongrammars-rules-illegals}
@@ -89,7 +100,7 @@ content here.
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} 中，.... (編輯中)。
+根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。前述小節所定義的任務規則集合稱作，。
 
 \begin{algorithm}
     \caption{任務語法的改寫系統}
@@ -176,13 +187,26 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 \subsubsection{入口}
 \label{sssec:method-spacepieces-types-entrance}
 
-入口為玩家的起始房間，... (編輯中)。
+入口為玩家的起始房間，若視空間為圖狀結構，。
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 入口}
     \label{fig:roomtype-entrance}
+  \end{center}
+\end{figure}
+
+\subsubsection{出口}
+\label{sssec:method-spacepieces-types-reward}
+
+content here.
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{房間類型 - 出口}
+    \label{fig:roomtype-reward}
   \end{center}
 \end{figure}
 
@@ -234,19 +258,6 @@ content here.
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 獎勵房}
-    \label{fig:roomtype-reward}
-  \end{center}
-\end{figure}
-
-\subsubsection{出口}
-\label{sssec:method-spacepieces-types-reward}
-
-content here.
-
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 出口}
     \label{fig:roomtype-reward}
   \end{center}
 \end{figure}
