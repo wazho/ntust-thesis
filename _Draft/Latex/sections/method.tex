@@ -1,7 +1,7 @@
 \chapter{研究方法}
 \label{cha:methodology}
 
-本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
+本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
 圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
 
@@ -47,7 +47,7 @@ content here.
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-alphabet-manual.png}
     \caption{利用 Dungeon Generator 建立符號表} 
     \label{fig:missiongrammars-alphabet-manual}
   \end{center}
@@ -61,14 +61,13 @@ content here.
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條以上的主要任務流程、劇情安排，
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排，
 
-遊戲設計師能夠依照需求定義出無窮的疊代規則，舉例來說，
-
+% 遊戲設計師能夠依照需求定義出無窮的疊代規則，舉例來說，
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-example.png}
     \caption{線性任務規則範例} 
     \label{fig:missiongrammars-rules-linear-example}
   \end{center}
@@ -124,9 +123,7 @@ content here.
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。前述小節所定義的任務規則集合稱作，......... (編輯中)。
-
-任務語法的改寫系統會以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中源節點會從任務規則集合中過濾出相符的規則，並從複數個規則中依照採輪盤法 (roulette wheel selection) 選擇出一項任務規則稱之為符合規則 (matched rule)，並從源節點進行與符合規則的改寫替換。符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與符合規則的左側之圖形語法同構，同構的參考基準為節點的符號種類。
+根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。任務語法的改寫系統會以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，並從複數個規則中依照採輪盤法 (roulette wheel selection) 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
 
 \begin{algorithm}
     \caption{RewriteSystem1 - 任務語法的改寫系統}
@@ -134,7 +131,7 @@ content here.
     \begin{algorithmic}
         \IF{matchedRule is found from root}
             \STATE{
-                matchedRule = FindMatchs(TransToVFGraph(root)) \\
+                matchedRule = FindMatchs(root) \\
                 移除與 matchedRule 相符子圖的連接線 \\
                 將相符子圖的節點，依照對應索引值替換成 matchedRule 的規則右側 \\
                 將 matchedRule 剩餘的節點填充至任務圖中 \\
@@ -166,7 +163,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/gameobject-list.png}
     \caption{能夠直接影響遊戲性的遊戲物件，分別為敵方、寶箱與陷阱} 
     \label{fig:gameobject-list}
   \end{center}
@@ -182,12 +179,12 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
   \end{center}
 \end{figure}
 
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房型的建置工作。
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:spacepieces-structure} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房型的建置工作。
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{裝飾物放置於體素結構的情形示意} 
+    \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
+    \caption{五種裝飾物放置於體素結構的情形示意}
     \label{fig:decorations-with-directions}
   \end{center}
 \end{figure}
@@ -199,7 +196,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/connections-in-volume.png}
     \caption{端點識別物的實際使用與串接情形} 
     \label{fig:connections-in-volume}
   \end{center}
