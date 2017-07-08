@@ -91,7 +91,15 @@ content here.
 \subsubsection{排除非法規則}
 \label{sssec:method-missiongrammars-rules-illegals}
 
-設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。以下所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
+設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效} 
+    \label{fig:missiongrammars-illegal-rules}
+  \end{center}
+\end{figure}
 
 \begin{table}[h!]
   \centering
@@ -109,28 +117,19 @@ content here.
     MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
     CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
     OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
-    OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\
-    \hline
+    OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\\hline
   \end{tabular}
 \end{table}
-
-content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. content here. 
-
-\begin{figure}[h!]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效} 
-    \label{fig:missiongrammars-illegal-rules}
-  \end{center}
-\end{figure}
 
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
 根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。前述小節所定義的任務規則集合稱作，......... (編輯中)。
 
+任務語法的改寫系統會以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中源節點會從任務規則集合中過濾出相符的規則，並從複數個規則中依照採輪盤法 (roulette wheel selection) 選擇出一項任務規則稱之為符合規則 (matched rule)，並從源節點進行與符合規則的改寫替換。符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與符合規則的左側之圖形語法同構，同構的參考基準為節點的符號種類。
+
 \begin{algorithm}
-    \caption{任務語法的改寫系統}
+    \caption{RewriteSystem1 - 任務語法的改寫系統}
     \label{alg:algorithm-missiongrammars-rewritesystem}
     \begin{algorithmic}
         \IF{matchedRule is found from root}
