@@ -164,7 +164,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/gameobject-list.png}
-    \caption{能夠直接影響遊戲性的遊戲物件，由左至右分別為敵方、寶箱與陷阱} 
+    \caption{影響遊戲性的遊戲物件，由左至右分別為敵方、寶箱與陷阱} 
     \label{fig:gameobject-list}
   \end{center}
 \end{figure}
@@ -337,6 +337,14 @@ content here.
     f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
 \end{equation}
 
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{守衛點指標的遊戲體現情形}
+    \label{fig:fitnesses-guard-gameplay}
+  \end{center}
+\end{figure}
+
 \subsubsection{阻攔點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
@@ -345,6 +353,14 @@ content here.
 \begin{equation}
     f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
 \end{equation}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{阻攔點指標的遊戲體現情形}
+    \label{fig:fitnesses-block-gameplay}
+  \end{center}
+\end{figure}
 
 \subsubsection{攔截點 (Intercept)}
 \label{sssec:method-segments-fitnesses-intercept}
@@ -355,6 +371,14 @@ content here.
     f_{itc} = \frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
     E_{i} \neq MP_{j}
 \end{equation}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{攔截點指標的遊戲體現情形}
+    \label{fig:fitnesses-intercept-gameplay}
+  \end{center}
+\end{figure}
 
 \subsubsection{巡邏點 (Patrol)}
 \label{sssec:method-segments-fitnesses-patrol}
@@ -372,6 +396,14 @@ content here.
 \begin{gather*}
     dist\big(E_{i}, P_{j}\big) \leq r,  P_{j} \notin wall
 \end{gather*}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{巡邏點指標的遊戲體現情形}
+    \label{fig:fitnesses-patrol-gameplay}
+  \end{center}
+\end{figure}
 
 \subsubsection{至高點 (Dominated)}
 \label{sssec:method-segments-fitnesses-dominated}
