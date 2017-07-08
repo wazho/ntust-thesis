@@ -5,7 +5,7 @@
 
 圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/系統框架.png}
     \caption{本論文提出系統之流程圖} 
@@ -20,7 +20,7 @@
 
 在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Issac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/Dungeon_Generator_工具.png}
     \caption{Dungeon Generator 工具} 
@@ -45,7 +45,7 @@
 
 content here.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/missiongrammars-alphabet-manual.png}
     \caption{利用 Dungeon Generator 建立符號表} 
@@ -65,7 +65,7 @@ content here.
 
 % 遊戲設計師能夠依照需求定義出無窮的疊代規則，舉例來說，
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-example.png}
     \caption{線性任務規則範例} 
@@ -79,7 +79,7 @@ content here.
 為了要構築出
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{非線性任務規則範例} 
@@ -92,7 +92,7 @@ content here.
 
 設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效} 
@@ -161,17 +161,17 @@ content here.
 
 Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境以三維空間為主。在空間語法中將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖~\ref{fig:gameobject-list}。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{sec:method-segments} 節提出之方法達成。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/gameobject-list.png}
-    \caption{能夠直接影響遊戲性的遊戲物件，分別為敵方、寶箱與陷阱} 
+    \caption{能夠直接影響遊戲性的遊戲物件，由左至右分別為敵方、寶箱與陷阱} 
     \label{fig:gameobject-list}
   \end{center}
 \end{figure}
 
 我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房型之結構圖} 
@@ -181,7 +181,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:spacepieces-structure} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房型的建置工作。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
     \caption{五種裝飾物放置於體素結構的情形示意}
@@ -194,7 +194,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 逐一設計出各式各樣的房型空間後，必須正確地將個空間相互連接。參考 Joris Dormans~\cite{dormans2010adventures} 的空間語法，我們為體素型的房型添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，並且依照遊戲設計師需求，能夠自行擴充出口的類型，為複數個出口識別物 exit-name（exit-A、exit-B）等。在一房型空間中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/connections-in-volume.png}
     \caption{端點識別物的實際使用與串接情形} 
@@ -212,7 +212,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 入口為玩家的起始房間，若視空間為圖狀結構，。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 入口}
@@ -225,7 +225,7 @@ Joris Dormans 於文獻中提到為二維空間的範例，我們的實驗環境
 
 content here.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 出口}
@@ -238,7 +238,7 @@ content here.
 
 content here.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 通道}
@@ -251,7 +251,7 @@ content here.
 
 content here.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 探索房}
@@ -264,7 +264,7 @@ content here.
 
 玩家經過戰鬥房時，必會與敵方發生戰鬥衝突，玩家必須設想戰術策略方可擊退敵方單位。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 戰鬥房}
@@ -277,7 +277,7 @@ content here.
 
 於獎勵房中，玩家能夠獲得價值不等的寶物道具，但寶箱多有敵方單位在周圍進行守衛。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{房間類型 - 獎勵房}
@@ -302,7 +302,7 @@ content here.
     \end{algorithmic}
 \end{algorithm}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{已疊代生成的任務圖，轉換為任務空間之結果} 
@@ -315,7 +315,7 @@ content here.
 
 延續上一小節的關卡結構，房間視為單一染色體 (chromosome) 之個體 (individual)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{ssec:method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{ssec:method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{地圖片段採取基因演算法之流程} 
@@ -400,11 +400,10 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 Under construction
 \end{equation}
 
-% \subsubsection{點 ()}
-% \label{sssec:method-segments-fitnesses-}
+\subsection{制衡取向的適應性函數}
+\label{ssec:method-segments-balancefitness}
 
-% \subsubsection{點 ()}
-% \label{sssec:method-segments-fitnesses-}
+於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，其中多數函數有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應性得分呈現顯著正相關，隨著演化代數的提升至終導致房型空間充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
 
 \subsection{負數權重的適應性函數}
 \label{ssec:method-segments-minusscores}
@@ -423,7 +422,7 @@ Under construction
 
 綜合上述小節，不同房型類型會有對應的戰略配置，因此依照房型類型設置不同的適應性函數權重
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{將房型空間作為胚胎，進行空間內遊戲物件的演化生成} 
