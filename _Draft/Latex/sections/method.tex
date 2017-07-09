@@ -326,7 +326,15 @@ content here.
 \subsection{演化之適應性函數}
 \label{ssec:method-segments-fitnesses}
 
-動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，我們使用 A-Star 演算法尋找入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，我們使用 A-Star 演算法尋找入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.png}
+    \caption{動線於房型空間的計算方式}
+    \label{fig:fitnesses-mainpath}
+  \end{center}
+\end{figure}
 
 \subsubsection{守衛點 (Guard)}
 \label{sssec:method-segments-fitnesses-guard}
