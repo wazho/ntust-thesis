@@ -1,6 +1,5 @@
 
 
-
 % 除非校方修改了論文格式 (margins, header, footer, 浮水印)
 % 或者需要增加所用的 LaTeX 套件，
 % 或者要改預設中文字型、編碼
@@ -16,6 +15,9 @@
 \usepackage{multirow}
 %\usepackage[dvipdfm]{graphicx}  % for graphic   using eps
 %\usepackage{graphicx}  % for graphic   using eps
+
+% Salmon editted. Support the Chinese indent for the first line.
+\usepackage{indentfirst}
 
 %\usepackage{epstopdf} % 當使用pdflatex時打開，如使用latex則不需開啟，此功能為將xxx.eps 自動判讀為XXX.pdf
 
@@ -100,7 +102,7 @@ commentstyle=\upshape,   % 預設是斜體字，會影響註解裏的英文，�
 \newcommand{\mybaselinestretch}{1.4}                 % 行距 1.5 倍 + 20%, (約為 double space)
 \renewcommand{\baselinestretch}{\mybaselinestretch}  % 論文行距預設值
 \parskip=2ex     % 段落之間的間隔為兩個 x 的高度
-\parindent=0Pt   % 段首內縮由 CJK 控制，所以這裡就設成不內縮
+\parindent=2em   % 段首內縮由 CJK 控制，所以這裡就設成不內縮
 % \parindent=24Pt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
