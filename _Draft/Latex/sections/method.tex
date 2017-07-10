@@ -230,7 +230,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{端點識別物}
 \label{ssec:method-spacepieces-connections}
 
-逐一設計出各式各樣的房型空間後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房型添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房型空間中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。
+逐一設計出各式各樣的房型空間後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房型添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房型空間中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
 
 \begin{figure}[ht]
   \begin{center}
@@ -248,7 +248,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{入口、出口、魔王房}
 \label{sssec:method-spacepieces-types-mainpath-i}
 
-入口擁有一個入口與三個出口，為玩家重生的起始房間。出口擁有一個入口，為遊戲關卡結束的房間。魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大的敵人。
+入口擁有一個入口與三個出口，為玩家重生的起始房間。出口擁有一個入口，為遊戲關卡結束的房間。魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
 
 \begin{figure}[ht]
   \begin{center}
@@ -274,7 +274,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{秘密鑰、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-玩家經過戰鬥房時，必會與敵方發生戰鬥衝突，玩家必須設想戰術策略方可擊退敵方單位。
+石牆擁有一個入口及一個出口，而出口的相同位置有石墻的識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖的識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
 \begin{figure}[ht]
   \begin{center}
@@ -283,7 +283,6 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
     \label{fig:roomtype-special}
   \end{center}
 \end{figure}
-
 
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
