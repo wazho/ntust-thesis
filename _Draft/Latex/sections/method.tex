@@ -70,7 +70,7 @@
   \end{center}
 \end{figure}
 
-結合後續第~\ref{sec:method-spacepieces} 章節 - 房型建構，並以主線任務相關規則生成任務圖後，便可將關卡輸出近似於圖~\ref{fig:missiongrammars-rules-linear-preview} 的空間。
+結合後續第~\ref{sec:method-spacepieces} 章節 - 空間建構，並以主線任務相關規則生成任務圖後，便可將關卡輸出近似於圖~\ref{fig:missiongrammars-rules-linear-preview} 的空間。
 
 \begin{figure}[ht]
   \begin{center}
@@ -83,7 +83,7 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，圖~\ref{fig:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密區域 (secret) 能夠獲取鑰匙，並有兩道需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
+圖~\ref{fig:missiongrammars-rules-nonlinear-example1}，為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，圖~\ref{fig:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密區域 (secret) 能夠獲取鑰匙，並有兩道需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
 
 \begin{figure}[ht]
   \begin{center}
@@ -93,7 +93,7 @@
   \end{center}
 \end{figure}
 
-為了使玩家進行遊戲能夠提前遇見鎖 (lock)，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
+圖~\ref{fig:missiongrammars-rules-nonlinear-example2}，為使玩家進行遊戲能夠提前遇見鎖 (lock)，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
  
 \begin{figure}[ht]
   \begin{center}
@@ -192,7 +192,7 @@
 % Clean the page after this section.
 \clearpage
 
-\section{房型建構}
+\section{空間建構}
 \label{sec:method-spacepieces}
 
 Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010adventures}~\cite{dormans2012engineering}，我們的實驗環境以三維空間為主。在空間語法中將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖~\ref{fig:gameobject-list}。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{sec:method-segments} 節提出之方法達成。
@@ -245,83 +245,45 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 延續第~\ref{sec:method-missiongrammars} 節任務語法所定義的任務終端節點，根據依照節點性質設計房型，區分出數項不同房型的空間規劃。
 
-\subsubsection{入口}
-\label{sssec:method-spacepieces-types-entrance}
+\subsubsection{入口、出口、魔王房}
+\label{sssec:method-spacepieces-types-mainpath-i}
 
-入口為玩家的起始房間，若視空間為圖狀結構。
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 入口}
-    \label{fig:roomtype-entrance}
-  \end{center}
-\end{figure}
-
-\subsubsection{出口}
-\label{sssec:method-spacepieces-types-reward}
-
-content here.
+入口擁有一個入口與三個出口，為玩家重生的起始房間。出口擁有一個入口，為遊戲關卡結束的房間。魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大的敵人。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 出口}
-    \label{fig:roomtype-reward}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-i.png}
+    \caption{房間類型 - 由左至右為入口、出口與魔王房}
+    \label{fig:roomtype-mainpath-i}
   \end{center}
 \end{figure}
 
 \subsubsection{通道}
 \label{sssec:method-spacepieces-types-path}
 
-content here.
+通道共有四種，隨著端點數量有等同的出口數量，因沒有入口識別物，便能夠以任一出口作為入口，以達到共計 11 種房型同構。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 通道}
-    \label{fig:roomtype-path}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-ii.png}
+    \caption{房間類型 - 由左至右為 I 型、L 型、T 型與 + 型通道}
+    \label{fig:roomtype-mainpath-ii}
   \end{center}
 \end{figure}
 
-\subsubsection{探索房}
-\label{sssec:method-spacepieces-types-exploration}
-
-content here.
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 探索房}
-    \label{fig:roomtype-exploration}
-  \end{center}
-\end{figure}
-
-\subsubsection{戰鬥房}
-\label{sssec:method-spacepieces-types-battle}
+\subsubsection{秘密鑰、鎖、商店、寶藏房}
+\label{sssec:method-spacepieces-types-special}
 
 玩家經過戰鬥房時，必會與敵方發生戰鬥衝突，玩家必須設想戰術策略方可擊退敵方單位。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 戰鬥房}
-    \label{fig:roomtype-battle}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-special.png}
+    \caption{房間類型 - 由左至右為石牆、秘密房、鎖、商店與寶藏房}
+    \label{fig:roomtype-special}
   \end{center}
 \end{figure}
 
-\subsubsection{獎勵房}
-\label{sssec:method-spacepieces-types-reward}
-
-於獎勵房中，玩家能夠獲得價值不等的寶物道具，但寶箱多有敵方單位在周圍進行守衛。
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - 獎勵房}
-    \label{fig:roomtype-reward}
-  \end{center}
-\end{figure}
 
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
