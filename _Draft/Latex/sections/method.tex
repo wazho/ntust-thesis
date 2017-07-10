@@ -205,24 +205,25 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。第~\ref{ssec:method-spacepieces-frommissiontospace} 小節中，為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)。
+\subsection{基礎結構}
+\label{ssec:method-spacepieces-basic}
 
-!!!! 補充 seed
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/spacepieces-structure.png}
-    \caption{房間容器是由體素結構所構築而成} 
+    \caption{房間容器是由體素單位所構築而成} 
     \label{fig:spacepieces-structure}
   \end{center}
 \end{figure}
 
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:spacepieces-structure} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的建置工作。
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的建置工作。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
-    \caption{房間容器建置時所使用的五種裝飾物}
+    \caption{房間容器時所使用的五種裝飾物}
     \label{fig:decorations-with-directions}
   \end{center}
 \end{figure}
@@ -292,6 +293,12 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房間容器 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房間容器中挑選出一個。
 
 Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被套用的次數上限。且透過不同的亂數種子能夠產生隨機性的遊戲空間，亂數種子會影響到 .... (編輯中)，圖~\ref{fig:mission-to-space-result} 所示。
+
+為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)。
+
+!!!! 對應圖 !!!
+
+!!!! 補充 seed
 
 \begin{algorithm}
     \caption{RewriteSystem2 - 任務轉為空間的改寫系統}
