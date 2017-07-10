@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房型空間，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
 
 \begin{figure}[ht]
   \begin{center}
@@ -144,7 +144,7 @@
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。任務語法的改寫系統會以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，並從複數個規則中依照採輪盤法 (roulette wheel selection) 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
+根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection) 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
 
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
@@ -205,24 +205,24 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。為了要從已生成完畢的任務圖再衍生出分支的遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)；若在改寫規則運行中，且有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 隨機挑選一個規則。
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。第~\ref{ssec:method-spacepieces-frommissiontospace} 小節中，為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)。
 
 !!!! 補充 seed
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房型之結構圖} 
+    \includegraphics[width=1.0\textwidth]{figures/spacepieces-structure.png}
+    \caption{房間容器是由體素結構所構築而成} 
     \label{fig:spacepieces-structure}
   \end{center}
 \end{figure}
 
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:spacepieces-structure} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房型的建置工作。
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:spacepieces-structure} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的建置工作。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
-    \caption{房型建置時所使用的五種裝飾物}
+    \caption{房間容器建置時所使用的五種裝飾物}
     \label{fig:decorations-with-directions}
   \end{center}
 \end{figure}
@@ -230,7 +230,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{端點識別物}
 \label{ssec:method-spacepieces-connections}
 
-逐一設計出各式各樣的房型空間後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房型添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房型空間中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
+逐一設計出各式各樣的房間容器後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房間容器添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房間容器中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
 
 \begin{figure}[ht]
   \begin{center}
@@ -240,7 +240,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-\subsection{房型類型}
+\subsection{房間容器類型}
 \label{ssec:method-spacepieces-types}
 
 延續第~\ref{sec:method-missiongrammars} 節任務語法所定義的任務終端節點，根據依照節點性質設計房型，區分出數項不同房型的空間規劃。
@@ -261,7 +261,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{通道}
 \label{sssec:method-spacepieces-types-path}
 
-通道共有四種，隨著端點數量有等同的出口數量，因沒有入口識別物，便能夠以任一出口作為入口，以達到共計 11 種房型同構。
+通道共有四種，隨著端點數量有等同的出口數量，因沒有入口識別物，便能夠以任一出口作為入口，搭配房間容器旋轉能達到共計 11 種房型同構。
 
 \begin{figure}[ht]
   \begin{center}
@@ -289,7 +289,9 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。將任務圖轉換為空間時便需要建立二者間的關係，????
 
-在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房型空間 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房型空間中挑選出一個。
+在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房間容器 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房間容器中挑選出一個。
+
+Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被套用的次數上限。且透過不同的亂數種子能夠產生隨機性的遊戲空間，亂數種子會影響到 .... (編輯中)，圖~\ref{fig:mission-to-space-result} 所示。
 
 \begin{algorithm}
     \caption{RewriteSystem2 - 任務轉為空間的改寫系統}
@@ -454,7 +456,7 @@ Under construction
 \subsection{負數權重的適應性函數}
 \label{ssec:method-segments-minusscores}
 
-在~\ref{sssec:method-segments-fitnesses-guard} 守衛點指標的設計中，當權重為正數時能夠體現出「需要被守護的物件周圍出現敵方單位進行守衛」的遊玩特徵，且在多個物件的情形下儘可能平均分配敵方單位；反之，負數權重便會體現出「愈不平均數量的守衛情形」。緣故為設計守衛點指標時，並無針對寶箱的數量進行控管而導致。
+在~\ref{sssec:method-segments-fitnesses-guard} 守衛點指標的設計中，當權重為正數時能夠體現出「需要被保護的物件，其周圍分配敵方單位進行守衛」的遊玩特徵，且在多個物件的情形下儘可能平均分配敵方單位；反之，負數權重便會體現出「數量愈不平均的守衛情形」。緣故為設計守衛點指標時，並無針對寶箱的數量進行控管而導致。
 
 \subsection{多項適應性函數合併}
 \label{ssec:method-segments-multiobjectives}
@@ -463,15 +465,15 @@ Under construction
 
 然而在對數函數中，當真數為 1（符合指標的敵人數量為 1）時，所得之值為 0 並不符合我們的訴求。
 
-\subsection{套用物件演化機制的房型空間}
+\subsection{套用物件演化機制的房間容器}
 \label{ssec:method-segments-appliedonvolumes}
 
-綜合上述小節，不同房型類型會有對應的戰略配置，因此依照房型類型設置不同的適應性函數權重
+綜合上述小節，不同房間容器類型會有對應的戰略配置，因此依照房間容器類型設置不同的適應性函數權重
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{將房型空間作為胚胎，進行空間內遊戲物件的演化生成} 
+    \caption{將房間容器作為胚胎，進行空間內遊戲物件的演化生成} 
     \label{fig:applied-ga-on-volume}
   \end{center}
 \end{figure}
