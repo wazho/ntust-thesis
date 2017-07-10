@@ -287,7 +287,9 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-編輯中 ....。
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。將任務圖轉換為空間時便需要建立二者間的關係，????
+
+在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房型空間 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房型空間中挑選出一個。
 
 \begin{algorithm}
     \caption{RewriteSystem2 - 任務轉為空間的改寫系統}
@@ -305,9 +307,9 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{已疊代生成的任務圖，轉換為任務空間之結果} 
-    \label{fig:mission-to-space}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-result.png}
+    \caption{已疊代生成的任務圖，不同種子轉換為對應結果的遊戲空間} 
+    \label{fig:mission-to-space-result}
   \end{center}
 \end{figure}
 
