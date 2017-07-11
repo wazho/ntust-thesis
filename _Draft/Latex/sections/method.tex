@@ -272,10 +272,23 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-\subsubsection{秘密鑰、鎖、商店、寶藏房}
+\subsubsection{戰鬥通道}
+\label{sssec:method-spacepieces-types-path}
+
+與前段落通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位，而戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同格局進行對應的戰鬥策略，相關實作方式於第~\ref{sec:method-segments} 節解釋。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{房間類型 - OOOOOOOOOOOOO}
+    \label{fig:roomtype-mainpath-iii}
+  \end{center}
+\end{figure}
+
+\subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-石牆擁有一個入口及一個出口，而出口的相同位置有石墻的識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖的識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
+石牆擁有一個入口及一個出口，而出口的相同位置有石墻識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
 \begin{figure}[ht]
   \begin{center}
@@ -293,8 +306,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房間容器 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房間容器中挑選出一個。
 
 Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被套用的次數上限。且透過不同的亂數種子能夠產生隨機性的遊戲空間，亂數種子會影響到 .... (編輯中)，圖~\ref{fig:mission-to-space-result} 所示。
-
-為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造指示 (building instruction)。
 
 !!!! 對應圖 !!!
 
@@ -314,11 +325,29 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
     \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{建造方式}
+\label{sssec:method-spacepieces-frommissiontospace-instruction}
+
+為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中一的終端符 (terminal symbols)，這樣的關係稱作為建造方式 (building instruction)。
+
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-result.png}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result.png}
     \caption{已疊代生成的任務圖，不同種子轉換為對應結果的遊戲空間} 
-    \label{fig:mission-to-space-result}
+    \label{fig:mission-to-space-instruction-result}
+  \end{center}
+\end{figure}
+
+\subsubsection{剩餘空間替換}
+\label{sssec:method-spacepieces-frommissiontospace-replacement}
+
+編輯中。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{經過剩餘空間替換後的完整遊戲空間} 
+    \label{fig:mission-to-space-replacement-result}
   \end{center}
 \end{figure}
 
@@ -328,7 +357,9 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
 \section{地圖片段}
 \label{sec:method-segments}
 
-延續上一小節的關卡結構，房間視為單一染色體 (chromosome) 之個體 (individual)；房間中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{ssec:method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{ssec:method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
+為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一小節的關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
+
+房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間容器會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{ssec:method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{ssec:method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
 
 \begin{figure}[ht]
   \begin{center}
@@ -339,7 +370,7 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
 \end{figure}
 
 \subsection{演化之適應性函數}
-\label{ssec:method-segments-fitnesses}
+\label{ssec:method-segments-fitnesses} 
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位，使用 A-Star 演算法建立可行走空間，並搜尋入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
 
