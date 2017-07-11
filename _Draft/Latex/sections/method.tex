@@ -37,7 +37,7 @@
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textbf{The binding of Issac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。
+在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textbf{The binding of Issac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \begin{figure}[ht]
   \begin{center}
@@ -156,38 +156,41 @@
 
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
-\begin{algorithm}
+\begin{algorithm}[ht]
     \caption{RewriteSystem1 - 任務語法的改寫系統}
     \label{alg:algorithm-missiongrammars-rewritesystem}
-    \begin{algorithmic}
-        \IF{matchedRule is found from root}
-            \STATE{
-                matchedRule = FindMatchs(root) \\
-                移除與 matchedRule 相符子圖的連接線 \\
-                將相符子圖的節點，依照對應索引值替換成 matchedRule 的規則右側 \\
-                將 matchedRule 剩餘的節點填充至任務圖中 \\
-                依照 matchedRule 的連接情況，移轉到任務圖中 \\
-                移除節點的索引值相關資訊 \\
-            }
-        \ENDIF
-        \FORALL{child = root->children}
-            \STATE{
-                RewriteSystem1(child)
-            }
-        \ENDFOR
-        \RETURN root
+    \begin{algorithmic}[1]
+        \Require
+            \Statex $root$ is current $pointer$ in the mission graph.
+            \Statex $rules$ is a rule set of mission grammars.
+            \Statex $seed$ is the random seed.
+        \Ensure
+            \If {$matchedRule$ is found from $root$}
+                \State {matchedRule = FindMatchs(root)}
+                \State {移除與 matchedRule 相符子圖的連接線}
+                \State {將相符子圖的節點，依照對應索引值替換成 matchedRule 的規則右側}
+                \State {將 matchedRule 剩餘的節點填充至任務圖中}
+                \State {依照 matchedRule 的連接情況，移轉到任務圖中}
+                \State {移除節點的索引值相關資訊}
+            \EndIf
+            \ForAll {$child$ such that $child\in children$ of $root$}:
+                \State {RewriteSystem1($child$, $rules$, $seed$)}
+            \EndFor \\
+            \Return {$root$}
+        \Statex
     \end{algorithmic}
 \end{algorithm}
+
 
 (備註，此處會補上 FindMatchs 在我方實驗環境中如何實現，目前還在構思要如何撰寫。)
 
-\begin{algorithm}
-    \caption{利用 VF Graph 進行子圖同構的搜尋}
-    \label{alg:algorithm-missiongrammars-rewritesystem-findmatchs}
-    \begin{algorithmic}
-        \RETURN 編輯中
-    \end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}
+%     \caption{利用 VF Graph 進行子圖同構的搜尋}
+%     \label{alg:algorithm-missiongrammars-rewritesystem-findmatchs}
+%     \begin{algorithmic}
+%         \RETURN 編輯中
+%     \end{algorithmic}
+% \end{algorithm}
 
 \begin{figure}[ht]
   \begin{center}
@@ -280,19 +283,6 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-\subsubsection{戰鬥通道}
-\label{sssec:method-spacepieces-types-path}
-
-與前段落提及之通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位，而戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同格局進行對應的戰鬥策略，相關實作方式於第~\ref{sec:method-segments} 節會進行解釋。
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - OOOOOOOOOOOOO}
-    \label{fig:roomtype-mainpath-iii}
-  \end{center}
-\end{figure}
-
 \subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
@@ -306,37 +296,55 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
+\subsubsection{死路}
+\label{sssec:method-spacepieces-types-wall}
+
+在第~\ref{ssec:method-spacepieces-frommissiontospace} 小節中，為了要封閉剩餘的端點識別物所造成的空間開口，便需要無特殊功能的單一入口空間容器。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-wall.png}
+    \caption{房間類型 - 死路}
+    \label{fig:roomtype-wall}
+  \end{center}
+\end{figure}
+
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。將任務圖轉換為空間時便需要建立二者間的關係，????
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 Dungeon Generator 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點遍從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
 
-在 Dungeon Generator 工具，系統會從已建立的任務符號表中過濾出終端節點，遊戲設計師必須設定各節點對應一至多個房間容器 (volume)。待設定完畢後，會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，已深度優先搜尋法遍歷任務圖，經過的源節點遍從對應的房間容器中挑選出一個。
-
-Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被套用的次數上限。且透過不同的亂數種子能夠產生隨機性的遊戲空間，亂數種子會影響到 .... (編輯中)，圖~\ref{fig:mission-to-space-result} 所示。
-
-!!!! 對應圖 !!!
-
-!!!! 補充 seed
-
-\begin{algorithm}
-    \caption{RewriteSystem2 - 任務轉為空間的改寫系統}
+\begin{algorithm}[ht]
+    \caption{RewriteSystem2 - 將任務轉為空間的改寫系統}
     \label{alg:algorithm-mission-to-space-rewritesystem}
-    \begin{algorithmic}
-        \IF{some condition is true}
-            \STATE do some processing
-        \ELSIF{some other condition is true}
-            \STATE do some different processing
-        \ELSE
-            \STATE do the default actions
-        \ENDIF
+    \begin{algorithmic}[1]
+        \Require
+            \Statex $graph$ is current $MissionGraph$.
+            \Statex $seed$ is the random seed.
+        \Ensure
+            \ForAll {$node$ such that $node\in graph$}:                             \Comment{Instrcution}
+                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}
+                \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
+                \If {$isSucceed$ is $false$}
+                    \Return {$false$}
+                \EndIf
+            \EndFor
+            \ForAll {$marker$ such that $marker\in ConnectionsInGraph$}:            \Comment{Replacement}
+                \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)}
+                \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
+                \If {$isSucceed$ is $false$}
+                    \Return {$false$}
+                \EndIf
+            \EndFor \\
+            \Return {$true$}                                                        \Comment{Successfully generated a game space}
+        \Statex
     \end{algorithmic}
 \end{algorithm}
 
 \subsubsection{建造方式}
 \label{sssec:method-spacepieces-frommissiontospace-instruction}
 
-為了要從已生成完畢的任務圖再衍生出遊戲空間，在創建的房間容器會對應一任務語法之符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一設立對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見圖~\ref{ssec:mission-to-space-instruction}。
+為從已生成完畢的任務圖進而衍生出遊戲空間，在創建的房間容器會對應一任務符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見圖~\ref{fig:mission-to-space-instruction}。每一個終端節點都必須對應一個以上的房間容器，房間容器不允許被重複使用在不同的終端節點上。
 
 \begin{figure}[ht]
   \begin{center}
@@ -346,7 +354,7 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
   \end{center}
 \end{figure}
 
-基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數個房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是依照亂數種子決定出調用生成之順序。
+基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數個房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
 \begin{figure}[ht]
   \begin{center}
@@ -359,11 +367,11 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
 \subsubsection{剩餘空間替換}
 \label{sssec:method-spacepieces-frommissiontospace-replacement}
 
-編輯中。
+在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 以達目的。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物曾提及，遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，我們採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路，若增加對應的選項進而創造出主線外的分支結構，見圖~\ref{fig:mission-to-space-replacement-result}。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-replacement-result.png}
     \caption{經過剩餘空間替換後的完整遊戲空間} 
     \label{fig:mission-to-space-replacement-result}
   \end{center}
@@ -375,15 +383,25 @@ Dungeon Generator 工具能夠限制各節點對應到之房間容器，所被�
 \section{地圖片段}
 \label{sec:method-segments}
 
-為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一小節的關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
+為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
 
-房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間容器會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因，採用的交配方法在~\ref{ssec:method-segments-crossover} 小節中說明；第四步驟有低機率讓衍生的子代進行突變，不同的突變方式於~\ref{ssec:method-segments-mutation} 小節中說明；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。
+房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間容器會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。交配、突變的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行解釋。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{地圖片段採取基因演算法之流程} 
     \label{fig:segments-with-ga}
+  \end{center}
+\end{figure}
+
+為與前一章節有所區別，在本章節將會追加戰鬥通道的房間容器，與前段落提及之通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位，而戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同格局進行對應的戰鬥策略，相關實作方式於第~\ref{sec:method-segments} 節會進行解釋。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{房間類型 - OOOOOOOOOOOOO}
+    \label{fig:roomtype-mainpath-iii}
   \end{center}
 \end{figure}
 
