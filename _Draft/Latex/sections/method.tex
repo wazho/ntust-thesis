@@ -398,7 +398,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{演化之適應性函數}
 \label{ssec:method-segments-fitnesses} 
 
-動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 1，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 1，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
 
 \begin{figure}[ht]
   \begin{center}
@@ -407,6 +407,13 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     \label{fig:fitnesses-mainpath}
   \end{center}
 \end{figure}
+
+方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，根據本小節提及的數種遊玩特徵指標與第~\ref{ssec:method-segments-balancefitness} 小節將提到的平衡指標計算得分 ($f_{i}$)，得分是由各項指標代表一則適應性函數計算而來，依照各函數得分與其權重值 ($w_{i}$) 加權後加總得到 $f_{all}$，其中 $M$ 為權重非 0 的適應性函數之數量。
+
+\begin{equation}
+    \label{eq:fitnesses-all}
+    f_{all} = \sum_{i=1}^{M} (f_{i} \times w_{i})
+\end{equation}
 
 \subsubsection{守衛點 (Guard)}
 \label{sssec:method-segments-fitnesses-guard}
@@ -428,10 +435,11 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{阻攔點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
-敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。敵人會配置於動線上，$mp_{i}$ 為空間動線權重；$e_j$ 為該敵人於空間之動線權重，倘敵人並未落在動線上，則該項為 0。
+方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。$MP$ 為加總所有空間動線權重 $mp_{i}$；$E$ 為加總所有敵人於空間之動線權重 ($e_{j}$)，倘敵人並未落在動線上，權重則為 0。為了達到隨著動線上的敵人愈多，對此適應性函數的影響力愈低，則取以 $MP$ 為底 $E$ 的對數。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人會被設置於動線之上阻擋玩家前行。
 
 \begin{equation}
-    f_{blk}=\log _{\sum_{i=1}^{N} mp_{i}} \sum_{j=1}^{M} e_{j}
+    \label{eq:fitnesses-block}
+    f_{blk}=\log _{MP} E, MP = \sum_{i=1}^{M} mp_{i}, E = \sum_{j=1}^{N} e_{j}
 \end{equation}
 
 \begin{figure}[ht]
@@ -506,10 +514,10 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsubsection{死角點 (Neglected)}
 \label{sssec:method-segments-fitnesses-neglected}
 
-由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與主要動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
+由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與空間動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
 
 \begin{equation}
-Under construction
+    Under construction
 \end{equation}
 
 \subsection{制衡取向的適應性函數}
