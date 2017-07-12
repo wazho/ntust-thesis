@@ -18,7 +18,7 @@
 
 我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
-在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Issac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
 \begin{figure}[ht]
   \begin{center}
@@ -31,13 +31,13 @@
 \subsection{建立任務符號表}
 \label{ssec:method-missiongrammars-alphabet}
 
-在本小節，會以 \textbf{The binding of Issac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。
+在本小節，會以 \textbf{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。
 % ；以及說明在 Dungeon Generator 工具中如何操作符號表，進行新增、修改與刪除節點等動作。
 
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textbf{The binding of Issac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textbf{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \begin{figure}[ht]
   \begin{center}
@@ -286,7 +286,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-石牆擁有一個入口及一個出口，而出口的相同位置有石墻識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
+石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
 \begin{figure}[ht]
   \begin{center}
@@ -354,7 +354,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數個房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
+基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
 \begin{figure}[ht]
   \begin{center}
@@ -367,7 +367,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{剩餘空間替換}
 \label{sssec:method-spacepieces-frommissiontospace-replacement}
 
-在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 以達目的。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物曾提及，遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，我們採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路，若增加對應的選項進而創造出主線外的分支結構，見圖~\ref{fig:mission-to-space-replacement-result}。
+在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 以達目的。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物時，曾提及到遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，我們採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路，若增加對應的選項進而創造出主線外的分支結構，見圖~\ref{fig:mission-to-space-replacement-result}。
 
 \begin{figure}[ht]
   \begin{center}
@@ -385,30 +385,20 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
 
-房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間容器會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最佳解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
+房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚、怪物磚、寶箱磚與陷阱磚等；同一個房間容器會擁有多種不同遊戲物件配置情況的染色體，這些染色體的集合便是族群 (population)。第一步驟，產生初始父母代族群時，讓全部的基因先預設為空磚，並使各染色體先行隨機突變；第二步驟，透過適應性函數計算各染色體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{地圖片段採取基因演算法之流程} 
+    \caption{地圖片段採取基因演算法之演化流程} 
     \label{fig:segments-with-ga}
-  \end{center}
-\end{figure}
-
-為與前一章節有所區別，在本章節將會追加戰鬥通道的房間容器，與前段落提及之通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位，而戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同格局進行對應的戰鬥策略，相關實作方式於第~\ref{sec:method-segments} 節會進行解釋。
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間類型 - OOOOOOOOOOOOO}
-    \label{fig:roomtype-mainpath-iii}
   \end{center}
 \end{figure}
 
 \subsection{演化之適應性函數}
 \label{ssec:method-segments-fitnesses} 
 
-動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位，使用 A-Star 演算法建立可行走空間，並搜尋入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加一，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 1，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，空間動線將為空值。
 
 \begin{figure}[ht]
   \begin{center}
@@ -421,7 +411,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{守衛點 (Guard)}
 \label{sssec:method-segments-fitnesses-guard}
 
-為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵人 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
+為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵方單位 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
 
 \begin{equation}
     f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
@@ -429,7 +419,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/fitnesses-guard-gameplay.png}
     \caption{守衛點指標的遊戲體現情形}
     \label{fig:fitnesses-guard-gameplay}
   \end{center}
@@ -446,7 +436,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/fitnesses-block-gameplay.png}
     \caption{阻攔點指標的遊戲體現情形}
     \label{fig:fitnesses-block-gameplay}
   \end{center}
@@ -542,7 +532,60 @@ Under construction
 \subsection{套用物件演化機制的房間容器}
 \label{ssec:method-segments-appliedonvolumes}
 
-綜合上述小節，不同房間容器類型會有對應的戰略配置，因此依照房間容器類型設置不同的適應性函數權重
+綜合上述小節，不同房間容器類型會有對應的戰略配置。承接~\ref{ssec:method-spacepieces-types} 小節所介紹的房間容器外，在本小節追加了戰鬥通道的房間容器，與前章節提及之通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位。戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同房型格局進行對應的戰鬥策略，見圖~\ref{fig:roomtype-mainpath-extend}。因此依照房間容器類型設置不同的適應性函數權重，逐一定義各自的適應性函數權重值。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{房間類型 - 戰鬥通道}
+    \label{fig:roomtype-mainpath-extend}
+  \end{center}
+\end{figure}
+
+\subsubsection{寶藏房}
+\label{sssec:method-segments-appliedonvolumes-none}
+
+寶藏房中，
+
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{寶藏房的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-ii}
+  \end{center}
+\end{figure}
+
+\subsubsection{戰鬥通道 - 鎮守要道}
+\label{sssec:method-segments-appliedonvolumes-battlepath-i}
+
+編輯中。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{鎮守要道情境的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-ii}
+  \end{center}
+\end{figure}
+
+\subsubsection{戰鬥通道 - 狹路驅逐}
+\label{sssec:method-segments-appliedonvolumes-battlepath-ii}
+
+編輯中。
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{狹路驅逐情境的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-ii}
+  \end{center}
+\end{figure}
+
+\subsubsection{其餘房間容器}
+\label{sssec:method-segments-appliedonvolumes-others}
+
+其餘未被定義的房型，像是入口、出口、一般通道 ... 等，因設計需求將不配置任何遊戲物件，將不參與相關演化工作。
 
 \begin{figure}[ht]
   \begin{center}
@@ -551,20 +594,3 @@ Under construction
     \label{fig:applied-ga-on-volume}
   \end{center}
 \end{figure}
-
-
-
-% \subsection{不同交配方式}
-% \label{ssec:method-segments-crossover}
-
-
-
-% \subsection{不同的突變方式}
-% \label{ssec:method-segments-mutation}
-
-
-
-% \subsection{終止條件的設立}
-% \label{ssec:method-segments-termination}
-
-
