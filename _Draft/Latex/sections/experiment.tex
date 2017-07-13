@@ -9,9 +9,7 @@
 \section{實驗定義}
 \label{sec:experiment-definition}
 
-在任務語法階段時，我們將非合法 ... (編輯中)
-
-地圖片段演化階段時，每一次世代的演化過程，有 80\% 機率父母代間會進行兩點交配 (two-point crossover)；10\% 機率衍生子代會進行突變，染色體個體中有 5\% 至 20\% 的基因數量會轉換成其它的物件種類。
+我們使用 Invector 公司開發的 \textit{Third Person Controller - Melee Combat Template} 套件（以下簡稱 \textbf{3rdPC}）進行遊戲物件的設置。\textbf{3rdPC} 提供遊戲開發者快速建構玩家控制角色 (Player Character) 、非玩家控制角色 (Non-Player Character) 與其角色控制器或人工智能，並可製作任何類型的第三人稱動作冒險遊戲或角色扮演遊戲。
 
 \subsection{遊戲操作說明}
 \label{ssec:experiment-gameplaymanual}
@@ -21,22 +19,29 @@
 \subsection{遊戲物件說明}
 \label{ssec:experiment-gameobjects}
 
-共有三種。
+(編輯中)
 
 \subsubsection{敵人}
 \label{sssec:experiment-gameobjects-enemy}
 
-敵人
+敵人 (編輯中)。
 
 \subsubsection{寶箱}
 \label{sssec:experiment-gameobjects-treasure}
 
-寶箱
+當玩家靠近並朝向寶箱時，按下鍵盤 E 按鍵便可以開啟寶箱，取得寶箱內容物。
 
 \subsubsection{陷阱}
 \label{sssec:experiment-gameobjects-trap}
 
-陷阱
+當玩家碰觸到陷阱時，會受到一定程度的損傷。
+
+\subsection{基因演算法參數定義}
+\label{ssec:experiment-gaparameters}
+
+在任務語法階段時，我們將非合法 ... (編輯中)
+
+地圖片段演化階段時，每一次世代的演化過程，有 80\% 機率父母代間會進行兩點交配 (two-point crossover)；10\% 機率衍生子代會進行突變，染色體個體中有 5\% 至 20\% 的基因數量會轉換成其它的物件種類。
 
 \section{資料收集}
 \label{sec:experiment-datacollection}
@@ -81,9 +86,4 @@ content here.
 \label{sec:experiment-yyy}
 
 房型的大小較有可能直接影響和可行走瓦磚之數量。本階段的實驗中，我們提取~\ref{sec:experiment-datacollection} 節的資料，將空白、敵人兩種類型的數量關係繪製成熱圖進行觀察。這是因為各項適應性函數在設計時，多以「敵人」與其餘敵人、其它遊戲物件或玩家動線為考量參考，因而推估二者間勢必存在者某些關係。
-
-\section{評估交配策略優勢}
-\label{sec:experiment-zzzz}
-
-content here.
 
