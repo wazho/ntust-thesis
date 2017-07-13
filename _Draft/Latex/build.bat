@@ -11,6 +11,7 @@ set output_path=%~dp0
 :: Remove olds
 del %output_path%%file_name%.pdf
 del %output_path%%new_file_name%.pdf
+call:RemoveCaches
 :: Excute xelatex to generate the aux
 xelatex .\%file_name%.tex -output-directory=%output_path%
 :: Use bibtex with aux to create the bbl
@@ -23,10 +24,14 @@ if exist %output_path%%file_name%.bbl xelatex .\%file_name%.tex -output-director
 if exist %output_path%%file_name%.pdf ren %output_path%%file_name%.pdf %new_file_name%.pdf
 if exist %output_path%%new_file_name%.pdf start %output_path%%new_file_name%.pdf
 :: Remove caches
-del %output_path%%file_name%.lof
-del %output_path%%file_name%.lot
-del %output_path%%file_name%.toc
-del %output_path%%file_name%.aux
-del %output_path%%file_name%.log
-del %output_path%%file_name%.blg
-del %output_path%%file_name%.bbl
+call:RemoveCaches
+
+:RemoveCaches
+	del %output_path%%file_name%.lof
+	del %output_path%%file_name%.lot
+	del %output_path%%file_name%.toc
+	del %output_path%%file_name%.aux
+	del %output_path%%file_name%.log
+	del %output_path%%file_name%.blg
+	del %output_path%%file_name%.bbl
+goto:eof
