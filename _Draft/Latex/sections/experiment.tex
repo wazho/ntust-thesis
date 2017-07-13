@@ -4,7 +4,7 @@
 \label{cha:experiment}
 
 %本研究成果為設計程序化生成遊玩特徵的遊戲關卡，
-本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：~\ref{sec:experiment-xxx} 小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。~\ref{sec:experiment-zzzz} 小節，進行評估不同的交配策略下，何者優劣優勢之情形。
+本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：~\ref{sec:experiment-results}小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。~\ref{sec:experiment-zzzz} 小節，進行評估不同的交配策略下，何者優劣優勢之情形。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -41,7 +41,7 @@
 \section{資料收集}
 \label{sec:experiment-datacollection}
 
-在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法時，於各實驗、世代與其個體（單一染色體）中的得分狀況。
+在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法時，於實驗中各回合、世代與其個體（單一染色體）中的得分狀況。
 
 \begin{table}[ht]
   \centering
@@ -50,7 +50,7 @@
   \bigskip
   \begin{tabular}{| l | l | l | l | l | l | l | l |}
     \hline
-    實驗編號 & 世代編號 & 染色體編號 & 指標 & 得分 & 座標 & 類型 & 房間 \\
+    回合編號 & 世代編號 & 染色體編號 & 指標 & 得分 & 座標 & 類型 & 房間 \\
     1 & 1 & 1 & Block     & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
     1 & 1 & 1 & Intercept & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
     1 & 1 & 1 & Patrol    & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
@@ -62,15 +62,15 @@
   \end{tabular}
 \end{table}
 
+\section{演化結果與其品質}
+\label{sec:experiment-results}
+
+content here.
+
 \section{各世代演化狀態}
 \label{sec:experiment-evolutions}
 
 由於各點基因，其中的空格、敵人兩種類型，於每一遊玩特徵的指標都具有高度意義與相關性。
-
-\section{演化結果與其品質}
-\label{sec:experiment-xxx}
-
-content here.
 
 \section{標準化結果之比較}
 \label{sec:experiment-normalized}

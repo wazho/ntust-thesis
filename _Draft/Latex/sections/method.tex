@@ -63,7 +63,7 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，此外能利用於改寫系統的疊代結果已趨於穩定，任務圖無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
@@ -411,10 +411,11 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{守衛點 (Guard)}
 \label{sssec:method-segments-fitnesses-guard}
 
-為體現出敵人會保衛寶箱 ($T$) 與出口 ($E$) 的現象，計算敵方單位 ($E_{i}$) 與關鍵性較高遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
+方程式~\ref{eq:fitnesses-guard} 為守衛點的適應性函數。為體現出敵人會保衛寶箱 ($Treasure$) 與出口 ($Exit$) 的現象，計算敵人 ($E_{i}$) 與為守護對象的遊戲物件 ($O_{j}$) 之間的距離，倘若距離愈近則帶來的影響力愈大。
 
 \begin{equation}
-    f_{grd}=\frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
+    \label{eq:fitnesses-guard}
+    f_{grd} = \sum_{i=1}^{M} \sum_{j=1}^{N} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
 \end{equation}
 
 \begin{figure}[ht]
@@ -428,11 +429,11 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{阻攔點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
-方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。$MP$ 為加總所有空間動線權重 $mp_{i}$；$E$ 為加總所有敵人於空間之動線權重 ($e_{j}$)，倘敵人並未落在動線上，權重則為 0。為了達到隨著動線上的敵人愈多，對此適應性函數的影響力愈低，則取以 $MP$ 為底 $E$ 的對數。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人會被設置於動線之上阻擋玩家前行。
+方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 0。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻擋玩家前行。
 
 \begin{equation}
     \label{eq:fitnesses-block}
-    f_{blk} = \log _{MP} E, MP = \sum_{i=1}^{M} mp_{i}, E = \sum_{j=1}^{N} e_{j}
+    f_{blk} = \sum_{i=1}^{M} e_{i}
 \end{equation}
 
 \begin{figure}[ht]
@@ -446,10 +447,14 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{攔截點 (Intercept)}
 \label{sssec:method-segments-fitnesses-intercept}
 
-與阻攔點近似，但敵人會被配置於動線附近非動線上，以快速追擊玩家為目的。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
+方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻攔點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。
+
+
+各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
 
 \begin{equation}
-    f_{itc} = \frac{1}{N \times M} \sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
+    \label{eq:fitnesses-intercept}
+    f_{itc} = \sum_{i=1}^{M} \sum_{j=1}^{N} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
     E_{i} \neq MP_{j}
 \end{equation}
 
@@ -486,15 +491,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-\subsubsection{至高點 (Dominated)}
-\label{sssec:method-segments-fitnesses-dominated}
-
-當玩家可能所在動線上之位置 ($MP_{j}$) 與敵人的位置 ($E_{i}$) 具有高低差時，敵人便適合採取遠程攻擊；為了提供玩家思考對付遠程敵人的緩衝時間，將敵人配置於動線末端附近是較好的選擇，$j$ 隨著動線的順序演進，影響程度逐漸增幅。
-
-\begin{equation}
-f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)} \times mp_{j} \times j \times high(E_{i}, MP_{j}) \Big)
-\end{equation}
-
 \subsubsection{支援點 (Support)}
 \label{sssec:method-segments-fitnesses-support}
 
@@ -504,6 +500,7 @@ f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
+
 % \subsubsection{死角點 (Neglected)}
 % \label{sssec:method-segments-fitnesses-neglected}
 
@@ -512,6 +509,17 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 % \begin{equation}
 %     Under construction
 % \end{equation}
+
+
+% \subsubsection{至高點 (Dominated)}
+% \label{sssec:method-segments-fitnesses-dominated}
+
+% 當玩家可能所在動線上之位置 ($MP_{j}$) 與敵人的位置 ($E_{i}$) 具有高低差時，敵人便適合採取遠程攻擊；為了提供玩家思考對付遠程敵人的緩衝時間，將敵人配置於動線末端附近是較好的選擇，$j$ 隨著動線的順序演進，影響程度逐漸增幅。
+
+% \begin{equation}
+% f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)} \times mp_{j} \times j \times high(E_{i}, MP_{j}) \Big)
+% \end{equation}
+
 
 \subsection{制衡取向的適應性函數}
 \label{ssec:method-segments-balancefitness}
@@ -538,15 +546,23 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房間容器的設定中，我們將守衛點、阻攔點的權重調整至 1，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻攔點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 1，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[-1, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準，並於第 ~\ref{sec:experiment-normalized} 節進行相關驗證。
 
-方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，採計共 $M$ 種適應性函數，第 $i$ 項適應性得分為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [-1, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由底數 $f_{i}\cdot max$（該世代最高得分）與真數 $f_{i} - 1$（個體得分）之對數函數所得。
+方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，採計共 $M$ 種適應性函數，第 $i$ 項適應性得分為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [0, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由個體分數 $f_{i}$ 除以該世代最高得分 $f_{i}\cdot max$ 開 $c$ 次方根，隨著實數 $c$ 上升對於分數初期的成長幅度愈大。
 
 \begin{equation}
     \label{eq:fitnesses-all}
     f_{all} = \sum_{i=1}^{M} (Normalized(f_{i}) \times w_{i})
 \end{equation}
 \begin{gather*}
-    Normalized(f_{i}) = \log _{f_{i}\cdot max} (f_{i} - 1)
+    Normalized(f_{i}) = (\frac{f_{i}}{f_{i}\cdot max})^{\frac{1}{c}}
 \end{gather*}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/fitnesses-normalized.pdf}
+    \caption{適應性得分進行標準化}
+    \label{fig:fitnesses-normalized}
+  \end{center}
+\end{figure}
 
 \subsection{套用物件演化機制的房間容器}
 \label{ssec:method-segments-appliedonvolumes}
