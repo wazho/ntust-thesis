@@ -403,17 +403,10 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.png}
-    \caption{動線於房型空間的計算方式，黃色處行經二次、紅色處行經一次}
+    \caption{動線於房間容器的計算方式，黃色處行經 2 次、紅色處行經 1 次}
     \label{fig:fitnesses-mainpath}
   \end{center}
 \end{figure}
-
-方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，根據本小節提及的數種遊玩特徵指標與第~\ref{ssec:method-segments-balancefitness} 小節將提到的平衡指標計算得分 ($f_{i}$)，得分是由各項指標代表一則適應性函數計算而來，依照各函數得分與其權重值 ($w_{i}$) 加權後加總得到 $f_{all}$，其中 $M$ 為權重非 0 的適應性函數之數量。
-
-\begin{equation}
-    \label{eq:fitnesses-all}
-    f_{all} = \sum_{i=1}^{M} (f_{i} \times w_{i})
-\end{equation}
 
 \subsubsection{守衛點 (Guard)}
 \label{sssec:method-segments-fitnesses-guard}
@@ -439,7 +432,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{equation}
     \label{eq:fitnesses-block}
-    f_{blk}=\log _{MP} E, MP = \sum_{i=1}^{M} mp_{i}, E = \sum_{j=1}^{N} e_{j}
+    f_{blk} = \log _{MP} E, MP = \sum_{i=1}^{M} mp_{i}, E = \sum_{j=1}^{N} e_{j}
 \end{equation}
 
 \begin{figure}[ht]
@@ -511,19 +504,29 @@ f_{dom}=\sum_{i=1}^{N} \sum_{j=1}^{M} \Big( \frac{1}{dist\big(E_{i}, MP_{j}\big)
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
-\subsubsection{死角點 (Neglected)}
-\label{sssec:method-segments-fitnesses-neglected}
+% \subsubsection{死角點 (Neglected)}
+% \label{sssec:method-segments-fitnesses-neglected}
 
-由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與空間動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
+% 由於房與房之間的牆壁阻隔，使得敵人能夠埋伏於入口附近之死角處，出奇不意地對玩家展開攻擊。為了體現出這種現象，我們將敵人 ($E_{i}$) 與空間動線上各點 ($MP_{i}$)，兩端點連線之對角線所構成的立方體，立方體所涵蓋各座標點 ($N_{j}$) 至該對角線的距離為 $d_{k}$，隨著距離增加影響程度會衰減；$vis_{k}$ 為該點的可視情形，若有不可視的座標存在便會提高適應值。隨著動線的順序演進，影響程度逐漸衰減。
 
-\begin{equation}
-    Under construction
-\end{equation}
+% \begin{equation}
+%     Under construction
+% \end{equation}
 
 \subsection{制衡取向的適應性函數}
 \label{ssec:method-segments-balancefitness}
 
-於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，其中多數函數有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應性得分呈現顯著正相關，隨著演化代數的提升至終導致房型空間充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
+於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，多數的函數有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應性得分呈現顯著正相關，隨著演化代數的提升至終導致房間容器充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
+
+方程式~\ref{eq:fitnesses-density} 控制該房型出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數為 $O$ 屬於數量範圍內可得 1 分，反之得 0 分，本適應性函數的權重固定為 1。
+
+\begin{equation}
+    \label{eq:fitnesses-density}
+    f_{dst} = \begin{cases}
+                  1, & \mbox{if } N \leq O \leq M \\
+                  0, & \mbox{if } O<N \text{ or } O>M
+              \end{cases}
+\end{equation}
 
 \subsection{負數權重的適應性函數}
 \label{ssec:method-segments-minusscores}
@@ -533,9 +536,17 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsection{多項適應性函數合併}
 \label{ssec:method-segments-multiobjectives}
 
-在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房型的設定中，我們將守衛點、阻攔點的權重調整至 1，其餘指標將不採計得分即不調整權重，倘若場面上存在著二個敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻攔點指標，才是理想中的遊玩特徵。因此，我們定義首次出現相關遊玩特徵的得分將會最高，並依照數量逐漸下降成長幅度且逼近於 1，呈現近似於底數大於 1 的對數函數圖形。藉著取代原先的線性成長關係以外，便可以達到數值的正規化，強制將值域上限規範至 1 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準。
+在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房間容器的設定中，我們將守衛點、阻攔點的權重調整至 1，其餘指標將不採計得分即不調整權重，倘若場面上存在著二個敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻攔點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 1，呈現近似於對數函數圖形的曲線。藉著取代原先的線性成長關係以外，便可以達到數值的標準化，強制將值域上限規範至 1 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準。
 
-然而在對數函數中，當真數為 1（符合指標的敵人數量為 1）時，所得之值為 0 並不符合我們的訴求。
+方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，採計共 $M$ 種適應性函數，第 $i$ 項適應性得分為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [-1, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由底數 $f_{i}\cdot max$（該世代最高得分）與真數 $f_{i} - 1$（個體得分）之對數函數所得。
+
+\begin{equation}
+    \label{eq:fitnesses-all}
+    f_{all} = \sum_{i=1}^{M} (Normalized(f_{i}) \times w_{i})
+\end{equation}
+\begin{gather*}
+    Normalized(f_{i}) = \log _{f_{i}\cdot max} (f_{i} - 1)
+\end{gather*}
 
 \subsection{套用物件演化機制的房間容器}
 \label{ssec:method-segments-appliedonvolumes}
@@ -553,8 +564,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsubsection{寶藏房}
 \label{sssec:method-segments-appliedonvolumes-none}
 
-寶藏房中，
-
+此段僅為介紹，編輯中。
 
 \begin{figure}[ht]
   \begin{center}
@@ -567,7 +577,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsubsection{戰鬥通道 - 鎮守要道}
 \label{sssec:method-segments-appliedonvolumes-battlepath-i}
 
-編輯中。
+此段僅為介紹，編輯中。
 
 \begin{figure}[ht]
   \begin{center}
@@ -580,7 +590,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsubsection{戰鬥通道 - 狹路驅逐}
 \label{sssec:method-segments-appliedonvolumes-battlepath-ii}
 
-編輯中。
+此段僅為介紹，編輯中。
 
 \begin{figure}[ht]
   \begin{center}
