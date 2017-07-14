@@ -462,13 +462,14 @@
 
 \newpage
 
+\renewcommand{\baselinestretch}{0.75}\normalsize
 
 \renewcommand{\contentsname}{\protect\makebox[5cm][s]{\nameToc}}
 %\makebox{} is fragile; need protect
 \addcontentsline{toc}{chapter}{\nameToc}
 \tableofcontents
 
-
+\renewcommand{\baselinestretch}{\mybaselinestretch}\normalsize   %恢復原設定
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -478,11 +479,16 @@
 % List of Figures
 \newcommand{\loflabel}{圖}
 \newpage
+
+\renewcommand{\baselinestretch}{0.75}\normalsize
+
 \renewcommand{\numberline}[1]{\loflabel~#1\hspace*{1em}}
 \renewcommand{\listfigurename}{\protect\makebox[5cm][s]{\nameTof}}
 %\makebox{} is fragile; need protect
 \addcontentsline{toc}{chapter}{\nameTof}
 \listoffigures
+
+\renewcommand{\baselinestretch}{\mybaselinestretch}\normalsize   %恢復原設定
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       表目錄 
@@ -491,23 +497,34 @@
 % List of Tables
 \newcommand{\lotlabel}{表}
 \newpage
+
+\renewcommand{\baselinestretch}{0.75}\normalsize
+
 \renewcommand{\numberline}[1]{\lotlabel~#1\hspace*{1em}}
 \renewcommand{\listtablename}{\protect\makebox[5cm][s]{\nameLot}}
 %\makebox{} is fragile; need protect
 \addcontentsline{toc}{chapter}{\nameLot}
 \listoftables
 
+\renewcommand{\baselinestretch}{\mybaselinestretch}\normalsize   %恢復原設定
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       演算法目錄 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % List of Figures
-%\newpage
-%\renewcommand{\listalgorithmname}{\protect\makebox[5cm][s]{\nameToa}}
-%\makebox{} is fragile; need protect
-%\addcontentsline{toc}{chapter}{\nameToa}
-%\listofalgorithms
+\newcommand{\loalabel}{演算法}
+\newpage
 
+\renewcommand{\baselinestretch}{1.5}\normalsize
+
+\renewcommand{\numberline}[1]{\loalabel~#1\hspace*{1em}}
+\renewcommand{\listalgorithmname}{\protect\makebox[5cm][s]{\nameToa}}
+% \makebox{} is fragile; need protect
+\addcontentsline{toc}{chapter}{\nameToa}
+\listofalgorithms
+
+\renewcommand{\baselinestretch}{\mybaselinestretch}\normalsize   %恢復原設定
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       符號說明 
