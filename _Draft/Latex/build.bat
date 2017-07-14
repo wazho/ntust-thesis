@@ -30,6 +30,7 @@ call:RemoveCaches
 	del %output_path%%file_name%.out
 	del %output_path%%file_name%.lof
 	del %output_path%%file_name%.lot
+	del %output_path%%file_name%.loa
 	del %output_path%%file_name%.toc
 	del %output_path%%file_name%.aux
 	del %output_path%%file_name%.log

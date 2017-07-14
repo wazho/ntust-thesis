@@ -167,7 +167,7 @@
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
 \begin{algorithm}[ht]
-    \caption{RewriteSystem1 - 任務語法的改寫系統}
+    \caption{RewriteSystem1 - 改寫系統（任務語法）}
     \label{alg:algorithm-missiongrammars-rewritesystem}
     \begin{algorithmic}[1]
         \Require
@@ -325,7 +325,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 Dungeon Generator 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點遍從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
 
 \begin{algorithm}[ht]
-    \caption{RewriteSystem2 - 將任務轉為空間的改寫系統}
+    \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
     \label{alg:algorithm-mission-to-space-rewritesystem}
     \begin{algorithmic}[1]
         \Require
