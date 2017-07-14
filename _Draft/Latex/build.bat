@@ -27,6 +27,7 @@ if exist %output_path%%new_file_name%.pdf start %output_path%%new_file_name%.pdf
 call:RemoveCaches
 
 :RemoveCaches
+	del %output_path%%file_name%.out
 	del %output_path%%file_name%.lof
 	del %output_path%%file_name%.lot
 	del %output_path%%file_name%.toc
