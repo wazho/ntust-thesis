@@ -4,7 +4,7 @@
 \label{cha:experiment}
 
 %本研究成果為設計程序化生成遊玩特徵的遊戲關卡，
-本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：~\ref{sec:experiment-results}小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。~\ref{sec:experiment-zzzz} 小節，進行評估不同的交配策略下，何者優劣優勢之情形。
+本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：~\ref{sec:experiment-results}小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -70,7 +70,22 @@
 \section{演化結果與其品質}
 \label{sec:experiment-results}
 
-content here.
+在第~\ref{ssec:method-segments-appliedonvolumes} 小節中，展示了寶藏房與戰鬥通道（狹路驅逐、鎮守要道）三種空間的局部佈局演化結果，隨著房間容器搭配不同的適應性函數，便能夠生成出多樣性的遊戲物件佈局。在本小節中，將針對上述三種房間容器的演化結果做更進一步的分析。
+
+\subsubsection{寶藏房}
+\label{sssec:experiment-results-treasure}
+
+編輯中。
+
+\subsubsection{戰鬥通道（狹路驅逐）}
+\label{sssec:experiment-results-narrow}
+
+編輯中。
+
+\subsubsection{戰鬥通道（鎮守要道）}
+\label{sssec:experiment-results-trunk}
+
+編輯中。
 
 \section{各世代演化狀態}
 \label{sec:experiment-evolutions}
@@ -80,10 +95,21 @@ content here.
 \section{標準化結果之比較}
 \label{sec:experiment-normalized}
 
-content here.
+在第~\ref{ssec:method-segments-multiobjectives} 小節中，提出了方程式~\ref{eq:fitnesses-all} 的標準化效果會根據常數 $c$ 的大小，影響適應值前期與後期的成長幅度。在本小節中，將改變常數 $c$（$c = 1$、$c = 2$、$c = 3$ 與 $c = 4$），觀察應用在「單一指標型」與「複合指標型」房間容器的收斂情形。單一指標型意指僅採用一項適應性函數（不包含平衡適應性函數）；反之，複合指標型表示採用多項適應性函數。
+
+\subsubsection{單一指標型 - 寶藏房}
+\label{sssec:experiment-normalized-treasure}
+
+編輯中。
+
+\subsubsection{複合指標型 - 戰鬥通道（狹路驅逐）}
+\label{sssec:experiment-normalized-narrow}
+
+編輯中。
+
 
 \section{房型規模之比較}
-\label{sec:experiment-yyy}
+\label{sec:experiment-density}
 
-房型的大小較有可能直接影響和可行走瓦磚之數量。本階段的實驗中，我們提取~\ref{sec:experiment-datacollection} 節的資料，將空白、敵人兩種類型的數量關係繪製成熱圖進行觀察。這是因為各項適應性函數在設計時，多以「敵人」與其餘敵人、其它遊戲物件或玩家動線為考量參考，因而推估二者間勢必存在者某些關係。
+房型的大小較有可能直接影響和可行走瓦磚之數量。本階段的實驗中，我們提取第~\ref{sec:experiment-datacollection} 節的資料，將空白、敵人兩種類型的數量關係繪製成熱圖進行觀察。這是因為各項適應性函數在設計時，多以「敵人」與其餘敵人、其它遊戲物件或玩家動線為考量參考，因而推估二者間勢必存在者某些關係。
 

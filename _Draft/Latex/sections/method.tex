@@ -407,7 +407,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{基因的儲存結構}
 \label{ssec:method-segments-gene}
 
-圖~\ref{fig:segments-gene-expression} a 是遊戲物件的表型 (phenotype)，為基因演算法中的個體單位，房間容器能夠存放數種遊戲物件，分別為空磚 (Empty)、敵人磚 (Enemy)、寶箱磚 (Treasure) 與陷阱磚 (Trap)，圖中帶有編號的位置意旨著該座標能夠擺放遊戲物件，且玩家角色能夠在該座標通過；遊戲物件的擺放位置為個體的染色體 (chromosome)，以一維陣列之基因序列表示，見圖~\ref{fig:segments-gene-expression} b；基因序列中的基因，會存放該座標的相對位置與遊戲物件類型，見圖~\ref{fig:segments-gene-expression} c。同一個房間容器會擁有許多不同的個體，這些個體的集合便是族群 (population)。
+圖~\ref{fig:segments-gene-expression} a 是遊戲物件的表型 (phenotype)，為基因演算法中的個體單位，房間容器能夠存放數種遊戲物件，分別為空磚 (Empty)、敵人磚 (Enemy)、寶箱磚 (Treasure) 與陷阱磚 (Trap)，圖中帶有編號的位置意指著該座標能夠擺放遊戲物件，且玩家角色能夠在該座標通過；遊戲物件的擺放位置為個體的染色體 (chromosome)，以一維陣列之基因序列表示，見圖~\ref{fig:segments-gene-expression} b；基因序列中的基因，會存放該座標的相對位置與遊戲物件類型，見圖~\ref{fig:segments-gene-expression} c。同一個房間容器會擁有許多不同的個體，這些個體的集合便是族群 (population)。
 
 \begin{figure}[ht]
   \begin{center}
@@ -551,7 +551,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，多數的函數有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應值呈現顯著正相關，隨著演化代數的提升至終導致房間容器充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
 
-方程式~\ref{eq:fitnesses-density} 控制該房型出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數 $O$ 於數量範圍內可得 $1$ 分，反之得 $0$ 分，本適應性函數的權重固定為 $1$。
+方程式~\ref{eq:fitnesses-density} 控制該房間容器出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數 $O$ 於數量範圍內可得 $1$ 分，反之得 $0$ 分，本適應性函數的權重固定為 $1$。
 
 \begin{equation}
     \label{eq:fitnesses-density}
@@ -605,7 +605,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \end{figure}
 
 \subsubsection{寶藏房}
-\label{sssec:method-segments-appliedonvolumes-none}
+\label{sssec:method-segments-appliedonvolumes-treasure}
 
 寶藏房的端點識別物僅只有一個入口，便不存在空間動線，與空間動線相關的適應性函數（阻攔點、攔截點、支援點、至高點、陷阱點）不予採計。
 
@@ -619,12 +619,12 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{寶藏房的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-ii}
+    \label{fig:applied-ga-on-volume-treasure}
   \end{center}
 \end{figure}
 
-\subsubsection{戰鬥通道 - 狹路驅逐}
-\label{sssec:method-segments-appliedonvolumes-battlepath-ii}
+\subsubsection{戰鬥通道（狹路驅逐）}
+\label{sssec:method-segments-appliedonvolumes-battlepath-narrow}
 
 此段僅為介紹，編輯中。
 
@@ -640,12 +640,12 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{狹路驅逐情境的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-ii}
+    \label{fig:applied-ga-on-volume-battlepath-narrow}
   \end{center}
 \end{figure}
 
-\subsubsection{戰鬥通道 - 鎮守要道}
-\label{sssec:method-segments-appliedonvolumes-battlepath-i}
+\subsubsection{戰鬥通道（鎮守要道）}
+\label{sssec:method-segments-appliedonvolumes-battlepath-trunk}
 
 此段僅為介紹，編輯中。
 
@@ -661,7 +661,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{鎮守要道情境的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-ii}
+    \label{fig:applied-ga-on-volume-battlepath-trunk}
   \end{center}
 \end{figure}
 
