@@ -16,9 +16,9 @@
 \section{任務語法}
 \label{sec:method-missiongrammars}
 
-我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 Dungeon Generator 工具，這項工具佈署在 Unity Engine 上。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 \textit{Dungeon Generator} 工具，這項工具佈署在 Unity Engine 上。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
-在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textbf{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
 \begin{figure}[ht]
   \begin{center}
@@ -31,13 +31,12 @@
 \subsection{建立任務符號表}
 \label{ssec:method-missiongrammars-alphabet}
 
-在本小節，會以 \textbf{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。
-% ；以及說明在 Dungeon Generator 工具中如何操作符號表，進行新增、修改與刪除節點等動作。
+在本小節，會以 \textit{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。
 
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textbf{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \begin{figure}[ht]
   \begin{center}
@@ -63,7 +62,7 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 Dungeon Generator 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
@@ -129,7 +128,7 @@
 \subsubsection{排除非法規則}
 \label{sssec:method-missiongrammars-rules-illegals}
 
-設計規則時，Dungeon Generator 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
+設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
 \begin{figure}[ht]
   \begin{center}
@@ -322,7 +321,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 Dungeon Generator 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點遍從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點遍從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
 
 \begin{algorithm}[ht]
     \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
@@ -408,20 +407,20 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{基因的儲存結構}
 \label{ssec:method-segments-gene}
 
-房間容器視為單一染色體 (chromosome) 之個體 (individual)；房間容器中能夠放置遊戲物件的各點座標視為基因 (genes)，而基因的類型有空磚 (Empty)、敵人磚 (Enemy)、寶箱磚 (Treasure) 與陷阱磚 (Trap) 等；遊戲物件配置情況被視為染色體，同一個房間容器會擁有許多不同的個體，這些個體的集合便是族群 (population)。
+圖~\ref{fig:segments-gene-expression} a 是遊戲物件的表型 (phenotype)，為基因演算法中的個體單位，房間容器能夠存放數種遊戲物件，分別為空磚 (Empty)、敵人磚 (Enemy)、寶箱磚 (Treasure) 與陷阱磚 (Trap)，圖中帶有編號的位置意旨著該座標能夠擺放遊戲物件，且玩家角色能夠在該座標通過；遊戲物件的擺放位置為個體的染色體 (chromosome)，以一維陣列之基因序列表示，見圖~\ref{fig:segments-gene-expression} b；基因序列中的基因，會存放該座標的相對位置與遊戲物件類型，見圖~\ref{fig:segments-gene-expression} c。同一個房間容器會擁有許多不同的個體，這些個體的集合便是族群 (population)。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{房間容器的基因表示方式} 
-    \label{fig:segments-gene-example}
+    \includegraphics[width=1.0\textwidth]{figures/segments-gene-expression.pdf}
+    \caption{房間容器以遊戲物件的佈局方式作為染色體}
+    \label{fig:segments-gene-expression}
   \end{center}
 \end{figure}
 
 \subsection{演化之適應性函數}
 \label{ssec:method-segments-fitnesses}
 
-動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線。
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線。
 
 \begin{figure}[ht]
   \begin{center}
@@ -472,10 +471,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 (編修中)
 
-方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻攔點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。
-
-
-各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
+方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻攔點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
 
 \begin{equation}
     \label{eq:fitnesses-intercept}
@@ -602,7 +598,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-extend.pdf}
     \caption{房間類型 - 戰鬥通道}
     \label{fig:roomtype-mainpath-extend}
   \end{center}
@@ -627,27 +623,6 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \end{center}
 \end{figure}
 
-\subsubsection{戰鬥通道 - 鎮守要道}
-\label{sssec:method-segments-appliedonvolumes-battlepath-i}
-
-此段僅為介紹，編輯中。
-
-\begin{itemize}
-  \setlength\itemsep{-0.5em}
-  \item 阻攔點權重: $1.00$
-  \item 支援點權重: $0.75$
-  \item 巡邏點權重: $0.50$
-  \item 遊戲物件數量限制: $[3, 5]$
-\end{itemize}
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{鎮守要道情境的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-ii}
-  \end{center}
-\end{figure}
-
 \subsubsection{戰鬥通道 - 狹路驅逐}
 \label{sssec:method-segments-appliedonvolumes-battlepath-ii}
 
@@ -665,6 +640,27 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{狹路驅逐情境的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-ii}
+  \end{center}
+\end{figure}
+
+\subsubsection{戰鬥通道 - 鎮守要道}
+\label{sssec:method-segments-appliedonvolumes-battlepath-i}
+
+此段僅為介紹，編輯中。
+
+\begin{itemize}
+  \setlength\itemsep{-0.5em}
+  \item 阻攔點權重: $1.00$
+  \item 支援點權重: $0.75$
+  \item 巡邏點權重: $0.50$
+  \item 遊戲物件數量限制: $[3, 5]$
+\end{itemize}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{鎮守要道情境的遊戲物件佈局演化示意} 
     \label{fig:applied-ga-on-volume-battlepath-ii}
   \end{center}
 \end{figure}
