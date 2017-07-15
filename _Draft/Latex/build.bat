@@ -25,6 +25,7 @@ if exist %output_path%%file_name%.pdf ren %output_path%%file_name%.pdf %new_file
 if exist %output_path%%new_file_name%.pdf start %output_path%%new_file_name%.pdf
 :: Remove caches
 call:RemoveCaches
+goto:eof
 
 :RemoveCaches
 	del %output_path%%file_name%.out
