@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b, c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d, e, f。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b, c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d, e, f。
 
 \begin{figure}[ht]
   \begin{center}
@@ -16,7 +16,7 @@
 \section{任務語法}
 \label{sec:method-missiongrammars}
 
-我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 \textit{Dungeon Generator} 工具，這項工具佈署在 Unity Engine 上。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出 \textit{Dungeon Generator} 工具。遊戲設計師能夠藉由 Dungeon Generator 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
 在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
@@ -36,7 +36,7 @@
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。圖~\ref{fig:missiongrammars-alphabet} 將舉例，然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \begin{figure}[ht]
   \begin{center}
@@ -62,12 +62,12 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成，左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成。左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條的主要任務流程、劇情安排，圖~\ref{fig:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance) 與終點 (goal) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal)，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal) 與終點 (goal) 相連，並改寫該一般房為魔王房 (boss)。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal) 替換為終端節點的一般房 (normal)。
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。圖~\ref{fig:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance) 與終點 (goal) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal)，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal) 與終點 (goal) 相連，並改寫該一般房為魔王房 (boss)。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal) 替換為終端節點的一般房 (normal)。
 
 \begin{figure}[ht]
   \begin{center}
@@ -90,7 +90,7 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-圖~\ref{fig:missiongrammars-rules-nonlinear-example1}，為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，圖~\ref{fig:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密區域 (secret) 能夠獲取鑰匙，並有兩道需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
+為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，圖~\ref{fig:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密區域 (secret) 能夠獲取鑰匙，並有兩道需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
 
 \begin{figure}[ht]
   \begin{center}
@@ -228,7 +228,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{基礎結構}
 \label{ssec:method-spacepieces-basic}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間容器由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
 
 \begin{figure}[ht]
   \begin{center}
@@ -264,7 +264,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{房間容器類型}
 \label{ssec:method-spacepieces-types}
 
-延續第~\ref{sec:method-missiongrammars} 節任務語法所定義的任務終端節點，根據依照節點性質設計房型，區分出數項不同房型的空間規劃。
+延續第~\ref{sec:method-missiongrammars} 節任務語法所定義的任務終端節點，依照節點性質設計房型，區分出數項不同房型的空間規劃。
 
 \subsubsection{入口、出口、魔王房}
 \label{sssec:method-spacepieces-types-mainpath-i}
@@ -321,24 +321,24 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點遍從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
 
 \begin{algorithm}[ht]
     \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
     \label{alg:algorithm-mission-to-space-rewritesystem}
     \begin{algorithmic}[1]
         \Require
-            \Statex $graph$ is current $MissionGraph$.
+            \Statex $graph$ is $MissionGraph$.
             \Statex $seed$ is the random seed.
         \Ensure
-            \ForAll {$node$ such that $node\in graph$}:                             \Comment{Instrcution}
+            \ForAll {$node\in graph$}:                             \Comment{Instrcution}
                 \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
                     \Return {$false$}
                 \EndIf
             \EndFor
-            \ForAll {$marker$ such that $marker\in ConnectionsInGraph$}:            \Comment{Replacement}
+            \ForAll {$marker\in ConnectionsInGraph$}:            \Comment{Replacement}
                 \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
@@ -422,12 +422,12 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。
 
-於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a, b），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
+於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a, b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.pdf}
-    \caption{動線於房間容器的計算方式，黃色處行經 2 次、紅色處行經 1 次}
+    \caption{動線於房間容器的計算方式，圖中數值為行經次數}
     \label{fig:fitnesses-mainpath}
   \end{center}
 \end{figure}

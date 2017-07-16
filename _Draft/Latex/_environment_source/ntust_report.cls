@@ -589,7 +589,7 @@
                {\end@dblfloat}
 \newlength\abovecaptionskip
 \newlength\belowcaptionskip
-\setlength\abovecaptionskip{-15\p@}
+\setlength\abovecaptionskip{10\p@}
 \setlength\belowcaptionskip{0\p@}
 \long\def\@makecaption#1#2{%
   \vskip\abovecaptionskip

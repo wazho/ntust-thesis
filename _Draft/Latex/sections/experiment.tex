@@ -1,5 +1,3 @@
-\renewcommand\thetable{\arabic{chapter}-\arabic{table}}
-
 \chapter{實驗結果與分析}
 \label{cha:experiment}
 
@@ -45,23 +43,40 @@
 \section{資料收集}
 \label{sec:experiment-datacollection}
 
-在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法時，於實驗中各回合、世代與其個體（單一染色體）中的得分狀況。
+在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於實驗過程中輸出 CSV 格式資料。表~\ref{tbl:structure-of-rawdata-scores} 紀錄各回合、世代中，其各個個體（單一染色體）的適應值的得分狀況；表~\ref{tbl:structure-of-rawdata-positions} 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型。更多的原始資料節錄內容可參見附錄資源。
 
 \begin{table}[ht]
   \centering
-  \caption{原始資料之欄位示意}
-  \label{tbl:structure-of-rawdata}
+  \caption{演化適應值資料節錄}
+  \label{tbl:structure-of-rawdata-scores}
   \bigskip
-  \begin{tabular}{| l | l | l | l | l | l | l | l |}
+  \begin{tabular}{| c | c | c | l | l |}
     \hline
-    回合編號 & 世代編號 & 染色體編號 & 指標 & 得分 & 座標 & 類型 & 房間 \\
-    1 & 1 & 1 & Block     & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
-    1 & 1 & 1 & Intercept & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
-    1 & 1 & 1 & Patrol    & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
-    1 & 1 & 1 & Guard     & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
-    1 & 1 & 1 & Support   & 0 & (12.0, 1.0, 0.0)  & Empty & Room A \\
-    1 & 1 & 1 & Block     & 0 & (24.0, 1.0, 12.0) & Empty & Room A \\
-    1 & 1 & 1 & Intercept & 0 & (24.0, 1.0, 12.0) & Empty & Room A \\
+    \multicolumn{1}{ |c| }{回合編號} & \multicolumn{1}{ |c| }{世代編號} & \multicolumn{1}{ |c| }{染色體編號} & \multicolumn{1}{ |c| }{指標} & \multicolumn{1}{ |c| }{得分} \\\hline
+    1 & 1 & 1 & Block     & 0 \\
+    1 & 1 & 1 & Intercept & 0 \\
+    1 & 1 & 1 & Patrol    & 0 \\
+    1 & 1 & 1 & Guard     & 0 \\
+    1 & 1 & 1 & Support   & 0 \\
+    1 & 1 & 1 & Block     & 0 \\
+    1 & 1 & 1 & Intercept & 0 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+  \centering
+  \caption{演化座標資料節錄}
+  \label{tbl:structure-of-rawdata-positions}
+  \bigskip
+  \begin{tabular}{| c | c | c | l | l |}
+    \hline
+    \multicolumn{1}{ |c| }{回合編號} & \multicolumn{1}{ |c| }{世代編號} & \multicolumn{1}{ |c| }{染色體編號} & \multicolumn{1}{ |c| }{座標} & \multicolumn{1}{ |c| }{遊戲物件類型} \\\hline
+    1 & 1 & 1 & (1.0, 1.0, 0.0) & Empty \\
+    1 & 1 & 1 & (0.0, 1.0, 0.0) & Empty \\
+    1 & 1 & 1 & (0.0, 1.0, 1.0) & Empty \\
+    1 & 1 & 1 & (0.0, 1.0, 2.0) & Empty \\
+    1 & 1 & 1 & (0.0, 1.0, 3.0) & Empty \\
     \hline
   \end{tabular}
 \end{table}
@@ -71,18 +86,62 @@
 
 在第~\ref{ssec:method-segments-appliedonvolumes} 小節中，展示了寶藏房與戰鬥通道（狹路驅逐、鎮守要道）三種空間的局部佈局演化結果，隨著房間容器搭配不同的適應性函數，便能夠生成出多樣性的遊戲物件佈局。在本小節中，將針對上述三種房間容器的演化結果做更進一步的分析。
 
-\subsubsection{寶藏房}
-\label{sssec:experiment-results-treasure}
+\subsection{寶藏房}
+\label{ssec:experiment-results-treasure}
+
+\subsubsection{實驗 A - 世代數量的影響}
+\label{sssec:experiment-results-treasure-i}
+
+\begin{table}[ht]
+  \centering
+  \caption{實驗 A1 之基因演算法基本參數配置}
+  \label{tbl:settings-of-experiment-results-treasure-i}
+  \bigskip
+  \begin{tabular}{| c | c | c |}
+    \hline
+    \multicolumn{1}{ |c| }{回合次數} & \multicolumn{1}{ |c| }{世代數量} & \multicolumn{1}{ |c| }{個體數量} \\\hline
+    $1$ & $100$ & $200$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+  \centering
+  \caption{實驗 A1 之基因演算法適應性函數權重配置}
+  \label{tbl:fitness-of-experiment-results-treasure-i}
+  \bigskip
+  \begin{tabular}{| c | c | c |}
+    \hline
+    \multicolumn{1}{ |c| }{指標} & \multicolumn{1}{ |c| }{權重} & \multicolumn{1}{ |c| }{備注} \\\hline
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsubsection{實驗 B - PPPPP}
+\label{sssec:experiment-results-treasure-ii}
+
+\begin{table}[ht]
+  \centering
+  \caption{實驗 B 之基因演算法基本參數配置}
+  \label{tbl:settings-of-experiment-results-treasure-ii}
+  \bigskip
+  \begin{tabular}{| c | c | c |}
+    \hline
+    \multicolumn{1}{ |c| }{回合次數} & \multicolumn{1}{ |c| }{世代數量} & \multicolumn{1}{ |c| }{個體數量} \\\hline
+    $1$ & $x$ & $y$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{戰鬥通道（狹路驅逐）}
+\label{ssec:experiment-results-narrow}
 
 編輯中。
 
-\subsubsection{戰鬥通道（狹路驅逐）}
-\label{sssec:experiment-results-narrow}
-
-編輯中。
-
-\subsubsection{戰鬥通道（鎮守要道）}
-\label{sssec:experiment-results-trunk}
+\subsection{戰鬥通道（鎮守要道）}
+\label{ssec:experiment-results-trunk}
 
 編輯中。
 
@@ -91,13 +150,13 @@
 
 在第~\ref{ssec:method-segments-multiobjectives} 小節中，提出了方程式~\ref{eq:fitnesses-all} 的標準化效果會根據常數 $c$ 的大小，影響適應值前期與後期的成長幅度。在本小節中，將改變常數 $c$（$c = 1$、$c = 2$、$c = 3$ 與 $c = 4$），觀察應用在「單一指標型」與「複合指標型」房間容器的收斂情形。單一指標型意指僅採用一項適應性函數（不包含平衡適應性函數）；反之，複合指標型表示採用多項適應性函數。
 
-\subsubsection{單一指標型 - 寶藏房}
-\label{sssec:experiment-normalized-treasure}
+\subsection{單一指標型 - 寶藏房}
+\label{ssec:experiment-normalized-treasure}
 
 編輯中。
 
-\subsubsection{複合指標型 - 戰鬥通道（狹路驅逐）}
-\label{sssec:experiment-normalized-narrow}
+\subsection{複合指標型 - 戰鬥通道（狹路驅逐）}
+\label{ssec:experiment-normalized-narrow}
 
 編輯中。
 
