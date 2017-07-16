@@ -149,15 +149,34 @@
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。圖~\ref{fig:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance) 與終點 (goal) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal)，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal) 與終點 (goal) 相連，並改寫該一般房為魔王房 (boss)。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal) 替換為終端節點的一般房 (normal)。
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance) 與終點 (goal) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal)，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal) 與終點 (goal) 相連，並改寫該一般房為魔王房 (boss)。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal) 替換為終端節點的一般房 (normal)。
 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-example.png}
-    \caption{線性任務規則範例，建立主線任務}
-    \label{fig:missiongrammars-rules-linear-example}
-  \end{center}
-\end{figure}
+\begin{table}[!htb]
+  \centering
+  \caption{線性任務規則範例，建立主線任務}
+  \label{tbl:missiongrammars-rules-linear-example}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{2.5cm}
+    | >{\centering\arraybackslash} m{2.5cm}
+      >{} m{8.5cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{代號}
+      & \multicolumn{2}{ c| }{名稱與任務規則} \\\hline
+    Main Path
+      & 主線任務
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/main-path.png}\end{minipage}
+      \\\hline
+    Boss Room
+      & 配置魔王房
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/boss-room.png}\end{minipage}
+      \\\hline
+    Exporation
+      & 探索通道
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/exporation.png}\end{minipage}
+      \\\hline
+  \end{tabular}
+\end{table}
 
 結合後續第~\ref{sec:method-spacepieces} 章節 - 空間建構，並以主線任務相關規則生成任務圖後，便可將關卡輸出近似於圖~\ref{fig:missiongrammars-rules-linear-preview} 的空間。
 
@@ -172,35 +191,80 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，圖~\ref{fig:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密房 (secret) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
+為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密房 (secret) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-nonlinear-example1.png}
-    \caption{非線性任務規則範例，設置特殊房}
-    \label{fig:missiongrammars-rules-nonlinear-example1}
-  \end{center}
-\end{figure}
+\begin{table}[!htb]
+  \centering
+  \caption{非線性任務規則範例，設置特殊房}
+  \label{tbl:missiongrammars-rules-nonlinear-example1}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{2.5cm}
+    | >{\centering\arraybackslash} m{2.5cm}
+      >{} m{8.5cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{代號}
+      & \multicolumn{2}{ c| }{名稱與任務規則} \\\hline
+    Set Secret
+      & 配置特殊房
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/set-secret.png}\end{minipage}
+      \\\hline
+    Shop
+      & 商店
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/shop.png}\end{minipage}
+      \\\hline
+    Treasure
+      & 寶藏房
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/treasure.png}\end{minipage}
+      \\\hline
+  \end{tabular}
+\end{table}
 
-圖~\ref{fig:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal) 便能再經過其它的規則，取代成不同的遊玩特徵。
- 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-nonlinear-example2.png}
-    \caption{非線性任務規則範例，建立支線任務}
-    \label{fig:missiongrammars-rules-nonlinear-example2}
-  \end{center}
-\end{figure}
+表~\ref{tbl:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal) 便能再經過其它的規則，取代成不同的遊玩特徵。
 
-圖~\ref{fig:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock)，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
- 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-nonlinear-example3.png}
-    \caption{非線性任務規則範例，鎖的提前出現與房間攤平}
-    \label{fig:missiongrammars-rules-nonlinear-example3}
-  \end{center}
-\end{figure}
+\begin{table}[!htb]
+  \centering
+  \caption{非線性任務規則範例，建立支線任務}
+  \label{tbl:missiongrammars-rules-nonlinear-example2}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{2.5cm}
+    | >{\centering\arraybackslash} m{2.5cm}
+      >{} m{8.5cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{代號}
+      & \multicolumn{2}{ c| }{名稱與任務規則} \\\hline
+    More Branch
+      & 建立支線
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/more-branch.png}\end{minipage}
+      \\\hline
+  \end{tabular}
+\end{table}
+
+表~\ref{tbl:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock)，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
+
+\begin{table}[!htb]
+  \centering
+  \caption{非線性任務規則範例，鎖的提前出現與房間攤平}
+  \label{tbl:missiongrammars-rules-nonlinear-example3}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{2.5cm}
+    | >{\centering\arraybackslash} m{2.5cm}
+      >{} m{8.5cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{代號}
+      & \multicolumn{2}{ c| }{名稱與任務規則} \\\hline
+    Forward Lock
+      & 鎖向前
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/forward-lock.png}\end{minipage}
+      \\\hline
+    Flat Rooms
+      & 房間攤平
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=85mm]{figures/mission-grammars-rules/flat-rooms.png}\end{minipage}
+      \\\hline
+  \end{tabular}
+\end{table}
 
 % \subsubsection{重複循環型任務規則}
 % \label{sssec:method-missiongrammars-rules-cyclic}
