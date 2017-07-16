@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework}-a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework}-b 至 c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework}-c 至 e。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b, c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數，藉由基因演算法的演化流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d, e, f。
 
 \begin{figure}[ht]
   \begin{center}
@@ -228,7 +228,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{基礎結構}
 \label{ssec:method-spacepieces-basic}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 9x9x9 個長方體體素 (voxels) 所構成，每一體素的大小為 3x2x3。
+我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
 
 \begin{figure}[ht]
   \begin{center}
@@ -420,11 +420,13 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{演化之適應性函數}
 \label{ssec:method-segments-fitnesses}
 
-動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。在前處理時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} 左一與左二），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線。
+動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。
+
+於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a, b），使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.png}
+    \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.pdf}
     \caption{動線於房間容器的計算方式，黃色處行經 2 次、紅色處行經 1 次}
     \label{fig:fitnesses-mainpath}
   \end{center}
@@ -451,7 +453,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{阻攔點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
-方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻攔玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 0。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻攔玩家前行。
+方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻攔玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 $0$。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻攔玩家前行。
 
 \begin{equation}
     \label{eq:fitnesses-block}
@@ -525,6 +527,13 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
+\subsubsection{陷阱點 (Trapped)}
+\label{sssec:method-segments-fitnesses-trapped}
+
+
+\begin{equation}
+    f_{trp} = 
+\end{equation}
 
 % \subsubsection{死角點 (Neglected)}
 % \label{sssec:method-segments-fitnesses-neglected}
@@ -581,7 +590,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
     Normalized(f_{i}) = (\frac{f_{i}}{f_{i}\cdot max})^{\frac{1}{c}}
 \end{gather*}
 
-圖~\ref{fig:fitnesses-normalized} 中顯示了方程式~\ref{eq:fitnesses-all} 依照不同的非零自然數常數 $c$ 進行適應值的標準化，在此圖中定義 $x\cdot max = 10$ 方便後續的解釋工作。$y_{1}$ 為原始分數除以原始分數最大值之標準化，初期的成長幅度為 $x_{12} - x_{11} = 0.1000$，隨著原始分數的增加並不影響後續的成長幅度 $x_{14} - x_{13} = 0.1000$。為了要體現出前述定義「首次出現相關遊玩特徵的得分幅度最顯著」的現象，我們對 $y_{1}$ 的數值再進行開 $c$ 次方根，分別以 $c = 2$、$c = 3$ 與 $c = 4$ 得到 $y_{2}$、$y_{3}$ 與 $y_{4}$ 三種線性方程式，其中 $y_{2}$ 的初期成長幅度為 $x_{22} - x_{21} = 0.1310$ 高於 $y_{1}$ 同期的成長幅度，到了後期的成長幅度為 $x_{24} - x_{23} = 0.0847$，逐漸衰減同時已低於 $y_{1}$ 同期的成長幅度，然而這樣的現象隨著常數 $c$ 上升對於分數初期的成長幅度愈大、後期的成長幅度愈小。
+圖~\ref{fig:fitnesses-normalized} 中顯示了方程式~\ref{eq:fitnesses-all} 依照不同的非零自然數常數 $c$ 進行適應值的標準化，在此圖中定義 $x\cdot max = 10$ 方便後續的解釋工作。$y_{1}$ 為原始分數除以原始分數最大值之標準化，初期的成長幅度為 $x_{12} - x_{11} = 0.1000$，隨著原始分數的增加並不影響後續的成長幅度 $x_{14} - x_{13} = 0.1000$。為了要體現出前述之定義「首次出現相關遊玩特徵的得分幅度最顯著」的現象，我們對 $y_{1}$ 的數值再進行開 $c$ 次方根，分別以 $c = 2$、$c = 3$ 與 $c = 4$ 得到 $y_{2}$、$y_{3}$ 與 $y_{4}$ 三種線性方程式，其中 $y_{2}$ 的初期成長幅度為 $x_{22} - x_{21} = 0.1310$ 高於 $y_{1}$ 同期的成長幅度，到了後期的成長幅度為 $x_{24} - x_{23} = 0.0847$，逐漸衰減同時已低於 $y_{1}$ 同期的成長幅度，然而這樣的現象隨著常數 $c$ 上升對於分數初期的成長幅度愈大、後期的成長幅度愈小。
 
 \begin{figure}[ht]
   \begin{center}
