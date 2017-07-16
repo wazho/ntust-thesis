@@ -36,15 +36,74 @@
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。圖~\ref{fig:missiongrammars-alphabet} 將舉例，然而固定的房間類型便是我們所尋找的節點種類，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 將列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「入口 (entrance)、出口 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-alphabet.png}
-    \caption{利用遊玩特徵建立任務符號表之範例} 
-    \label{fig:missiongrammars-alphabet}
-  \end{center}
-\end{figure}
+\begin{table}[ht]
+  \centering
+  \caption{利用遊玩特徵建立任務符號表之範例}
+  \label{tbl:mission-grammars-alphabet}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{3.5cm}
+    | >{\centering\arraybackslash} m{3.0cm}
+    | >{\centering\arraybackslash} m{1.0cm}
+    | >{\centering\arraybackslash} m{3.0cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{代號}
+      & \multicolumn{1}{ c| }{名稱}
+      & \multicolumn{1}{ c| }{符號}
+      & \multicolumn{1}{ c| }{類型} \\\hline
+    S (Start)
+      & 起始節點
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-start.png}\end{minipage}
+      & 起始節點 \\\hline
+    en (entrance)
+      & 入口
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
+      & 主線任務 \\\hline
+    go (goal)
+      & 出口
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
+      & 主線任務 \\\hline
+    boss (boss)
+      & 魔王房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
+      & 主線任務 \\\hline
+    NM (Normal)
+      & 一般房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-normal.png}\end{minipage}
+      & 主線任務 \\\hline
+    nm (normal)
+      & 一般房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+      & 主線任務 \\\hline
+    bomb (bomb)
+      & 使用炸彈
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
+      & 特殊事件 \\\hline
+    srt (secret)
+      & 秘密房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
+      & 特殊事件 \\\hline
+    SP (Special)
+      & 特殊房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-special.png}\end{minipage}
+      & 特殊事件 \\\hline
+    lock (lock)
+      & 鎖
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
+      & 特殊事件 \\\hline
+    shop (shop)
+      & 商店
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
+      & 特殊事件 \\\hline
+    ts (treasure)
+      & 寶藏房
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
+      & 特殊事件 \\\hline
+  \end{tabular}
+\end{table}
+
 
 % \subsubsection{任務符號表使用說明}
 % \label{sssec:method-missiongrammars-alphabet-manual}
@@ -233,7 +292,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/spacepieces-structure.png}
-    \caption{房間容器的建構情形，可觀察其由體素單位所構築而成} 
+    \caption{房間容器的建構情形，可觀察其由體素單位所構築而成}
     \label{fig:spacepieces-structure}
   \end{center}
 \end{figure}
