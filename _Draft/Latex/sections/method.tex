@@ -5,7 +5,7 @@
 
 圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b, c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d, e, f。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/系統框架.png}
     \caption{本論文提出系統之流程圖} 
@@ -20,7 +20,7 @@
 
 在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/Dungeon_Generator_工具.png}
     \caption{Dungeon Generator 工具} 
@@ -125,7 +125,7 @@
 
 % content here.
 
-% \begin{figure}[ht]
+% \begin{figure}[!htb]
 %   \begin{center}
 %     \includegraphics[width=1.0\textwidth]{figures/missiongrammars-alphabet-manual.png}
 %     \caption{利用 Dungeon Generator 建立符號表} 
@@ -138,7 +138,7 @@
 
 任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成。左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{任務規則範例}
@@ -180,7 +180,7 @@
 
 結合後續第~\ref{sec:method-spacepieces} 章節 - 空間建構，並以主線任務相關規則生成任務圖後，便可將關卡輸出近似於圖~\ref{fig:missiongrammars-rules-linear-preview} 的空間。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-preview.png}
     \caption{建立主線任務的預期任務圖與空間預覽}
@@ -191,7 +191,7 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，當中的秘密房 (secret) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
+為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，非線性的定義是當一個節點與複數個節點連接，構成分支結構，當中的秘密房 (secret) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
 
 \begin{table}[!htb]
   \centering
@@ -276,7 +276,7 @@
 
 設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
@@ -311,7 +311,7 @@
 
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
-\begin{algorithm}[ht]
+\begin{algorithm}[!htb]
     \caption{RewriteSystem1 - 改寫系統（任務語法）}
     \label{alg:algorithm-missiongrammars-rewritesystem}
     \begin{algorithmic}[1]
@@ -347,7 +347,7 @@
 %     \end{algorithmic}
 % \end{algorithm}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/final-mission-graph.png}
     \caption{最終輸出的任務圖} 
@@ -363,7 +363,7 @@
 
 Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010adventures}~\cite{dormans2012engineering}，我們的實驗環境以三維空間為主。在空間語法中將直接構築遊戲的基礎房型，但不設置怪物、寶箱或陷阱足以直接影響遊戲性的遊戲物件，如圖~\ref{fig:gameobject-list}。此外，我們希望空間中的遊戲物件能夠有意義的自動化配置，即在設計空間語法的流程中，忽略絕大部分的遊戲物件配置，直到~\ref{sec:method-segments} 節提出之方法達成。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/gameobject-list.png}
     \caption{影響遊戲性的遊戲物件，由左至右分別為敵方、寶箱與陷阱} 
@@ -376,7 +376,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間容器由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/spacepieces-structure.png}
     \caption{房間容器的建構情形，可觀察其由體素單位所構築而成}
@@ -384,9 +384,9 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
   \end{center}
 \end{figure}
 
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的建置工作。
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的體素建置工作。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
     \caption{房間容器時所使用的五種裝飾物}
@@ -399,7 +399,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 逐一設計出各式各樣的房間容器後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房間容器添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房間容器中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/connections-in-volume.png}
     \caption{端點識別物的實際使用與串接情形} 
@@ -412,15 +412,15 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 延續第~\ref{sec:method-missiongrammars} 節任務語法所定義的任務終端節點，依照節點性質設計房型，區分出數項不同房型的空間規劃。
 
-\subsubsection{入口、出口、魔王房}
+\subsubsection{起點、終點、魔王房}
 \label{sssec:method-spacepieces-types-mainpath-i}
 
-入口擁有一個入口與三個出口，為玩家重生的起始房間。出口擁有一個入口，為遊戲關卡結束的房間。魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
+圖~\ref{fig:roomtype-mainpath-i} 中，起點擁有一個入口與三個出口，為玩家重生的起始房間；終點擁有一個入口，為遊戲關卡結束的房間；魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-i.png}
-    \caption{房間類型 - 由左至右為入口、出口與魔王房}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-i.pdf}
+    \caption{起點、終點與魔王房的房間容器結構}
     \label{fig:roomtype-mainpath-i}
   \end{center}
 \end{figure}
@@ -428,9 +428,9 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{通道}
 \label{sssec:method-spacepieces-types-path}
 
-通道共有四種，隨著端點數量有等同的出口數量，因沒有入口識別物，便能夠以任一出口作為入口，搭配房間容器旋轉能達到共計 11 種房型同構。
+圖~\ref{fig:roomtype-mainpath-ii} 中，通道共有四種，隨著端點數量有等同的出口數量，因沒有入口識別物，便能夠以任一出口作為入口，搭配房間容器旋轉能達到共計 11 種房型同構。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-ii.png}
     \caption{房間類型 - 由左至右為 I 型、L 型、T 型與 + 型通道}
@@ -441,12 +441,13 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
+圖~\ref{fig:roomtype-special} 中，石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/roomtype-special.png}
-    \caption{房間類型 - 由左至右為石牆、秘密房、鎖、商店與寶藏房}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-special.pdf}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-special-.pdf}
+    \caption{石牆、秘密房、鎖、商店與寶藏房的房間容器結構}
     \label{fig:roomtype-special}
   \end{center}
 \end{figure}
@@ -454,11 +455,11 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{死路}
 \label{sssec:method-spacepieces-types-wall}
 
-在第~\ref{ssec:method-spacepieces-frommissiontospace} 小節中，為了要封閉剩餘的端點識別物所造成的空間開口，便需要無特殊功能的單一入口空間容器。
+在第~\ref{ssec:method-spacepieces-frommissiontospace} 小節中，為了要封閉剩餘的端點識別物所造成的空間開口，便需要無特殊功能的單一入口空間容器，見圖~\ref{fig:roomtype-wall}。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/roomtype-wall.png}
+    \includegraphics[width=1.0\textwidth]{figures/roomtype-wall.pdf}
     \caption{房間類型 - 死路}
     \label{fig:roomtype-wall}
   \end{center}
@@ -469,7 +470,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
 
-\begin{algorithm}[ht]
+\begin{algorithm}[!htb]
     \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
     \label{alg:algorithm-mission-to-space-rewritesystem}
     \begin{algorithmic}[1]
@@ -501,7 +502,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 為從已生成完畢的任務圖進而衍生出遊戲空間，在創建的房間容器會對應一任務符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見圖~\ref{fig:mission-to-space-instruction}。每一個終端節點都必須對應一個以上的房間容器，房間容器不允許被重複使用在不同的終端節點上。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction.png}
     \caption{建造方式，任務終端節點與房間容器對應之範例} 
@@ -511,7 +512,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result.png}
     \caption{已疊代生成的任務圖，不同亂數種子轉換為對應結果的遊戲空間} 
@@ -524,7 +525,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 以達目的。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物時，曾提及到遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，我們採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路，若增加對應的選項進而創造出主線外的分支結構，見圖~\ref{fig:mission-to-space-replacement-result}。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/mission-to-space-replacement-result.png}
     \caption{經過剩餘空間替換後的完整遊戲空間} 
@@ -542,7 +543,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 圖~\ref{fig:segments-with-ga} 介紹地圖片段的演化流程。第一步驟，基於~\ref{ssec:method-segments-gene} 小節中定義的基因結構，產生初始父母代族群時，讓全部的基因先預設為空磚；第二步驟，透過適應性函數計算各個體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/segments-with-ga.pdf}
     \caption{地圖片段採取基因演算法之演化流程} 
@@ -555,7 +556,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 圖~\ref{fig:segments-gene-expression} a 是遊戲物件的表型 (phenotype)，為基因演算法中的個體單位，房間容器能夠存放數種遊戲物件，分別為空磚 (Empty)、敵人磚 (Enemy)、寶箱磚 (Treasure) 與陷阱磚 (Trap)，圖中帶有編號的位置意指著該座標能夠擺放遊戲物件，且玩家角色能夠在該座標通過；遊戲物件的擺放位置為個體的染色體 (chromosome)，以一維陣列之基因序列表示，見圖~\ref{fig:segments-gene-expression} b；基因序列中的基因，會存放該座標的相對位置與遊戲物件類型，見圖~\ref{fig:segments-gene-expression} c。同一個房間容器會擁有許多不同的個體，這些個體的集合便是族群 (population)。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/segments-gene-expression.pdf}
     \caption{房間容器以遊戲物件的佈局方式作為染色體}
@@ -570,7 +571,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a, b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-mainpath.pdf}
     \caption{動線於房間容器的計算方式，圖中數值為行經次數}
@@ -588,7 +589,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     f_{grd} = \sum_{i=1}^{M} \sum_{j=1}^{N} \frac{1}{dist\big(E_{i}, O_{j}\big)}, O_{j} \in \{ Treasure, Exit \}
 \end{equation}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-guard-gameplay.pdf}
     \caption{守衛點指標的遊戲體現情形}
@@ -606,7 +607,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     f_{blk} = \sum_{i=1}^{M} e_{i}
 \end{equation}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-block-gameplay.pdf}
     \caption{阻攔點指標的遊戲體現情形}
@@ -627,7 +628,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     E_{i} \neq MP_{j}
 \end{equation}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-intercept-gameplay.pdf}
     \caption{攔截點指標的遊戲體現情形}
@@ -654,7 +655,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     dist\big(E_{i}, P_{j}\big) \leq r,  P_{j} \notin wall
 \end{gather*}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-patrol-gameplay.pdf}
     \caption{巡邏點指標的遊戲體現情形}
@@ -738,7 +739,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 圖~\ref{fig:fitnesses-normalized} 中顯示了方程式~\ref{eq:fitnesses-all} 依照不同的非零自然數常數 $c$ 進行適應值的標準化，在此圖中定義 $x\cdot max = 10$ 方便後續的解釋工作。$y_{1}$ 為原始分數除以原始分數最大值之標準化，初期的成長幅度為 $x_{12} - x_{11} = 0.1000$，隨著原始分數的增加並不影響後續的成長幅度 $x_{14} - x_{13} = 0.1000$。為了要體現出前述之定義「首次出現相關遊玩特徵的得分幅度最顯著」的現象，我們對 $y_{1}$ 的數值再進行開 $c$ 次方根，分別以 $c = 2$、$c = 3$ 與 $c = 4$ 得到 $y_{2}$、$y_{3}$ 與 $y_{4}$ 三種線性方程式，其中 $y_{2}$ 的初期成長幅度為 $x_{22} - x_{21} = 0.1310$ 高於 $y_{1}$ 同期的成長幅度，到了後期的成長幅度為 $x_{24} - x_{23} = 0.0847$，逐漸衰減同時已低於 $y_{1}$ 同期的成長幅度，然而這樣的現象隨著常數 $c$ 上升對於分數初期的成長幅度愈大、後期的成長幅度愈小。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-normalized.pdf}
     \caption{適應值進行標準化}
@@ -751,7 +752,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 綜合上述小節，不同房間容器類型會有對應的戰略配置。~\ref{ssec:method-spacepieces-types} 小節所介紹的房間容器外，在本小節追加了戰鬥通道的房間容器，與前章節提及之通道不同處，在戰鬥通道中玩家恐會遭遇敵方單位。戰鬥通道的格局是經過特殊設計的，敵方單位能夠依照不同房型格局進行對應的戰鬥策略，見圖~\ref{fig:roomtype-mainpath-extend}。因此依照房間容器類型設置不同的適應性函數權重，逐一定義各自的適應性函數權重值。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/roomtype-mainpath-extend.pdf}
     \caption{房間類型 - 戰鬥通道}
@@ -770,7 +771,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \item 遊戲物件數量限制: $[3, 5]$
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{寶藏房的遊戲物件佈局演化示意} 
@@ -791,7 +792,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \item 遊戲物件數量限制: $[2, 3]$
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{狹路驅逐情境的遊戲物件佈局演化示意} 
@@ -812,7 +813,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
   \item 遊戲物件數量限制: $[3, 5]$
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{鎮守要道情境的遊戲物件佈局演化示意} 
@@ -825,7 +826,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 其餘未被定義的房型，像是入口、出口、一般通道 ... 等，因設計需求將不配置任何遊戲物件，即不參與相關的演化流程。
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
     \caption{將關卡中全部房間容器進行遊戲物件的佈局演化} 
