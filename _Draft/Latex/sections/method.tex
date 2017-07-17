@@ -1,3 +1,7 @@
+% Quickly access the figures.
+\newcommand{\missionalphabetnode}[2]{{\includegraphics[height=#2]{figures/mission-grammars-alphabet/#1.png}}}
+\newcommand{\missioninstruction}[1]{{\begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/#1.png}\end{minipage}}}
+
 \chapter{研究方法}
 \label{cha:methodology}
 
@@ -136,8 +140,6 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-\newcommand{\alphabetnode}[1]{{\includegraphics[height=5mm]{figures/mission-grammars-alphabet/#1.png}}}
-
 任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成。左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \begin{figure}[!htb]
@@ -151,7 +153,7 @@
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、配置魔王房與探索通道。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance\alphabetnode{t-entrance}) 與終點 (goal\alphabetnode{t-goal}) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal\alphabetnode{nt-normal})，而非終端節點的一般房會倚賴其它規則進行後續替換。配置魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與終點 (goal\alphabetnode{t-goal}) 相連，並改寫該一般房為魔王房 (boss\alphabetnode{t-boss})。探索通道規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 替換為終端節點的一般房 (normal\alphabetnode{t-normal})。
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、配置魔王房與探索通道。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance\missionalphabetnode{t-entrance}{5mm}) 與終點 (goal\missionalphabetnode{t-goal}{5mm}) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal\missionalphabetnode{nt-normal}{5mm})，而非終端節點的一般房會倚賴其它規則進行後續替換。配置魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與終點 (goal\missionalphabetnode{t-goal}{5mm}) 相連，並改寫該一般房為魔王房 (boss\missionalphabetnode{t-boss}{5mm})。探索通道規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 替換為終端節點的一般房 (normal\missionalphabetnode{t-normal}{5mm})。
 
 \begin{table}[!htb]
   \centering
@@ -193,7 +195,7 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-為求遊戲內容的多樣性，非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與任一節點相連的圖形語法（任一節點是系統保留的節點，再圖形語法中能夠表示任何的節點），會被轉換為規則右側的非線性任務圖形語法，非線性的定義是當一個節點與複數個節點連接，構成分支結構，當中的秘密房 (secret\alphabetnode{t-secret}) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb\alphabetnode{t-bomb}) 與其它區域阻隔，此外延伸出特殊房 (Special\alphabetnode{nt-special}) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special\alphabetnode{nt-special}) 能夠被改寫為鎖 (lock\alphabetnode{t-lock}) 與商店 (shop\alphabetnode{t-shop}) 或寶藏房 (treasure\alphabetnode{t-treasure}) 相連的遊玩特徵。
+為求遊戲內容的多樣性，非終端節點的一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與任一節點相連的圖形語法（任一節點是系統保留的節點，再圖形語法中能夠表示任何的節點），會被轉換為規則右側的非線性任務圖形語法，非線性的定義是當一個節點與複數個節點連接，構成分支結構，當中的秘密房 (secret\missionalphabetnode{t-secret}{5mm}) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb\missionalphabetnode{t-bomb}{5mm}) 與其它區域阻隔，此外延伸出特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 能夠被改寫為鎖 (lock\missionalphabetnode{t-lock}{5mm}) 與商店 (shop\missionalphabetnode{t-shop}{5mm}) 或寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm}) 相連的遊玩特徵。
 
 \begin{table}[!htb]
   \centering
@@ -222,7 +224,7 @@
   \end{tabular}
 \end{table}
 
-表~\ref{tbl:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal\alphabetnode{nt-normal}) 便能再經過其它的規則，取代成不同的遊玩特徵。
+表~\ref{tbl:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 便能再經過其它的規則，取代成不同的遊玩特徵。
 
 \begin{table}[!htb]
   \centering
@@ -243,7 +245,7 @@
   \end{tabular}
 \end{table}
 
-表~\ref{tbl:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock\alphabetnode{t-lock})，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
+表~\ref{tbl:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock\missionalphabetnode{t-lock}{5mm})，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
 
 \begin{table}[!htb]
   \centering
@@ -545,52 +547,51 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \multicolumn{5}{r}{\textit{接續下頁面}} \\
   \endfoot
   \endlastfoot
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
+  \missionalphabetnode{t-entrance}{10mm}
+    & \missioninstruction{instruction-01}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
+    & \missionalphabetnode{t-goal}{10mm}
+    & \missioninstruction{instruction-02}
     \\\cline{1-2}\cline{4-5}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
+  \missionalphabetnode{t-boss}{10mm}
+    & \missioninstruction{instruction-03}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
+    & \missionalphabetnode{t-normal}{10mm}
+    & \missioninstruction{instruction-04}
     \\\cline{1-2}\cline{4-5}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
+  \missionalphabetnode{t-normal}{10mm}
+    & \missioninstruction{instruction-05}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
+    & \missionalphabetnode{t-normal}{10mm}
+    & \missioninstruction{instruction-06}
     \\\cline{1-2}\cline{4-5}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
+  \missionalphabetnode{t-normal}{10mm}
+    & \missioninstruction{instruction-07}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
+    & \missionalphabetnode{t-bomb}{10mm}
+    & \missioninstruction{instruction-08}
     \\\cline{1-2}\cline{4-5}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
+  \missionalphabetnode{t-secret}{10mm}
+    & \missioninstruction{instruction-09}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
+    & \missionalphabetnode{t-lock}{10mm}
+    & \missioninstruction{instruction-10}
     \\\cline{1-2}\cline{4-5}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
+  \missionalphabetnode{t-shop}{10mm}
+    & \missioninstruction{instruction-11}
     &
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
-    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
+    & \missionalphabetnode{t-treasure}{10mm}
+    & \missioninstruction{instruction-12}
     \\\cline{1-2}\cline{4-5}
 \end{longtable}
 
-（此小段為新增，編輯中）
-圖~\ref{fig:mission-to-space-instruction-flow}。
+圖~\ref{fig:mission-to-space-instruction-flow} a 使用第~\ref{ssec:method-missiongrammars-rules} 小節的任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）來生成任務圖。本階段我們依照演算法~\ref{alg:algorithm-mission-to-space-rewritesystem}，並結合~\ref{tbl:mission-to-space-instruction} 建造方式表，將任務圖轉換為遊戲空間。圖~\ref{fig:mission-to-space-instruction-flow} b 中，
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result.pdf}
-    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result-.pdf}
-    \caption{建造方式的疊代生成過程（補充圖片，製作中）} 
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-flow.pdf}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-flow-.pdf}
+    \caption{建造方式的疊代生成過程} 
     \label{fig:mission-to-space-instruction-flow}
   \end{center}
 \end{figure}
@@ -600,7 +601,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result.pdf}
-    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result-.pdf}
     \caption{已疊代生成的任務圖，不同亂數種子轉換為對應結果的遊戲空間} 
     \label{fig:mission-to-space-instruction-result}
   \end{center}
