@@ -151,7 +151,7 @@
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance\alphabetnode{t-entrance}) 與終點 (goal\alphabetnode{t-goal}) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal\alphabetnode{nt-normal})，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與終點 (goal\alphabetnode{t-goal}) 相連，並改寫該一般房為魔王房 (boss\alphabetnode{t-boss})。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 替換為終端節點的一般房 (normal\alphabetnode{t-normal})。
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、配置魔王房與探索通道。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance\alphabetnode{t-entrance}) 與終點 (goal\alphabetnode{t-goal}) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal\alphabetnode{nt-normal})，而非終端節點的一般房會倚賴其它規則進行後續替換。配置魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與終點 (goal\alphabetnode{t-goal}) 相連，並改寫該一般房為魔王房 (boss\alphabetnode{t-boss})。探索通道規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 替換為終端節點的一般房 (normal\alphabetnode{t-normal})。
 
 \begin{table}[!htb]
   \centering
@@ -184,7 +184,7 @@
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-preview.png}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-rules-linear-preview.pdf}
     \caption{建立主線任務的預期任務圖與空間預覽}
     \label{fig:missiongrammars-rules-linear-preview}
   \end{center}
@@ -276,11 +276,11 @@
 \subsubsection{排除非法規則}
 \label{sssec:method-missiongrammars-rules-illegals}
 
-設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
+設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，見圖~\ref{fig:missiongrammars-illegal-rules}。例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-illegal-rules.pdf}
     \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
     \label{fig:missiongrammars-illegal-rules}
   \end{center}
@@ -646,7 +646,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
 
-圖~\ref{fig:segments-with-ga} 介紹地圖片段的演化流程。第一步驟，基於~\ref{ssec:method-segments-gene} 小節中定義的基因結構，產生初始父母代族群時，讓全部的基因先預設為空磚；第二步驟，透過適應性函數計算各個體的適應值 (fitnesses)，完整的適應性函數在~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
+圖~\ref{fig:segments-with-ga} 介紹地圖片段的演化流程。第一步驟，基於第~\ref{ssec:method-segments-gene} 小節中定義的基因結構，產生初始父母代族群時，讓全部的基因先預設為空磚；第二步驟，透過適應性函數計算各個體的適應值 (fitnesses)，完整的適應性函數在第~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -811,7 +811,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsection{制衡取向的適應性函數}
 \label{ssec:method-segments-balancefitness}
 
-於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，多數的函數有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應值呈現顯著正相關，隨著演化代數的提升至終導致房間容器充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
+於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，函數皆有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應值呈現顯著正相關，隨著演化代數的提升至終導致房間容器充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
 
 方程式~\ref{eq:fitnesses-density} 控制該房間容器出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數 $O$ 於數量範圍內可得 $1$ 分，反之得 $0$ 分，本適應性函數的權重固定為 $1$。
 
