@@ -318,7 +318,15 @@
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法），當中會應用到演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
+根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法），當中會應用到演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循圖~\ref{fig:rewrite-system-i-flow} 以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{任務語法之改寫系統流程（製作中）}
+    \label{fig:rewrite-system-i-flow}
+  \end{center}
+\end{figure}
 
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
@@ -333,14 +341,14 @@
         \Ensure
             \If {$matchedRule$ is found from $root$}
                 \State {$matchedRule$ = FindMatchs($root$)}            \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法}
-                \State {移除與 $matchedRule$ 相符子圖的連接線}
+                \State {移除與 $matchedRule$ 相符子圖節點間的連接線}
                 \State {將相符子圖的節點，依照對應索引值替換成 $matchedRule$ 的規則右側}
                 \State {將 $matchedRule$ 剩餘的節點填充至任務圖中}
                 \State {依照 $matchedRule$ 的連接情況，移轉到任務圖中}
                 \State {移除節點的索引值相關資訊}
             \EndIf
             \ForAll {$child\in children$ of $root$}:
-                \State {RewriteSystem1($child$, $rules$, $seed$)}
+                \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $1$}
             \EndFor \\
             \Return {$root$}
     \end{algorithmic}
@@ -368,7 +376,7 @@
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/final-mission-graph.png}
-    \caption{最終輸出的任務圖} 
+    \caption{最終輸出的任務圖（此圖將搭配演算法重新製作）}
     \label{fig:final-mission-graph}
   \end{center}
 \end{figure}
