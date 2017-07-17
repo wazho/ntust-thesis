@@ -415,7 +415,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{起點、終點、魔王房}
 \label{sssec:method-spacepieces-types-mainpath-i}
 
-圖~\ref{fig:roomtype-mainpath-i} 中，起點擁有一個入口與三個出口，為玩家重生的起始房間；終點擁有一個入口，為遊戲關卡結束的房間；魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
+圖~\ref{fig:roomtype-mainpath-i}為 a 起點擁有一個入口與三個出口，為玩家重生的起始房間；圖~\ref{fig:roomtype-mainpath-i} b 為終點擁有一個入口，為遊戲關卡結束的房間；圖~\ref{fig:roomtype-mainpath-i}為 c 為魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -442,7 +442,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-圖~\ref{fig:roomtype-special} 中，石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物。秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物。鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過。商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
+圖~\ref{fig:roomtype-special} a 為石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物；圖~\ref{fig:roomtype-special} b 為秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物；圖~\ref{fig:roomtype-special} c 為鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過；圖~\ref{fig:roomtype-special} d, e 為商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -480,7 +480,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
             \Statex $seed$ is the random seed.
         \Ensure
             \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}}
-                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}   \Comment{參照表~\ref{fig:mission-to-space-instruction}}
+                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}   \Comment{參照表~\ref{tbl:mission-to-space-instruction}}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
                     \Return {$false$}
@@ -501,15 +501,63 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{建造方式}
 \label{sssec:method-spacepieces-frommissiontospace-instruction}
 
-為從已生成完畢的任務圖進而衍生出遊戲空間，在創建的房間容器會對應一任務符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見圖~\ref{fig:mission-to-space-instruction}。每一個終端節點都必須對應一個以上的房間容器，房間容器不允許被重複使用在不同的終端節點上。
+為從已生成完畢的任務圖進而衍生出遊戲空間，在創建的房間容器會對應一任務符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見表~\ref{tbl:mission-to-space-instruction}。每一個終端節點都必須對應一個以上的房間容器，房間容器不允許被重複使用在不同的終端節點上。
 
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction.png}
-    \caption{建造方式表，任務終端節點與房間容器對應之範例} 
-    \label{fig:mission-to-space-instruction}
-  \end{center}
-\end{figure}
+\begin{table}[!htb]
+  \centering
+  \caption{建造方式表，任務終端節點與房間容器對應之範例}
+  \label{tbl:mission-to-space-instruction}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{1.0cm}
+    | >{\centering\arraybackslash} m{3.5cm}
+    | >{} m{1.0cm}
+    | >{\centering\arraybackslash} m{1.0cm}
+    | >{\centering\arraybackslash} m{3.5cm} | }
+    \cline{1-2}\cline{4-5}
+    \multicolumn{1}{ |c| }{節點}
+      & \multicolumn{1}{ c| }{對應之房間容器}
+      &
+      & \multicolumn{1}{ c| }{節點}
+      & \multicolumn{1}{ c| }{對應之房間容器} \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
+      &
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
+      \\\cline{1-2}\cline{4-5}
+  \end{tabular}
+\end{table}
 
 基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
