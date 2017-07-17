@@ -1,3 +1,35 @@
+% Quickly create the table.
+\newcommand{\gasettingstable}[4]{{
+\begin{table}[H]
+  \centering
+  \caption{#1}
+  \label{#2}
+  \bigskip
+  \vspace{-5mm}
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{tabular}[t]{| c | c | c |}
+      \hline
+      \multicolumn{1}{ |c| }{回合次數}
+        & \multicolumn{1}{ c| }{世代數量}
+        & \multicolumn{1}{ c| }{個體數量} \\\hline
+      #3
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{tabular}[t]{| c | c | c |}
+      \hline
+      \multicolumn{1}{ |c| }{指標}
+        & \multicolumn{1}{ c| }{權重}
+        & \multicolumn{1}{ c| }{備注} \\\hline
+      #4
+      \hline
+    \end{tabular}
+  \end{minipage}
+\end{table}
+}}
+
+
 \chapter{實驗結果與分析}
 \label{cha:experiment}
 
@@ -98,60 +130,259 @@
 \label{ssec:experiment-results-treasure}
 
 \subsubsection{實驗 A - 世代數量的影響}
-\label{sssec:experiment-results-treasure-i}
+\label{sssec:experiment-results-treasure-gen}
 
-\begin{table}[!htb]
-  \centering
-  \caption{實驗 A1 之基因演算法基本參數配置}
-  \label{tbl:settings-of-experiment-results-treasure-i}
-  \bigskip
-  \begin{tabular}{| c | c | c |}
-    \hline
-    \multicolumn{1}{ |c| }{回合次數} & \multicolumn{1}{ |c| }{世代數量} & \multicolumn{1}{ |c| }{個體數量} \\\hline
-    $1$ & $100$ & $200$ \\
-    \hline
-  \end{tabular}
-\end{table}
+A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\begin{table}[!htb]
-  \centering
-  \caption{實驗 A1 之基因演算法適應性函數權重配置}
-  \label{tbl:fitness-of-experiment-results-treasure-i}
-  \bigskip
-  \begin{tabular}{| c | c | c |}
-    \hline
-    \multicolumn{1}{ |c| }{指標} & \multicolumn{1}{ |c| }{權重} & \multicolumn{1}{ |c| }{備注} \\\hline
+\gasettingstable{實驗 A1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-gen-i}
+  { $1$ & $50$ & $100$ \\ }
+  {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
-    \hline
-  \end{tabular}
-\end{table}
+  }
 
-\subsubsection{實驗 B - PPPPP}
-\label{sssec:experiment-results-treasure-ii}
+A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\begin{table}[!htb]
-  \centering
-  \caption{實驗 B 之基因演算法基本參數配置}
-  \label{tbl:settings-of-experiment-results-treasure-ii}
-  \bigskip
-  \begin{tabular}{| c | c | c |}
-    \hline
-    \multicolumn{1}{ |c| }{回合次數} & \multicolumn{1}{ |c| }{世代數量} & \multicolumn{1}{ |c| }{個體數量} \\\hline
-    $1$ & $x$ & $y$ \\
-    \hline
-  \end{tabular}
-\end{table}
+\gasettingstable{實驗 A2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-gen-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 A3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-gen-iii}
+  { $1$ & $200$ & $100$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+\subsubsection{實驗 B - 個體數量的影響}
+\label{sssec:experiment-results-treasure-idv}
+
+A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 B1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-idv-i}
+  { $1$ & $100$ & $50$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+B 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 B2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-idv-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+B 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 B3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-treasure-idv-iii}
+  { $1$ & $100$ & $200$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+\subsubsection{小結}
+\label{sssec:experiment-results-treasure-summary}
+
+實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
+
+
+
+
 
 \subsection{戰鬥通道（狹路驅逐）}
 \label{ssec:experiment-results-narrow}
 
-編輯中。
+\subsubsection{實驗 C - 世代數量的影響}
+\label{sssec:experiment-results-narrow-gen}
+
+C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 C1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-gen-i}
+  { $1$ & $50$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 C2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-gen-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 C3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-gen-iii}
+  { $1$ & $200$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+\subsubsection{實驗 D - 個體數量的影響}
+\label{sssec:experiment-results-narrow-idv}
+
+D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 D1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-idv-i}
+  { $1$ & $100$ & $50$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 D2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-idv-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 D3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-narrow-idv-iii}
+  { $1$ & $100$ & $200$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+\subsubsection{小結}
+\label{sssec:experiment-results-narrow-summary}
+
+實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
+
+
+
+
 
 \subsection{戰鬥通道（鎮守要道）}
 \label{ssec:experiment-results-trunk}
 
-編輯中。
+\subsubsection{實驗 E - 世代數量的影響}
+\label{sssec:experiment-results-trunk-gen}
+
+E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 E1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-gen-i}
+  { $1$ & $50$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 E2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-gen-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 E3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-gen-iii}
+  { $1$ & $200$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+\subsubsection{實驗 F - 個體數量的影響}
+\label{sssec:experiment-results-trunk-idv}
+
+F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 F1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-idv-i}
+  { $1$ & $100$ & $50$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 F2 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-idv-ii}
+  { $1$ & $100$ & $100$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+
+\gasettingstable{實驗 F3 之基因演算法參數配置}
+  {tbl:settings-of-experiment-results-trunk-idv-iii}
+  { $1$ & $100$ & $200$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    支援點       & $0.75$ & \\
+    巡邏點       & $0.50$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+  }
+
+\subsubsection{小結}
+\label{sssec:experiment-results-trunk-summary}
+
+實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
+
+
+
+
 
 \section{標準化結果之比較}
 \label{sec:experiment-normalized}
@@ -161,15 +392,40 @@
 \subsection{單一指標型 - 寶藏房}
 \label{ssec:experiment-normalized-treasure}
 
-編輯中。
+\gasettingstable{實驗 X1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-normalized-treasure}
+  { $1$ & $100$ & $200$ \\ }
+  {
+    守衛點       & $1.00$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+
+
+
 
 \subsection{複合指標型 - 戰鬥通道（狹路驅逐）}
 \label{ssec:experiment-normalized-narrow}
 
-編輯中。
+\gasettingstable{實驗 Y1 之基因演算法參數配置}
+  {tbl:settings-of-experiment-normalized-narrow}
+  { $1$ & $100$ & $200$ \\ }
+  {
+    阻攔點       & $1.00$ & \\
+    攔截點       & $0.75$ & \\
+    陷阱點       & $0.75$ & \\
+    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+
+
+
+
 
 \section{房型規模之比較}
 \label{sec:experiment-density}
 
 房型的大小較有可能直接影響和可行走瓦磚之數量。本階段的實驗中，我們提取第~\ref{sec:experiment-datacollection} 節的資料，將空白、敵人兩種類型的數量關係繪製成熱圖進行觀察。這是因為各項適應性函數在設計時，多以「敵人」與其餘敵人、其它遊戲物件或玩家動線為考量參考，因而推估二者間勢必存在者某些關係。
+
+
+
+
 
