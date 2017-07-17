@@ -3,7 +3,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b, c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d, e, f。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b-c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d-f。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -136,6 +136,8 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
+\newcommand{\alphabetnode}[1]{{\includegraphics[height=5mm]{figures/mission-grammars-alphabet/#1.png}}}
+
 任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成。左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \begin{figure}[!htb]
@@ -149,7 +151,7 @@
 \subsubsection{線性任務規則}
 \label{sssec:method-missiongrammars-rules-linearrules}
 
-玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance) 與終點 (goal) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal)，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal) 與終點 (goal) 相連，並改寫該一般房為魔王房 (boss)。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal) 替換為終端節點的一般房 (normal)。
+玩家在進行遊戲時，會有一條的主要任務流程、劇情安排。表~\ref{tbl:missiongrammars-rules-linear-example} 設計了三道任務規則，分別為主線任務、魔王房與一般房。主線任務規則中，系統會從預設起始節點 (starting node) 開始進行改寫，並轉換為由終端節點起點 (entrance\alphabetnode{t-entrance}) 與終點 (goal\alphabetnode{t-goal}) 所構成的線性任務，其中兩節點之間由多個非終端節點的一般房 (Normal\alphabetnode{nt-normal})，而非終端節點的一般房會倚賴其它規則進行後續替換。魔王房規則中，規則左側中定義了必須為非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與終點 (goal\alphabetnode{t-goal}) 相連，並改寫該一般房為魔王房 (boss\alphabetnode{t-boss})。一般房規則中，會將任務圖中的剩餘非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 替換為終端節點的一般房 (normal\alphabetnode{t-normal})。
 
 \begin{table}[!htb]
   \centering
@@ -191,7 +193,7 @@
 \subsubsection{非線性任務規則}
 \label{sssec:method-missiongrammars-rules-nonlinearrules}
 
-為求遊戲內容的多樣性，非終端節點的一般房 (Normal) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal) 與任一節點 (? - Any) 相連的圖形語法，會被轉換為規則右側的非線性任務圖形語法，非線性的定義是當一個節點與複數個節點連接，構成分支結構，當中的秘密房 (secret) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb) 與其它區域阻隔，此外延伸出特殊房 (Special) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special) 能夠被改寫為鎖 (lock) 與商店 (shop) 或寶藏房 (treasure) 相連的遊玩特徵。
+為求遊戲內容的多樣性，非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 將有機會轉換為其它種類的遊玩特徵，表~\ref{tbl:missiongrammars-rules-nonlinear-example1} 定義了特殊房間的配置工作。配置特殊房規則中，非終端節點的一般房 (Normal\alphabetnode{nt-normal}) 與任一節點相連的圖形語法（任一節點是系統保留的節點，再圖形語法中能夠表示任何的節點），會被轉換為規則右側的非線性任務圖形語法，非線性的定義是當一個節點與複數個節點連接，構成分支結構，當中的秘密房 (secret\alphabetnode{t-secret}) 能夠獲取鑰匙，並有需要由炸彈才能夠突破的牆壁 (bomb\alphabetnode{t-bomb}) 與其它區域阻隔，此外延伸出特殊房 (Special\alphabetnode{nt-special}) 需另外定義規則使之轉換為終端節點。由於這項規則屬於較為稀少的任務類型，在套用數量上將有所限制。在商店規則與寶藏房規則中，規則左側中定義了非終端節點的特殊房 (Special\alphabetnode{nt-special}) 能夠被改寫為鎖 (lock\alphabetnode{t-lock}) 與商店 (shop\alphabetnode{t-shop}) 或寶藏房 (treasure\alphabetnode{t-treasure}) 相連的遊玩特徵。
 
 \begin{table}[!htb]
   \centering
@@ -220,7 +222,7 @@
   \end{tabular}
 \end{table}
 
-表~\ref{tbl:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal) 便能再經過其它的規則，取代成不同的遊玩特徵。
+表~\ref{tbl:missiongrammars-rules-nonlinear-example2}，建立支線任務規則能讓指定的節點額外分支出支線任務，替換後的非終端節點一般房 (Normal\alphabetnode{nt-normal}) 便能再經過其它的規則，取代成不同的遊玩特徵。
 
 \begin{table}[!htb]
   \centering
@@ -241,7 +243,7 @@
   \end{tabular}
 \end{table}
 
-表~\ref{tbl:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock)，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
+表~\ref{tbl:missiongrammars-rules-nonlinear-example3}，為使玩家進行遊戲能夠提前遇見鎖 (lock\alphabetnode{t-lock})，當下卻找不到鑰匙的遊玩特徵，進而思考、尋找開鎖的方式，便利用鎖向前規則將鎖的分支一同往前挪動。房間攤平規則，為避免單一房間與過多的房間連通，將部分房間進行移前推挪。
 
 \begin{table}[!htb]
   \centering
@@ -374,22 +376,15 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{基礎結構}
 \label{ssec:method-spacepieces-basic}
 
-我們對於空間語法做了修改以利實驗環境建置。圖~\ref{fig:spacepieces-structure} 所示，在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間容器由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
+我們對於空間語法做了修改以利實驗環境建置。在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間容器由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
+
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。圖~\ref{fig:decorations-with-directions} a-c 可見，不同的裝飾物會依照其特性決定能夠放置的方位，如地面則放置於中心點；牆壁、階梯或門放置於正四方；牆壁柱放置於斜四方。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} d-g 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的體素建置工作。
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/spacepieces-structure.png}
-    \caption{房間容器的建構情形，可觀察其由體素單位所構築而成}
-    \label{fig:spacepieces-structure}
-  \end{center}
-\end{figure}
-
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。不同的裝飾物會依照其特性決定能夠放置的方位，如牆壁放置於正四方；牆壁柱放置於斜四方；地面或階梯則放置於中心點。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的體素建置工作。
-
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.png}
-    \caption{房間容器時所使用的五種裝飾物}
+    \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions.pdf}
+    \includegraphics[width=1.0\textwidth]{figures/decorations-with-directions-.pdf}
+    \caption{房間容器的體素建置方式，與五種裝飾物}
     \label{fig:decorations-with-directions}
   \end{center}
 \end{figure}
@@ -442,7 +437,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{石牆、秘密房、鎖、商店、寶藏房}
 \label{sssec:method-spacepieces-types-special}
 
-圖~\ref{fig:roomtype-special} a 為石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物；圖~\ref{fig:roomtype-special} b 為秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物；圖~\ref{fig:roomtype-special} c 為鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過；圖~\ref{fig:roomtype-special} d, e 為商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
+圖~\ref{fig:roomtype-special} a 為石牆擁有一個入口及一個出口，而出口的相同位置有石牆識別物；圖~\ref{fig:roomtype-special} b 為秘密房擁有一個入口，玩家能在該空間取得鑰匙識別物；圖~\ref{fig:roomtype-special} c 為鎖空間擁有一個入口及一個出口，在出口的相同位置有鎖識別物，玩家必須取得鑰匙方可通過；圖~\ref{fig:roomtype-special} d-e 為商店與寶藏房各擁有一個入口，玩家能夠在該房間觸發特殊事件。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -698,7 +693,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。
 
-於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a, b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
+於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a-b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
 
 \begin{figure}[!htb]
   \begin{center}
