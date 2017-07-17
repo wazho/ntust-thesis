@@ -22,7 +22,7 @@
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/Dungeon_Generator_工具.png}
+    \includegraphics[width=1.0\textwidth]{figures/dungeon_generator.pdf}
     \caption{Dungeon Generator 工具} 
     \label{fig:dungeon-generator}
   \end{center}
@@ -143,7 +143,7 @@
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{任務規則範例}
+    \caption{任務規則範例（製作中，在這裡會介紹 mission grammar）}
     \label{fig:missiongrammars-tutorial}
   \end{center}
 \end{figure}
@@ -373,10 +373,13 @@
     \end{algorithmic}
 \end{algorithm}
 
+（此小段為新增，編輯中）
+圖~\ref{fig:final-mission-graph}。
+
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/final-mission-graph.png}
-    \caption{最終輸出的任務圖（此圖將搭配演算法重新製作）}
+    \caption{最終輸出的任務圖與其生成過程（此圖將搭配演算法重新製作）}
     \label{fig:final-mission-graph}
   \end{center}
 \end{figure}
@@ -498,14 +501,14 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
             \Statex $graph$ is $MissionGraph$.
             \Statex $seed$ is the random seed.
         \Ensure
-            \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}}
+            \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction} 小節}
                 \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}   \Comment{參照表~\ref{tbl:mission-to-space-instruction}}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
                     \Return {$false$}
                 \EndIf
             \EndFor
-            \ForAll {$marker\in ConnectionsInGraph$}:                               \Comment{Replacement，第~\ref{sssec:method-spacepieces-frommissiontospace-replacement}}
+            \ForAll {$marker\in ConnectionsInGraph$}:                               \Comment{Replacement，第~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 小節}
                 \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)} \Comment{參照表~\ref{tbl:mission-to-space-replace}}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
@@ -579,6 +582,18 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
     \\\cline{1-2}\cline{4-5}
 \end{longtable}
+
+（此小段為新增，編輯中）
+圖~\ref{fig:mission-to-space-instruction-flow}。
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result.pdf}
+    \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction-result-.pdf}
+    \caption{建造方式的疊代生成過程（補充圖片，製作中）} 
+    \label{fig:mission-to-space-instruction-flow}
+  \end{center}
+\end{figure}
 
 基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
