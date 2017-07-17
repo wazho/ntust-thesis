@@ -503,61 +503,121 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 為從已生成完畢的任務圖進而衍生出遊戲空間，在創建的房間容器會對應一任務符號表當中的終端符 (terminal symbols)，稱作為建造方式 (building instruction)。本小節會利用第~\ref{ssec:method-missiongrammars-alphabet} 小節的任務符號表，過濾出終端節點並逐一對應至第~\ref{ssec:method-spacepieces-types} 小節的房間容器，見表~\ref{tbl:mission-to-space-instruction}。每一個終端節點都必須對應一個以上的房間容器，房間容器不允許被重複使用在不同的終端節點上。
 
-\begin{table}[!htb]
-  \centering
-  \caption{建造方式表，任務終端節點與房間容器對應之範例}
-  \label{tbl:mission-to-space-instruction}
-  \bigskip
-  \begin{tabular}{
+\setlength\LTcapwidth{\linewidth}
+\begin{longtable}{
     | >{\centering\arraybackslash} m{1.0cm}
     | >{\centering\arraybackslash} m{3.5cm}
     | >{} m{1.0cm}
     | >{\centering\arraybackslash} m{1.0cm}
     | >{\centering\arraybackslash} m{3.5cm} | }
-    \cline{1-2}\cline{4-5}
-    \multicolumn{1}{ |c| }{節點}
-      & \multicolumn{1}{ c| }{對應之房間容器}
-      &
-      & \multicolumn{1}{ c| }{節點}
-      & \multicolumn{1}{ c| }{對應之房間容器} \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-    \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
-      &
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
-      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
-      \\\cline{1-2}\cline{4-5}
-  \end{tabular}
-\end{table}
+  \caption{建造方式表，任務終端節點與房間容器對應之範例}\label{tbl:mission-to-space-instruction} \\
+  \cline{1-2}\cline{4-5}
+  節點 & 對應之房間容器 &  & 節點 & 對應之房間容器 \\
+  \cline{1-2}\cline{4-5}
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {\tablename\ \thetable\ -- \textit{接續前頁面}} \\
+  \cline{1-2}\cline{4-5}
+  節點 & 對應之房間容器 &  & 節點 & 對應之房間容器 \\
+  \cline{1-2}\cline{4-5}
+  \endhead
+  \multicolumn{5}{r}{\textit{接續下頁面}} \\
+  \endfoot
+  \endlastfoot
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
+    &
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
+    & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
+    \\\cline{1-2}\cline{4-5}
+\end{longtable}
+
+
+% \begin{table}[!htb]
+%   \centering
+%   \caption{建造方式表，任務終端節點與房間容器對應之範例}
+%   \label{tbl:mission-to-space-instruction}
+%   \bigskip
+%   \begin{tabular}{
+%     | >{\centering\arraybackslash} m{1.0cm}
+%     | >{\centering\arraybackslash} m{3.5cm}
+%     | >{} m{1.0cm}
+%     | >{\centering\arraybackslash} m{1.0cm}
+%     | >{\centering\arraybackslash} m{3.5cm} | }
+%     \cline{1-2}\cline{4-5}
+%     \multicolumn{1}{ |c| }{節點}
+%       & \multicolumn{1}{ c| }{對應之房間容器}
+%       &
+%       & \multicolumn{1}{ c| }{節點}
+%       & \multicolumn{1}{ c| }{對應之房間容器} \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
+%       &
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
+%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
+%       \\\cline{1-2}\cline{4-5}
+%   \end{tabular}
+% \end{table}
 
 基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
