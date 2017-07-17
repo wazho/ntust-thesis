@@ -286,30 +286,39 @@
   \end{center}
 \end{figure}
 
-\begin{table}[!htb]
-  \centering
-  \caption{非法的任務規則定義}
-  \label{tbl:illegal-mission-rules}
-  \bigskip
-  \begin{tabular}{| p{4cm} | p{10cm} |}
-    \hline
-    \multicolumn{1}{ |c| }{非法規則之標籤} & \multicolumn{1}{ |c| }{標籤的狀況描述} \\\hline
-    LeftMoreThanRight  & 當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。 \\\hline
-    EmptyLeft          & 左側為空將無法進行子圖搜索，因此左側節點必須至少一個節點。 \\\hline
-    IsolatedNode       & 孤立的節點將會導致任務圖破碎。 \\\hline
-    IsolatedConnection & 孤立的連接線無法正確表示其連接資訊，將無法正常進行改寫系統。 \\\hline
-    ExactlyDuplicated  & 若左右規則同構將導致改寫系統陷入無限循環。 \\\hline
-    MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
-    CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
-    OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
-    OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\\hline
-  \end{tabular}
-\end{table}
+\setlength\LTcapwidth{\linewidth}
+\begin{longtable}{
+    | >{\centering\arraybackslash} p{4cm}
+    | >{} p{10cm} | }
+  \caption{非法的任務規則定義}\label{tbl:illegal-mission-rules} \\
+  \hline
+  非法規則之標籤 & \multicolumn{1}{ c| }{標籤的狀況描述} \\
+  \hline
+  \endfirsthead
+  \multicolumn{2}{c}%
+  {\tablename\ \thetable\ -- \textit{接續前頁面}} \\
+  \hline
+  非法規則之標籤 & \multicolumn{1}{ c| }{標籤的狀況描述} \\
+  \hline
+  \endhead
+  \multicolumn{2}{r}{\textit{接續下頁面}} \\
+  \endfoot
+  \endlastfoot
+  LeftMoreThanRight  & 當左側的節點超過右側的節點數量時，進行改寫系統會使左側無法對應到右側的節點產生遺失的情形。若這些節點原先已有與其它非規則內節點連接，將會導致該連接資訊遺失，有機會造成任務圖破碎。 \\\hline
+  EmptyLeft          & 左側為空將無法進行子圖搜索，因此左側節點必須至少一個節點。 \\\hline
+  IsolatedNode       & 孤立的節點將會導致任務圖破碎。 \\\hline
+  IsolatedConnection & 孤立的連接線無法正確表示其連接資訊，將無法正常進行改寫系統。 \\\hline
+  ExactlyDuplicated  & 若左右規則同構將導致改寫系統陷入無限循環。 \\\hline
+  MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
+  CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
+  OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
+  OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\\hline
+\end{longtable}
 
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
+根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法），當中會應用到演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
 
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
@@ -323,31 +332,38 @@
             \Statex $seed$ is the random seed.
         \Ensure
             \If {$matchedRule$ is found from $root$}
-                \State {matchedRule = FindMatchs(root)}
-                \State {移除與 matchedRule 相符子圖的連接線}
-                \State {將相符子圖的節點，依照對應索引值替換成 matchedRule 的規則右側}
-                \State {將 matchedRule 剩餘的節點填充至任務圖中}
-                \State {依照 matchedRule 的連接情況，移轉到任務圖中}
+                \State {$matchedRule$ = FindMatchs($root$)}            \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法}
+                \State {移除與 $matchedRule$ 相符子圖的連接線}
+                \State {將相符子圖的節點，依照對應索引值替換成 $matchedRule$ 的規則右側}
+                \State {將 $matchedRule$ 剩餘的節點填充至任務圖中}
+                \State {依照 $matchedRule$ 的連接情況，移轉到任務圖中}
                 \State {移除節點的索引值相關資訊}
             \EndIf
-            \ForAll {$child$ such that $child\in children$ of $root$}:
+            \ForAll {$child\in children$ of $root$}:
                 \State {RewriteSystem1($child$, $rules$, $seed$)}
             \EndFor \\
             \Return {$root$}
-        \Statex
     \end{algorithmic}
 \end{algorithm}
 
-
-(備註，此處會補上 FindMatchs 在我方實驗環境中如何實現，目前還在構思要如何撰寫。)
-
-% \begin{algorithm}
-%     \caption{利用 VF Graph 進行子圖同構的搜尋}
-%     \label{alg:algorithm-missiongrammars-rewritesystem-findmatchs}
-%     \begin{algorithmic}
-%         \RETURN 編輯中
-%     \end{algorithmic}
-% \end{algorithm}
+\begin{algorithm}[!htb]
+    \caption{Part of RewriteSystem1 - 搜尋匹配規則}
+    \label{alg:algorithm-matchedrule}
+    \begin{algorithmic}[1]
+        \Require
+            \Statex $root$ is current $pointer$ in the mission graph.
+        \Ensure
+            \State {$matchedRules$ is an empty array of $rule$}
+            \State {$graph$ = TransformToGraph($root$)}               \Comment{以該節點作為新圖之根}
+            \ForAll {$rule\in$ GetAllRules()}:                        \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
+                \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該左側規則同構}
+                    \State {$matchedRules$ add $rule$}                \Comment{將該規則加入候選名單}
+                \EndIf
+            \EndFor
+            \State {$selectedRule$ = RouletteWheel($matchedRules$)}   \Comment{採輪盤法，return $rule$ or $null$}
+            \State {\Return {$selectedRule$}}
+    \end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[!htb]
   \begin{center}
@@ -489,7 +505,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
                 \EndIf
             \EndFor \\
             \Return {$true$}                                                        \Comment{Successfully generated a game space}
-        \Statex
     \end{algorithmic}
 \end{algorithm}
 
@@ -556,63 +571,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
     \\\cline{1-2}\cline{4-5}
 \end{longtable}
-
-
-% \begin{table}[!htb]
-%   \centering
-%   \caption{建造方式表，任務終端節點與房間容器對應之範例}
-%   \label{tbl:mission-to-space-instruction}
-%   \bigskip
-%   \begin{tabular}{
-%     | >{\centering\arraybackslash} m{1.0cm}
-%     | >{\centering\arraybackslash} m{3.5cm}
-%     | >{} m{1.0cm}
-%     | >{\centering\arraybackslash} m{1.0cm}
-%     | >{\centering\arraybackslash} m{3.5cm} | }
-%     \cline{1-2}\cline{4-5}
-%     \multicolumn{1}{ |c| }{節點}
-%       & \multicolumn{1}{ c| }{對應之房間容器}
-%       &
-%       & \multicolumn{1}{ c| }{節點}
-%       & \multicolumn{1}{ c| }{對應之房間容器} \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-01.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-02.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-03.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-04.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-05.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-06.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-07.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-08.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-09.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-10.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%     \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-11.png}\end{minipage}
-%       &
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
-%       & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/instruction-12.png}\end{minipage}
-%       \\\cline{1-2}\cline{4-5}
-%   \end{tabular}
-% \end{table}
 
 基於建造方法的對應紀錄，給予一亂數種子能夠確保能夠對應到一固定空間。當終端節點對應到複數房間容器時，亂數種子將影響從多個房間容器之間的順序。若生成過程中，該房間容器擁有多個出口，亦是參照亂數種子決定調用出口生成之順序，見圖~\ref{fig:mission-to-space-instruction-result}。
 
