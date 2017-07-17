@@ -468,7 +468,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過建造方式表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置。
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過空間替換表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置，相關演示可參考第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}、~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 二小節，將會逐一介紹演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 的實際應用流程。
 
 \begin{algorithm}[!htb]
     \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
@@ -478,15 +478,15 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
             \Statex $graph$ is $MissionGraph$.
             \Statex $seed$ is the random seed.
         \Ensure
-            \ForAll {$node\in graph$}:                             \Comment{Instrcution}
-                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}
+            \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}}
+                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}   \Comment{參照表~\ref{fig:mission-to-space-instruction}}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
                     \Return {$false$}
                 \EndIf
             \EndFor
-            \ForAll {$marker\in ConnectionsInGraph$}:            \Comment{Replacement}
-                \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)}
+            \ForAll {$marker\in ConnectionsInGraph$}:                               \Comment{Replacement，第~\ref{sssec:method-spacepieces-frommissiontospace-replacement}}
+                \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)} \Comment{參照表~\ref{tbl:mission-to-space-replace}}
                 \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
                 \If {$isSucceed$ is $false$}
                     \Return {$false$}
@@ -505,7 +505,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/mission-to-space-instruction.png}
-    \caption{建造方式，任務終端節點與房間容器對應之範例} 
+    \caption{建造方式表，任務終端節點與房間容器對應之範例} 
     \label{fig:mission-to-space-instruction}
   \end{center}
 \end{figure}
@@ -524,7 +524,26 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{剩餘空間替換}
 \label{sssec:method-spacepieces-frommissiontospace-replacement}
 
-在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 以達目的。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物時，曾提及到遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，我們採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路，若增加對應的選項進而創造出主線外的分支結構，見圖~\ref{fig:mission-to-space-replacement-result}。
+一個端點識別物能夠對應複數個房間容器，房間容器能夠重複被不同的端點識別物所對應。第~\ref{ssec:method-spacepieces-connections} 小節，介紹端點識別物時，曾提及到遊戲設計師能夠自由擴充出口識別物的種類。在此為簡化範例，表~\ref{fig:mission-to-space-instruction-result} 採用預設之單一出口識別物，而這項出口識別物將對應圖~\ref{fig:roomtype-wall} 的死路房間容器，左側為端點識別物之種類，右側為所對應的房間容器。
+
+\begin{table}[!htb]
+  \centering
+  \caption{空間替換表，出口端點與房間容器對應之範例}
+  \label{tbl:mission-to-space-replace}
+  \bigskip
+  \begin{tabular}{
+    | >{\centering\arraybackslash} m{1.5cm}
+    | >{\centering\arraybackslash} m{3.5cm} | }
+    \hline
+    \multicolumn{1}{ |c| }{端點}
+      & \multicolumn{1}{ c| }{對應之房間容器} \\\hline
+    \begin{minipage}{.3\textwidth}\includegraphics[width=15mm]{figures/mission-grammars-ins-rep/replacement-l-01.png}\end{minipage}
+      & \begin{minipage}{.3\textwidth}\includegraphics[width=35mm]{figures/mission-grammars-ins-rep/replacement-r-01.png}\end{minipage}
+      \\\hline
+  \end{tabular}
+\end{table}
+
+在圖~\ref{fig:mission-to-space-instruction-result} 可觀察到，經過建造方式的遊戲空間仍會遺留部分的端點識別物，為了將其延伸或予以封閉，本小節將進行替換 (replacement) 使遊戲空間趨於完整，見圖~\ref{fig:mission-to-space-replacement-result}。若增加空間替換表其對應的選項，便能創造出主線外的分支結構。
 
 \begin{figure}[!htb]
   \begin{center}
