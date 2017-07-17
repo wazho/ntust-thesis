@@ -723,8 +723,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{攔截點 (Intercept)}
 \label{sssec:method-segments-fitnesses-intercept}
 
-(編修中)
-
 方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻攔點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
 
 \begin{equation}
@@ -743,8 +741,6 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \subsubsection{巡邏點 (Patrol)}
 \label{sssec:method-segments-fitnesses-patrol}
-
-(編修中)
 
 確保各敵人擁有足夠的空間能夠進行移動。將計算敵人 ($E_{i}$) 與指定半徑 ($r$) 內的座標數量 ($P_j$) 總值，當中並不包含不可通行的牆壁等類型。於本次實驗中，我們將採用 $R=3$ 作為實驗範例，該數值可由遊戲設計師決定。
 
@@ -771,21 +767,26 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{支援點 (Support)}
 \label{sssec:method-segments-fitnesses-support}
 
-(編修中)
-
 敵人 ($E_{i}$, $E_{j}$) 之間擁有一定程度的護援關係，當敵人彼此的距離愈低其影響程度越大，同時該敵人 ($E_{i}$) 必須遠離動線 ($MP_{k}$)。
 
 \begin{equation}
 f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
 \end{equation}
 
-\subsubsection{陷阱點 (Trapped)}
-\label{sssec:method-segments-fitnesses-trapped}
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{支援點指標的遊戲體現情形}
+    \label{fig:fitnesses-support-gameplay}
+  \end{center}
+\end{figure}
 
+% \subsubsection{陷阱點 (Trapped)}
+% \label{sssec:method-segments-fitnesses-trapped}
 
-\begin{equation}
-    f_{trp} = 
-\end{equation}
+% \begin{equation}
+%     f_{trp} = 
+% \end{equation}
 
 % \subsubsection{死角點 (Neglected)}
 % \label{sssec:method-segments-fitnesses-neglected}
@@ -822,10 +823,10 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
               \end{cases}
 \end{equation}
 
-\subsection{負數權重的適應性函數}
-\label{ssec:method-segments-minusscores}
+% \subsection{負數權重的適應性函數}
+% \label{ssec:method-segments-minusscores}
 
-在~\ref{sssec:method-segments-fitnesses-guard} 守衛點指標的設計中，當權重為正數時能夠體現出「需要被保護的物件，其周圍分配敵方單位進行守衛」的遊玩特徵，且在多個物件的情形下儘可能平均分配敵方單位；反之，負數權重便會體現出「數量愈不平均的守衛情形」。緣故為設計守衛點指標時，並無針對寶箱的數量進行控管而導致。
+% 在~\ref{sssec:method-segments-fitnesses-guard} 守衛點指標的設計中，當權重為正數時能夠體現出「需要被保護的物件，其周圍分配敵方單位進行守衛」的遊玩特徵，且在多個物件的情形下儘可能平均分配敵方單位；反之，負數權重便會體現出「數量愈不平均的守衛情形」。緣故為設計守衛點指標時，並無針對寶箱的數量進行控管而導致。
 
 \subsection{多項適應性函數合併}
 \label{ssec:method-segments-multiobjectives}
