@@ -585,7 +585,9 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     \\\cline{1-2}\cline{4-5}
 \end{longtable}
 
-圖~\ref{fig:mission-to-space-instruction-flow} a 使用第~\ref{ssec:method-missiongrammars-rules} 小節的任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）來生成任務圖。本階段我們依照演算法~\ref{alg:algorithm-mission-to-space-rewritesystem}，並結合~\ref{tbl:mission-to-space-instruction} 建造方式表，將任務圖轉換為遊戲空間。圖~\ref{fig:mission-to-space-instruction-flow} b 中，
+圖~\ref{fig:mission-to-space-instruction-flow} a 為使用第~\ref{ssec:method-missiongrammars-rules} 小節的任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所生成的任務圖，該階段採用的亂數種子為 $0$。本階段中，依照演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} - 改寫系統（任務轉換空間），並且結合表~\ref{tbl:mission-to-space-instruction} 的建造方式表，將任務圖轉換為遊戲空間。圖~\ref{fig:mission-to-space-instruction-flow} b 可見，第一個節點起點 (entrance\missionalphabetnode{t-entrance}{5mm}) 直接對應到「起點房間容器」，而起點房間容器中擁有三個出口端點，系統將會亂數隨機一個出口端點進行後續房間生成，根據深度優先搜尋法下一個遍歷的節點為第二行的一般房 (normal\missionalphabetnode{t-normal}{5mm})，接著從建造方式表中過濾出能夠使用的四種「通道房間容器」，由系統亂數決定本次採用的房間容器後，將預計新增的房間容器之起點與前一步驟決定的出口端點進行房間容器連接，下一回合將從新增的房間容器重複前述之步驟。依照上述之步驟，改寫系統（任務轉換空間）完整遍歷所有的任務節點後，便能夠完成任務轉換空間的動作，結果可參考圖~\ref{fig:mission-to-space-instruction-result}。
+
+進行疊代的過程時，以下幾種情形，疊代生成將會失敗：當任務圖節點的子節點數量大於對應房間容器的出口數量；當新生長的房間容器於其它房間容器發生碰撞。因此，若有以上違例情況，關卡設計師必須修正其關卡設計，如調整房間容器之格局或更換一筆亂數種子，並重新執行前述步驟。
 
 \begin{figure}[!htb]
   \begin{center}
