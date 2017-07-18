@@ -88,38 +88,38 @@
   \endlastfoot
   S (Start)
     & 起始節點
-    & \missionalphabetnode{nt-start}{8mm}
+    & \missionalphabetnode{nt-start}{10mm}
     & 任務圖進入改寫階段時，系統預設的根節點。
     & 起始節點 \\\hline
   en (entrance)
     & 起點
-    & \missionalphabetnode{t-entrance}{8mm}
+    & \missionalphabetnode{t-entrance}{10mm}
     & 玩家於遊戲關卡開始時的起始位置。
     & \multirow{8.5}{*}{ 主線任務 } \\\cline{1-4}
     % 8.5 is special to centering.
   go (goal)
     & 終點
-    & \missionalphabetnode{t-goal}{8mm}
+    & \missionalphabetnode{t-goal}{10mm}
     & 玩家抵達此位置時遊戲將結束。
     &  \\\cline{1-4}
   boss (boss)
     & 魔王房
-    & \missionalphabetnode{t-boss}{8mm}
+    & \missionalphabetnode{t-boss}{10mm}
     & 房間中存在著較強大的怪物。
     &  \\\cline{1-4}
   NM (Normal)
     & 一般房
-    & \missionalphabetnode{nt-normal}{8mm}
+    & \missionalphabetnode{nt-normal}{10mm}
     & 一般房間，藉由其它規則替換成其它房間或事件。
     &  \\\cline{1-4}
   nm (normal)
     & 一般房
-    & \missionalphabetnode{t-normal}{8mm}
+    & \missionalphabetnode{t-normal}{10mm}
     & 遊戲過程中經過的通道，經常出現在遊戲關卡中。
     &  \\\hline
   bomb (bomb)
     & 使用炸彈
-    & \missionalphabetnode{t-bomb}{8mm}
+    & \missionalphabetnode{t-bomb}{10mm}
     & 必須使用炸彈將石牆給破壞，破壞石牆後便可通過。
     & \multirow{10}{*}{ 特殊事件 } \\\cline{1-4}
     % 10 is special to centering.
@@ -166,12 +166,12 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-任務規則分為左側規則及右側規則，二者皆為圖形語法 (Graph Grammars) 所構成。左側規則為被取代方、右側規則為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+圖~\ref{fig:missiongrammars-tutorial}，任務規則分為規則左側及規則右側，二者皆為圖形語法 (Graph Grammars) 所構成，圖形與則由終端節點、非終端節點與連接線 (connection) 所構成的有向圖。規則左側為被取代方、規則右側為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側，可參照第~\ref{ssec:method-missiongrammars-graph} 小節之說明。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{[TODO] 任務規則範例（製作中，在這裡會介紹 mission grammar）}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-tutorial.pdf}
+    \caption{任務規則範例}
     \label{fig:missiongrammars-tutorial}
   \end{center}
 \end{figure}
@@ -340,7 +340,7 @@
   MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
   CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
   OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
-  OverflowedAnyNode  & 當右側規則使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，左側規則使用 Any 節點將不在此限。 \\\hline
+  OverflowedAnyNode  & 當規則右側使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，規則左側使用 Any 節點將不在此限。 \\\hline
 \end{longtable}
 
 \subsection{產生任務圖}
@@ -350,8 +350,9 @@
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{[TODO] 任務語法之改寫系統流程（製作中）}
+    \includegraphics[width=1.0\textwidth]{figures/rewrite-system-i-flow.pdf}
+    \includegraphics[width=1.0\textwidth]{figures/rewrite-system-i-flow-.pdf}
+    \caption{任務語法之改寫系統流程}
     \label{fig:rewrite-system-i-flow}
   \end{center}
 \end{figure}
@@ -392,7 +393,7 @@
             \State {$matchedRules$ is an empty array of $rule$}
             \State {$graph$ = TransformToGraph($root$)}               \Comment{以該節點作為新圖之根}
             \ForAll {$rule\in$ GetAllRules()}:                        \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
-                \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該左側規則同構}
+                \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該規則左側同構}
                     \State {$matchedRules$ add $rule$}                \Comment{將該規則加入候選名單}
                 \EndIf
             \EndFor
