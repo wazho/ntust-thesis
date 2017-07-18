@@ -35,94 +35,120 @@
 \subsection{建立任務符號表}
 \label{ssec:method-missiongrammars-alphabet}
 
-在本小節，會以 \textit{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。
-
-\subsubsection{解析遊玩特徵}
-\label{sssec:method-missiongrammars-alphabet-extractpatterns}
-
-在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 將列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance)、終點 (goal)、魔王房 (boss)、一般房 (normal)」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret)、商店 (shop)、寶藏房 (treasure)」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb)，以及從秘密房取得的鑰匙能夠進行解鎖 (lock)，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start)、一般房 (Normal) 與特殊房 (Special) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在本小節，會以 \textit{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。表~\ref{tbl:mission-grammars-alphabet-default} 為系統預設任務符號表。
 
 \begin{table}[!htb]
   \centering
-  \caption{利用遊玩特徵建立任務符號表之範例}
-  \label{tbl:mission-grammars-alphabet}
+  \caption{系統預設的任務符號}
+  \label{tbl:mission-grammars-alphabet-default}
   \bigskip
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.8cm}
     | >{\centering\arraybackslash} m{2.0cm}
     | >{\centering\arraybackslash} m{1.0cm}
-    | >{\arraybackslash} m{4.7cm}
-    | >{\centering\arraybackslash} m{2.0cm} | }
+    | >{\arraybackslash} m{6.7cm} | }
     \hline
     \multicolumn{1}{ |c| }{代號}
       & \multicolumn{1}{ c| }{名稱}
       & \multicolumn{1}{ c| }{符號}
-      & \multicolumn{1}{ c| }{說明}
-      & \multicolumn{1}{ c| }{類型} \\\hline
-    S (Start)
-      & 起始節點
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-start.png}\end{minipage}
-      & 任務圖進入改寫階段時，系統預設的根節點。
-      & 起始節點 \\\hline
-    en (entrance)
-      & 起點
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-entrance.png}\end{minipage}
-      & 玩家於遊戲關卡開始時的起始位置。
-      & \multirow{8.5}{*}{ 主線任務 } \\\cline{1-4}
-      % 8.5 is special to centering.
-    go (goal)
-      & 終點
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-goal.png}\end{minipage}
-      & 玩家抵達此位置時遊戲將結束。
-      &  \\\cline{1-4}
-    boss (boss)
-      & 魔王房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-boss.png}\end{minipage}
-      & 房間中存在著較強大的怪物。
-      &  \\\cline{1-4}
-    NM (Normal)
-      & 一般房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-normal.png}\end{minipage}
-      & 一般房間，藉由其它規則替換成其它房間或事件。
-      &  \\\cline{1-4}
-    nm (normal)
-      & 一般房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-normal.png}\end{minipage}
-      & 遊戲過程中經過的通道，經常出現在遊戲關卡中。
-      &  \\\hline
-    bomb (bomb)
-      & 使用炸彈
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-bomb.png}\end{minipage}
-      & 必須使用炸彈將石牆給破壞，破壞石牆後便可通過。
-      & \multirow{10}{*}{ 特殊事件 } \\\cline{1-4}
-      % 10 is special to centering.
-    srt (secret)
-      & 秘密房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-secret.png}\end{minipage}
-      & 能夠取得稀有道具鑰匙的房間。
-      &  \\\cline{1-4}
-    SP (Special)
-      & 特殊房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/nt-special.png}\end{minipage}
-      & 特殊房間，藉由其它規則替換成不同的稀有房間。
-      &  \\\cline{1-4}
-    lock (lock)
-      & 鎖
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-lock.png}\end{minipage}
-      & 必須使用鑰匙才能夠通過該空間。
-      &  \\\cline{1-4}
-    shop (shop)
-      & 商店
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-shop.png}\end{minipage}
-      & 能夠觸發特殊事件，玩家能夠在此購買道具。
-      &  \\\cline{1-4}
-    ts (treasure)
-      & 寶藏房
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/t-treasure.png}\end{minipage}
-      & 藏有稀有道具的房間，當中會有守衛寶箱的敵人。
-      &  \\\hline
+      & \multicolumn{1}{ c| }{說明} \\\hline
+    ? (any)
+      & 任一節點
+      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/sys-any.png}\end{minipage}
+      & 此結點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中，任一節點能夠被判別為任何節點，促使其同構。
+      \\\hline
   \end{tabular}
 \end{table}
+
+\subsubsection{解析遊玩特徵}
+\label{sssec:method-missiongrammars-alphabet-extractpatterns}
+
+在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 將列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance\missionalphabetnode{t-entrance}{5mm})、終點 (goal\missionalphabetnode{t-goal}{5mm})、魔王房 (boss\missionalphabetnode{t-boss}{5mm})、一般房 (normal\missionalphabetnode{t-normal}{5mm})」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret\missionalphabetnode{t-secret}{5mm})、商店 (shop\missionalphabetnode{t-shop}{5mm})、寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm})」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb\missionalphabetnode{t-bomb}{5mm})，以及從秘密房取得的鑰匙能夠進行解鎖 (lock\missionalphabetnode{t-lock}{5mm})，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start\missionalphabetnode{nt-start}{5mm})、一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+
+\setlength\LTcapwidth{\linewidth}
+\begin{longtable}{
+    | >{\centering\arraybackslash} m{2.8cm}
+    | >{\centering\arraybackslash} m{2.0cm}
+    | >{\centering\arraybackslash} m{1.0cm}
+    | >{\arraybackslash} m{4.7cm}
+    | >{\centering\arraybackslash} m{2.0cm} | }
+  \caption{利用遊玩特徵建立任務符號表之範例}\label{tbl:mission-grammars-alphabet} \\
+  \hline
+  代號 & 名稱 & 符號 & \multicolumn{1}{ c| }{說明} & 類型 \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {\tablename\ \thetable\ -- \textit{接續前頁面}} \\
+  \hline
+  代號 & 名稱 & 符號 & \multicolumn{1}{ c| }{說明} & 類型 \\
+  \hline
+  \endhead
+  \multicolumn{5}{r}{\textit{接續下頁面}} \\
+  \endfoot
+  \endlastfoot
+  S (Start)
+    & 起始節點
+    & \missionalphabetnode{nt-start}{8mm}
+    & 任務圖進入改寫階段時，系統預設的根節點。
+    & 起始節點 \\\hline
+  en (entrance)
+    & 起點
+    & \missionalphabetnode{t-entrance}{8mm}
+    & 玩家於遊戲關卡開始時的起始位置。
+    & \multirow{8.5}{*}{ 主線任務 } \\\cline{1-4}
+    % 8.5 is special to centering.
+  go (goal)
+    & 終點
+    & \missionalphabetnode{t-goal}{8mm}
+    & 玩家抵達此位置時遊戲將結束。
+    &  \\\cline{1-4}
+  boss (boss)
+    & 魔王房
+    & \missionalphabetnode{t-boss}{8mm}
+    & 房間中存在著較強大的怪物。
+    &  \\\cline{1-4}
+  NM (Normal)
+    & 一般房
+    & \missionalphabetnode{nt-normal}{8mm}
+    & 一般房間，藉由其它規則替換成其它房間或事件。
+    &  \\\cline{1-4}
+  nm (normal)
+    & 一般房
+    & \missionalphabetnode{t-normal}{8mm}
+    & 遊戲過程中經過的通道，經常出現在遊戲關卡中。
+    &  \\\hline
+  bomb (bomb)
+    & 使用炸彈
+    & \missionalphabetnode{t-bomb}{8mm}
+    & 必須使用炸彈將石牆給破壞，破壞石牆後便可通過。
+    & \multirow{10}{*}{ 特殊事件 } \\\cline{1-4}
+    % 10 is special to centering.
+  srt (secret)
+    & 秘密房
+    & \missionalphabetnode{t-secret}{10mm}
+    & 能夠取得稀有道具鑰匙的房間。
+    &  \\\cline{1-4}
+  SP (Special)
+    & 特殊房
+    & \missionalphabetnode{nt-special}{10mm}
+    & 特殊房間，藉由其它規則替換成不同的稀有房間。
+    &  \\\cline{1-4}
+  lock (lock)
+    & 鎖
+    & \missionalphabetnode{t-lock}{10mm}
+    & 必須使用鑰匙才能夠通過該空間。
+    &  \\\cline{1-4}
+  shop (shop)
+    & 商店
+    & \missionalphabetnode{t-shop}{10mm}
+    & 能夠觸發特殊事件，玩家能夠在此購買道具。
+    &  \\\cline{1-4}
+  ts (treasure)
+    & 寶藏房
+    & \missionalphabetnode{t-treasure}{10mm}
+    & 藏有稀有道具的房間，當中會有守衛寶箱的敵人。
+    &  \\\hline
+\end{longtable}
 
 % \subsubsection{任務符號表使用說明}
 % \label{sssec:method-missiongrammars-alphabet-manual}
