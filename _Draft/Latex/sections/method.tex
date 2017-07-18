@@ -905,7 +905,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{寶藏房}
 \label{sssec:method-segments-appliedonvolumes-treasure}
 
-寶藏房的端點識別物僅只有一個入口，便不存在空間動線，與空間動線相關的適應性函數不予採計。
+寶藏房的端點識別物僅只有一個入口端點，便不存在空間動線，與空間動線相關的適應性函數不予採計。圖~\ref{fig:applied-ga-on-volume-treasure} 是寶藏房的演化結果。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
@@ -924,13 +924,13 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{戰鬥通道（狹路驅逐）}
 \label{sssec:method-segments-appliedonvolumes-battlepath-narrow}
 
-此段僅為介紹，編輯中。
+戰鬥通道（狹路驅逐）無入口端點、四個出口端點，在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow} 是戰鬥通道（狹路驅逐）的演化結果。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻攔點權重: $1.00$
   \item 攔截點權重: $0.75$
-  \item 陷阱點權重: $0.75$
+  % \item 陷阱點權重: $0.75$
   \item 遊戲物件數量限制: $[2, 3]$
 \end{itemize}
 
@@ -945,7 +945,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{戰鬥通道（鎮守要道）}
 \label{sssec:method-segments-appliedonvolumes-battlepath-trunk}
 
-此段僅為介紹，編輯中。
+戰鬥通道（鎮守要道）有一個入口端點及一個出口端點，在此房間容器的佈局與狹路驅逐近似，但敵人將專注於戰鬥陣行，將不會存在寶箱。圖~\ref{fig:applied-ga-on-volume-battlepath-trunk} 是戰鬥通道（鎮守要道）的演化結果。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
