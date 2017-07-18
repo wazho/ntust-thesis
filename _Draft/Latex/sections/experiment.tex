@@ -29,11 +29,56 @@
 \end{table}
 }}
 
+% Quickly show the evolution results via figure.
+\newcommand{\galayoutresults}[2]{{
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/experiments/#1-results.pdf}
+    \caption{實驗 #2 的演化結果及各演化耗時}
+    \label{fig:experiment-#1-results}
+  \end{center}
+\end{figure}
+}}
+
+% Quickly create the table.
+\newcommand{\garesultstable}[5]{{
+\begin{table}[H]
+  \centering
+  \caption{實驗 #1 - 共 #3 回合的最佳個體之適應值}
+  \label{tbl:result-of-experiment-#2}
+  \bigskip
+  \vspace{-5mm}
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{tabular}[t]{
+      | >{\centering\arraybackslash}m{0.7cm}
+      | >{\centering\arraybackslash}m{1.5cm}
+      | >{\centering\arraybackslash}m{1.7cm} 
+      | >{\centering\arraybackslash}m{1.0cm} | }
+    \cline{2-4}
+    \multicolumn{1}{c|}{} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
+    \multicolumn{1}{c|}{} & \multicolumn{3}{ c| }{總適應值} \\\hline
+    #4
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{tabular}[t]{
+      | >{\centering\arraybackslash}m{0.7cm}
+      | >{\centering\arraybackslash}m{1.5cm}
+      | >{\centering\arraybackslash}m{1.7cm} 
+      | >{\centering\arraybackslash}m{1.0cm} | }
+    \cline{2-4}
+    \multicolumn{1}{c|}{} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
+    \multicolumn{1}{c|}{} & \multicolumn{3}{ c| }{總適應值} \\\hline
+    #5
+    \end{tabular}
+  \end{minipage}
+\end{table}
+}}
 
 \chapter{實驗結果與分析}
 \label{cha:experiment}
 
-本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：第~\ref{sec:experiment-results}小節中，針對所挑選的房間採用不同權重的適應性函數，會如何影響房間內的遊戲物件之配置結果。第~\ref{sec:experiment-yyy} 小節中，觀察染色體中的基因數量對於演化過程之影響。
+本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：第~\ref{sec:experiment-results} 小節中，針對所挑選的房間採用不同權重的適應性函數，其世代數量、個體數量會如何影響房間內的遊戲物件之配置結果。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -129,67 +174,107 @@
 \subsection{寶藏房}
 \label{ssec:experiment-results-treasure}
 
+% Clean the page after this experiment.
+\clearpage
+
 \subsubsection{實驗 A - 世代數量的影響}
 \label{sssec:experiment-results-treasure-gen}
 
-A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
-
 \gasettingstable{實驗 A1 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-gen-i}
-  { $1$ & $50$ & $100$ \\ }
+  { $10$ & $50$ & $100$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
 
-A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+\galayoutresults{a1}{A1}
+
+\garesultstable{A1}
+  {a1}
+  {10}
+  {
+    \multirow{3}{*}{$1$}  & 守衛點 & $0.7002$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.7002$} \\\hline
+    \multirow{3}{*}{$2$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$3$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$4$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$5$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+  }
+  {
+    \multirow{3}{*}{$6$}  & 守衛點 & $0.7002$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.7002$} \\\hline
+    \multirow{3}{*}{$7$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$8$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$9$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+    \multirow{3}{*}{$10$} & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
+                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+                          & \multicolumn{3}{ r| }{$1.6661$} \\\hline
+  }
+
+% Clean the page after this experiment.
+\clearpage
 
 \gasettingstable{實驗 A2 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-gen-ii}
-  { $1$ & $100$ & $100$ \\ }
+  { $10$ & $100$ & $100$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
 
-A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+% Clean the page after this experiment.
+\clearpage
 
 \gasettingstable{實驗 A3 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-gen-iii}
-  { $1$ & $200$ & $100$ \\ }
+  { $10$ & $200$ & $100$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
+
+% Clean the page after this experiment.
+\clearpage
 
 \subsubsection{實驗 B - 個體數量的影響}
 \label{sssec:experiment-results-treasure-idv}
 
-A 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
-
 \gasettingstable{實驗 B1 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-idv-i}
-  { $1$ & $100$ & $50$ \\ }
+  { $10$ & $100$ & $50$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
-
-B 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
 \gasettingstable{實驗 B2 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-idv-ii}
-  { $1$ & $100$ & $100$ \\ }
+  { $10$ & $100$ & $100$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
 
-B 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
-
 \gasettingstable{實驗 B3 之基因演算法參數配置}
   {tbl:settings-of-experiment-results-treasure-idv-iii}
-  { $1$ & $100$ & $200$ \\ }
+  { $10$ & $100$ & $200$ \\ }
   {
     守衛點       & $1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
@@ -199,8 +284,6 @@ B 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
 \label{sssec:experiment-results-treasure-summary}
 
 實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
-
-
 
 
 
