@@ -44,31 +44,31 @@
 \newcommand{\garesultstable}[5]{{
 \begin{table}[H]
   \centering
-  \caption{實驗 #1 - 共 #3 回合的最佳個體之適應值}
+  \caption{實驗 #1 - 共 #3 回合的最佳個體之標準化加權適應值}
   \label{tbl:result-of-experiment-#2}
   \bigskip
   \vspace{-5mm}
   \begin{minipage}[t]{0.48\linewidth}
     \begin{tabular}[t]{
       | >{\centering\arraybackslash}m{0.7cm}
-      | >{\centering\arraybackslash}m{1.5cm}
-      | >{\centering\arraybackslash}m{1.7cm} 
+      | >{\centering\arraybackslash}m{1.7cm}
+      | >{\centering\arraybackslash}m{1.6cm} 
       | >{\centering\arraybackslash}m{1.0cm} | }
-    \cline{2-4}
-    \multicolumn{1}{c|}{} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
-    \multicolumn{1}{c|}{} & \multicolumn{3}{ c| }{總適應值} \\\hline
+    \hline
+    \multirow{2}{*}{回合} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
+    & \multicolumn{3}{ c| }{總適應值} \\\hline
     #4
     \end{tabular}
   \end{minipage}
   \begin{minipage}[t]{0.48\linewidth}
     \begin{tabular}[t]{
       | >{\centering\arraybackslash}m{0.7cm}
-      | >{\centering\arraybackslash}m{1.5cm}
-      | >{\centering\arraybackslash}m{1.7cm} 
+      | >{\centering\arraybackslash}m{1.7cm}
+      | >{\centering\arraybackslash}m{1.6cm} 
       | >{\centering\arraybackslash}m{1.0cm} | }
-    \cline{2-4}
-    \multicolumn{1}{c|}{} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
-    \multicolumn{1}{c|}{} & \multicolumn{3}{ c| }{總適應值} \\\hline
+    \hline
+    \multirow{2}{*}{回合} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
+    & \multicolumn{3}{ c| }{總適應值} \\\hline
     #5
     \end{tabular}
   \end{minipage}
@@ -93,27 +93,27 @@
 \subsection{遊戲物件說明}
 \label{ssec:experiment-gameobjects}
 
-(編輯中)
+敵人會在玩家靠近，且進入攻擊視野範圍時，追擊玩家。當玩家靠近並朝向寶箱時，按下鍵盤 E 按鍵便可以開啟寶箱，取得寶箱內容物。當玩家碰觸到陷阱時，會受到一定程度的損傷。
 
-\subsubsection{敵人}
-\label{sssec:experiment-gameobjects-enemy}
+% \subsubsection{敵人}
+% \label{sssec:experiment-gameobjects-enemy}
 
-敵人 (編輯中)。
+% 敵人 (編輯中)。
 
-\subsubsection{寶箱}
-\label{sssec:experiment-gameobjects-treasure}
+% \subsubsection{寶箱}
+% \label{sssec:experiment-gameobjects-treasure}
 
-當玩家靠近並朝向寶箱時，按下鍵盤 E 按鍵便可以開啟寶箱，取得寶箱內容物。
+% 當玩家靠近並朝向寶箱時，按下鍵盤 E 按鍵便可以開啟寶箱，取得寶箱內容物。
 
-\subsubsection{陷阱}
-\label{sssec:experiment-gameobjects-trap}
+% \subsubsection{陷阱}
+% \label{sssec:experiment-gameobjects-trap}
 
-當玩家碰觸到陷阱時，會受到一定程度的損傷。
+% 當玩家碰觸到陷阱時，會受到一定程度的損傷。
 
 \subsection{實驗參數設定}
 \label{ssec:experiment-parameters}
 
-在任務語法階段時，我們將非合法 ... (編輯中)
+% 在任務語法階段時，我們將非合法 ... (編輯中)
 
 房間容器的遊戲物件佈局演化階段時，每一次世代的演化過程有 $80\%$ 機率於父母代進行兩點交配 (two-point crossover)；$10\%$ 機率令衍生子代會進行突變，個體的染色體有 $5\%$ 至 $20\%$ 的基因會轉換成其它的遊戲物件種類。
 
@@ -190,41 +190,39 @@
 
 \galayoutresults{a1}{A1}
 
-\garesultstable{A1}
-  {a1}
-  {10}
+\garesultstable{A1}{a1}{10}
   {
-    \multirow{3}{*}{$1$}  & 守衛點 & $0.7002$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$1$}  & 守衛點   & $0.7002$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.7002$} \\\hline
-    \multirow{3}{*}{$2$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$2$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$3$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$3$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$4$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$4$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$5$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$5$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
   }
   {
-    \multirow{3}{*}{$6$}  & 守衛點 & $0.7002$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$6$}  & 守衛點   & $0.7002$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.7002$} \\\hline
-    \multirow{3}{*}{$7$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$7$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$8$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$8$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$9$}  & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$9$}  & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
-    \multirow{3}{*}{$10$} & 守衛點 & $0.6661$ & $1$ \\\cline{2-4}
-                          & 密度   & $1.0000$ & $1$ \\\cline{2-4}
+    \multirow{3}{*}{$10$} & 守衛點   & $0.6661$ & $1$ \\\cline{2-4}
+                          & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$1.6661$} \\\hline
   }
 
@@ -389,10 +387,11 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-gen-i}
   { $1$ & $50$ & $100$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
+    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
   }
 
 E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
@@ -401,10 +400,11 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-gen-ii}
   { $1$ & $100$ & $100$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
+    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
   }
 
 E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
@@ -413,10 +413,11 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-gen-iii}
   { $1$ & $200$ & $100$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
+    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
   }
 
 \subsubsection{實驗 F - 個體數量的影響}
@@ -428,10 +429,11 @@ F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-idv-i}
   { $1$ & $100$ & $50$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
+    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
   }
 
 F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
@@ -440,9 +442,10 @@ F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-idv-ii}
   { $1$ & $100$ & $100$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
   }
 
@@ -452,9 +455,10 @@ F 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
   {tbl:settings-of-experiment-results-trunk-idv-iii}
   { $1$ & $100$ & $200$ \\ }
   {
-    阻攔點       & $1.00$ & \\
-    支援點       & $0.75$ & \\
-    巡邏點       & $0.50$ & \\
+    阻攔點       & $1.00$  & \\
+    % 支援點       & $0.75$  & \\
+    巡邏點       & $0.50$  & \\
+    守衛點       & $-1.00$ & \\
     遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
   }
 

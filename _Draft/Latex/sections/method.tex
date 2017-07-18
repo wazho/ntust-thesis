@@ -800,22 +800,22 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-\subsubsection{支援點 (Support)}
-\label{sssec:method-segments-fitnesses-support}
+% \subsubsection{支援點 (Support)}
+% \label{sssec:method-segments-fitnesses-support}
 
-敵人 ($E_{i}$, $E_{j}$) 之間擁有一定程度的護援關係，當敵人彼此的距離愈低其影響程度越大，同時該敵人 ($E_{i}$) 必須遠離動線 ($MP_{k}$)。
+% 敵人 ($E_{i}$, $E_{j}$) 之間擁有一定程度的護援關係，當敵人彼此的距離愈低其影響程度越大，同時該敵人 ($E_{i}$) 必須遠離動線 ($MP_{k}$)。
 
-\begin{equation}
-f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
-\end{equation}
+% \begin{equation}
+% f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \neq i}}^{N} \frac{1}{dist(E_{i}, E_{j})} + \frac{1}{M} \sum_{k=1}^{M} \frac{1}{dist(E_{i}, MP_{k})} \bigg)
+% \end{equation}
 
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{支援點指標的遊戲體現情形}
-    \label{fig:fitnesses-support-gameplay}
-  \end{center}
-\end{figure}
+% \begin{figure}[!htb]
+%   \begin{center}
+%     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+%     \caption{支援點指標的遊戲體現情形}
+%     \label{fig:fitnesses-support-gameplay}
+%   \end{center}
+% \end{figure}
 
 % \subsubsection{陷阱點 (Trapped)}
 % \label{sssec:method-segments-fitnesses-trapped}
@@ -849,7 +849,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 
 於~\ref{ssec:method-segments-fitnesses} 小節所提及的適應性函數中，函數皆有著一項共通點，便是隨著符合遊玩特徵的物件數量與適應值呈現顯著正相關，隨著演化代數的提升至終導致房間容器充斥著大量的遊戲物件。然而這樣的遊玩體驗在絕大多數都是不可行的，因此需要針對現有適應性函數所衍生出的特性，設計抑制其得分隨著數量級的成長。
 
-方程式~\ref{eq:fitnesses-density} 控制該房間容器出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數 $O$ 於數量範圍內可得 $1$ 分，反之得 $0$ 分，本適應性函數的權重固定為 $1$。
+方程式~\ref{eq:fitnesses-density} 控制該房間容器出現的遊戲物件總數。房間容器的物件總數上限為 $M$、下限為 $N$，若遊戲物件總數 $O$ 於數量範圍內可得 $1$ 分，反之得 $0$ 分，本適應性函數的權重固定為其餘權重絕對值之合，最小為 $1$， $w_{dst} = max(1, \sum_{i=1}^{amount} \lvert w_{i}\rvert)$。
 
 \begin{equation}
     \label{eq:fitnesses-density}
@@ -905,7 +905,7 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \subsubsection{寶藏房}
 \label{sssec:method-segments-appliedonvolumes-treasure}
 
-寶藏房的端點識別物僅只有一個入口，便不存在空間動線，與空間動線相關的適應性函數（阻攔點、攔截點、支援點、至高點、陷阱點）不予採計。
+寶藏房的端點識別物僅只有一個入口，便不存在空間動線，與空間動線相關的適應性函數不予採計。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
@@ -950,8 +950,9 @@ f_{sup}=\frac{1}{N} \sum_{i=1}^{N} \bigg( \frac{1}{N} \sum_{\substack{j=1 \\ j \
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻攔點權重: $1.00$
-  \item 支援點權重: $0.75$
+  % \item 支援點權重: $0.75$
   \item 巡邏點權重: $0.50$
+  \item 守衛點權重: $-1.00$
   \item 遊戲物件數量限制: $[3, 5]$
 \end{itemize}
 
