@@ -55,7 +55,7 @@
     ? (any)
       & 任一節點
       & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/sys-any.png}\end{minipage}
-      & 此結點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中，任一節點能夠被判別為任何節點，促使其同構。
+      & 此節點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中，任一節點能夠被判別為任何節點，促使其同構。
       \\\hline
   \end{tabular}
 \end{table}
@@ -339,7 +339,7 @@
   ExactlyDuplicated  & 若左右規則同構將導致改寫系統陷入無限循環。 \\\hline
   MultipleRelations  & 兩兩節點間不可有超過一個的連接關係，不論是同向連接線或反向連接線皆會導致改寫系統無法正常運作。 \\\hline
   CyclicLink         & 任務圖的定義中，任務應嚴格遵守任務間之順序性，若有循環結構將會使玩家迂迴停滯。 \\\hline
-  OrphanNode         & 若有圖形語法含有兩個以上的根結點，便無法正確定位出任務起點。 \\\hline
+  OrphanNode         & 若有圖形語法含有兩個以上的根節點，便無法正確定位出任務起點。 \\\hline
   OverflowedAnyNode  & 當規則右側使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，規則左側使用 Any 節點將不在此限。 \\\hline
 \end{longtable}
 
@@ -368,10 +368,10 @@
             \Statex $rules$ is a rule set of mission grammars.
             \Statex $seed$ is the random seed.
         \Ensure
-            \If {$matchedRule$ is found from $root$}
+            \If {$matchedRule$ is found from $root$ and $root$ doesn't be explored}
                 \State {$matchedRule$ = FindMatchs($root$)}            \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法}
                 \State {移除與 $matchedRule$ 相符子圖節點間的連接線}
-                \State {將相符子圖的節點，依照對應索引值替換成 $matchedRule$ 的規則右側}
+                \State {依照對應索引值替換成 $matchedRule$ 的規則右側}
                 \State {將 $matchedRule$ 剩餘的節點填充至任務圖中}
                 \State {依照 $matchedRule$ 的連接情況，移轉到任務圖中}
                 \State {移除節點的索引值相關資訊}
@@ -402,13 +402,20 @@
     \end{algorithmic}
 \end{algorithm}
 
-[TODO] （此小段為新增，編輯中）
-圖~\ref{fig:final-mission-graph}。
+圖~\ref{fig:mission-graph-generating-progress} 根據任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）生成任務圖，並使用亂數種子 $894730$ 作舉例，每次的疊代生成依照演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} 將當前任務圖的所有節點遍歷。根據前述章節定義，當圖~\ref{fig:mission-graph-generating-progress} d 時已不存在非終端節點，任務圖已趨穩定，但因為鎖向前規則與房間攤平規則，其規則左側皆為終端節點的情形下，儘管任務圖已趨穩定，只要任務圖中仍有同構子圖存在，改寫系統便能持續運行下去。在 \textit{Dungeon Generator} 中，亂數種子會同時決定一隨機次數，讓已趨穩定的任務圖仍能夠在有限次數下持續進行疊代，直至無任何規則可以被採用，見圖~\ref{fig:mission-graph-generating-progress} g。在圖~\ref{fig:final-mission-graph} 中展示了根據不同亂數種子，能夠得到豐富結果的任務圖。
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/final-mission-graph.png}
-    \caption{[TODO] 最終輸出的任務圖與其生成過程（此圖將搭配演算法重新製作）}
+    \includegraphics[width=1.0\textwidth]{figures/mission-graph-generating-progress.pdf}
+    \caption{任務圖的生成過程}
+    \label{fig:mission-graph-generating-progress}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/final-mission-graph.pdf}
+    \caption{根據不同亂數種子所輸出的任務圖}
     \label{fig:final-mission-graph}
   \end{center}
 \end{figure}
