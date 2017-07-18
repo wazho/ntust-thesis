@@ -20,18 +20,38 @@ content here.
 
 \section{研究目的與研究問題}
 
-content here.
+由 Joris Dormans 提出的自動關卡設計方法中，藉由任務語法精準控制玩家遊玩的進程，而遊戲物件的佈局由空間語法掌控，卻無法控制其品質優劣。由 Antonios Liapis 提出的戰略型遊戲抽象化地圖生成方法中，對於遊戲物件的佈局提供了評定品質的量測方式。
+
+\begin{table}[!htb]
+  \centering
+  \caption{Joris Dormans 與 Antonios Liapis 提出之方法，進行綜觀比較}
+  \label{tbl:compare-the-method-form-jd-and-al}
+  \bigskip
+  \begin{tabular}{ | c | c | c | }
+    \hline
+    方法框架                               & 任務進程 & 內容評估     \\\hline
+    Mission/Space 框架（Joris Dormans）    & 精準控制 & 無法評估優劣 \\\hline
+    Sentient Sketchbook（Antonios Liapis） & 未提及   & 提供優劣評估 \\\hline
+  \end{tabular}
+\end{table}
 
 \subsection{研究目的}
 
+我們將參考上一段落所提及的兩種方法框架，針對遊戲關卡的意義性與關卡品質進行研究。研究目的下列所述：
+
 \begin{enumerate}
-  \item 設計並提出能夠生成帶有意義關卡的自動生成演算法。
-  \item 探討自動生成演算法 .......
+  \item 設計並提出能夠生成帶有意義的 3D 動作遊戲的關卡自動生成演算法。
+  \item 以基因演算法輔助該自動生成演算法，進行自我品質評估與改良。
 \end{enumerate}
 
 \subsection{研究問題}
 
-content here.
+根據上述之研究目的，本研究提出以下研究問題：
+
+\begin{enumerate}
+  \item 存在多種不同面向的適應性函數，要如何進行有效的數值標準化？
+  \item 人為調整相關基因演算法演化參數時，對於關卡生成會有什麼影響？
+\end{enumerate}
 
 \subsection{預計研究貢獻}
 
