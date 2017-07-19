@@ -680,14 +680,14 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \section{地圖片段}
 \label{sec:method-segments}
 
-為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，進行改良以合適我方實驗環境。
+為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，令地圖片段為房間容器，並進行改良以合適我方實驗環境。
 
 圖~\ref{fig:segments-with-ga} 介紹地圖片段的演化流程。第一步驟，基於第~\ref{ssec:method-segments-gene} 小節中定義的基因結構，產生初始父母代族群時，讓全部的基因先預設為空磚；第二步驟，透過適應性函數計算各個體的適應值 (fitnesses)，完整的適應性函數在第~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
 
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/segments-with-ga.pdf}
-    \caption{地圖片段採取基因演算法之演化流程} 
+    \caption{房間容器採取基因演算法之演化流程} 
     \label{fig:segments-with-ga}
   \end{center}
 \end{figure}
