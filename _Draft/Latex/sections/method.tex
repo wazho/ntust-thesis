@@ -306,14 +306,6 @@
 
 設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，見圖~\ref{fig:missiongrammars-illegal-rules}。例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-illegal-rules.pdf}
-    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
-    \label{fig:missiongrammars-illegal-rules}
-  \end{center}
-\end{figure}
-
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
     | >{\centering\arraybackslash} p{4cm}
@@ -342,6 +334,14 @@
   OrphanNode         & 若有圖形語法含有兩個以上的根節點，便無法正確定位出任務起點。 \\\hline
   OverflowedAnyNode  & 當規則右側使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，規則左側使用 Any 節點將不在此限。 \\\hline
 \end{longtable}
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-illegal-rules.pdf}
+    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
+    \label{fig:missiongrammars-illegal-rules}
+  \end{center}
+\end{figure}
 
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
@@ -997,4 +997,14 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \section{方法彙整與總結}
 \label{sec:method-summary}
 
-第~\ref{sec:method-missiongrammars} 小節介紹了任務語法，讓關卡設計師能透過抽象宏觀的概念，藉由直覺的圖形介面生成出任務圖，表達出遊玩流程的拓撲結構。第~\ref{sec:method-spacepieces} 小節介紹了空間建構，從建構房間容器的最小體素單位至端點識別物，並且透過改寫將任務圖轉換至遊戲空間。第 ~\ref{sec:method-segments} 小節介紹了地圖片段演化的方法，將房間容器依照不同的戰略要素，給予不同遊玩特徵指標的權重，最後利用基因演算法逐步得到遊戲物件的關卡佈局。
+第~\ref{sec:method-missiongrammars} 小節介紹了任務語法，讓關卡設計師能透過抽象宏觀的概念，藉由直覺的圖形介面生成出任務圖，表達出遊玩流程的拓撲結構。第~\ref{sec:method-spacepieces} 小節介紹了空間建構，從建構房間容器的最小體素單位至端點識別物，並且透過改寫將任務圖轉換至遊戲空間。第 ~\ref{sec:method-segments} 小節介紹了地圖片段演化的方法，將房間容器依照不同的戰略要素，給予不同遊玩特徵指標的權重，最後利用基因演算法逐步得到遊戲物件的關卡佈局。圖~\ref{fig:completed-framework} 將上述所提及之方法彙整至其中，共計三大項目。
+
+\begin{landscape}
+  \begin{figure}[!htb]
+    \begin{center}
+      \includegraphics[width=1.0\linewidth]{figures/completed-framework.pdf}
+      \caption{本論文提出之方法，完整框架示意圖} 
+      \label{fig:completed-framework}
+    \end{center}
+  \end{figure}
+\end{landscape}
