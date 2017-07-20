@@ -710,7 +710,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 動作冒險遊戲 (A-AVG)、動作角色扮演遊戲 (A-RPG) 等類型遊戲，多可見一些制式化遊戲物件的搭配組合，Alexander Baldwin 認為遊戲物件組合的細觀特徵 (Meso-Patterns) 需要有檢測其品質的方法~\cite{baldwin2017mixed}。我們嘗試汲取出多項遊玩特徵並參數化公式，作為評估關卡品質的指標之一。
 
-於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a-b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
+於前處理階段時，圖~\ref{fig:decorations-with-directions} 中顯示的地面、階梯裝飾物屬於可以通行的瓦磚單位（請參考圖~\ref{fig:decorations-with-directions} a-b）。圖~\ref{fig:fitnesses-mainpath} 使用 A-Star 搜尋演算法~\cite{hart1968formal} 建立行走空間，並搜索入口至多個出口的最短路徑，凡經過的座標稱作為空間動線 ($MP$) 之一，並將其權重值 ($mp$) 增加 $1$，空間動線為多項指標關鍵性的參考依據。倘若遇到無法計算最短路徑的情形，便不存在空間動線，屆時該房間容器將不能夠套用相關適應性函數。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -741,7 +741,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{阻擋點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
-方程式~\ref{eq:fitnesses-block} 為阻擋點的適應性函數。敵人會專注於阻攔玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 $0$。圖~\ref{fig:fitnesses-block-gameplay} 為阻擋點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻攔玩家前行。
+方程式~\ref{eq:fitnesses-block} 為阻擋點的適應性函數。敵人會專注於阻擋玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 $0$。圖~\ref{fig:fitnesses-block-gameplay} 為阻擋點指標的實際遊玩情形，草綠色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻擋玩家前行。
 
 \begin{equation}
     \label{eq:fitnesses-block}
@@ -759,7 +759,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{攔截點 (Intercept)}
 \label{sssec:method-segments-fitnesses-intercept}
 
-方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻擋點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
+方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻擋點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。圖~\ref{fig:fitnesses-intercept-gameplay} 為攔截點指標的實際遊玩情形，草綠色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線周圍快速地攔截玩家。
 
 \begin{equation}
     \label{eq:fitnesses-intercept}
@@ -778,18 +778,18 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{巡邏點 (Patrol)}
 \label{sssec:method-segments-fitnesses-patrol}
 
-確保各敵人擁有足夠的空間能夠進行移動。將計算敵人 ($E_{i}$) 與指定半徑 ($r$) 內的座標數量 ($P_j$) 總值，當中並不包含不可通行的牆壁等類型。於本次實驗中，我們將採用 $R=3$ 作為實驗範例，該數值可由遊戲設計師決定。
+方程式~\ref{eq:fitnesses-patrol} 為巡邏點的適應性函數。確保敵人擁有足夠的空間能夠進行移動，使其進行巡邏行為。$f_{ptl}$ 為 $M$ 個敵人 ($E_{i}$) 其方圓半徑 ($r$) 內相鄰可行走瓦磚之數量總合，計算各個可行走瓦磚 ($P_{j}$) 與敵人的直線距離，若距離小於或等於 $r$ 則值為 $1$，反之為 $0$。於本次實驗中，將採用 $r=3$ 作為實驗範例，該數值可由遊戲設計師決定。圖~\ref{fig:fitnesses-patrol-gameplay} 為巡邏點指標的實際遊玩情形，水藍色區塊為系統計算出的相鄰可走瓦磚，敵人會在此區域內執行巡邏的。
 
 \begin{equation}
-    % The old one: f_{ptl}=\sum_{i=1}^{N} \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big), dist\big(E_{i}, P_{j}\big) \leq r, P_{j} \notin \{ wall \}
-    f_{ptl} = \sum_{i=1}^{N} \Big( d_{i} \times \sum_{j=1}^{M} count\big(E_{i}, P_{j}\big) \Big), 
-    d_{i} = \begin{cases}
-                \frac{1}{2^{i}},   & \mbox{if } i \neq N \\
-                \frac{1}{2^{i-1}}, & \mbox{if } i = N
-            \end{cases}
+    \label{eq:fitnesses-patrol}
+    f_{ptl} = \sum_{i=1}^{M} neighbor(E_i, r)
 \end{equation}
 \begin{gather*}
-    dist\big(E_{i}, P_{j}\big) \leq r,  P_{j} \notin wall
+    neighbor(Obj, r) = \sum_{j=1}^{N} isNeighbor(Obj, P_{j}, r)
+      \begin{cases}
+        1, & \mbox{if } dist(Obj, P_{j}) \leq r \\
+        0, & \mbox{if } dist(Obj, P_{j}) > r
+      \end{cases}
 \end{gather*}
 
 \begin{figure}[!htb]
@@ -905,7 +905,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{寶藏房}
 \label{sssec:method-segments-appliedonvolumes-treasure}
 
-寶藏房的端點識別物僅只有一個入口端點，便不存在空間動線，與空間動線相關的適應性函數不予採計。圖~\ref{fig:applied-ga-on-volume-treasure} 是寶藏房的演化結果，分別是 $50$、$100$ 與 $200$ 世代數量，族群的大小為 $100$ 個體。
+寶藏房的端點識別物僅只有一個入口端點，便不存在空間動線，與空間動線相關的適應性函數不予採計。圖~\ref{fig:applied-ga-on-volume-treasure} 是寶藏房的演化結果。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
@@ -924,21 +924,38 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{戰鬥通道（狹路驅逐）}
 \label{sssec:method-segments-appliedonvolumes-battlepath-narrow}
 
-戰鬥通道（狹路驅逐）無入口端點、四個出口端點，在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow} 是戰鬥通道（狹路驅逐）的演化結果。
+戰鬥通道（狹路驅逐）無入口端點、有四個出口端點。在此房間容器中，西方出口為一廣場；東方出口位於二樓；在北方出口與南方出口之間有一狹長的通道，是連接各個出口的必經道路。
+
+在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻擋點權重: $1.00$
-  \item 攔截點權重: $0.75$
-  % \item 陷阱點權重: $0.75$
   \item 遊戲物件數量限制: $[2, 3]$
 \end{itemize}
 
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{狹路驅逐情境的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-narrow}
+    \caption{狹路驅逐情境 I 的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-narrow-i}
+  \end{center}
+\end{figure}
+
+基於上述情境，在西方廣場或其它寬廣地區，亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-ii} 是戰鬥通道（狹路驅逐）的演化結果。
+
+\begin{itemize}
+  \setlength\itemsep{-0.5em}
+  \item 阻擋點權重: $1.00$
+  \item 巡邏點權重: $0.75$
+  \item 遊戲物件數量限制: $[2, 3]$
+\end{itemize}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{狹路驅逐情境 II 的遊戲物件佈局演化示意} 
+    \label{fig:applied-ga-on-volume-battlepath-narrow-ii}
   \end{center}
 \end{figure}
 
