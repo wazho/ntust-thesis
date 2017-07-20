@@ -1,12 +1,26 @@
+% Quickly landscape for experiment page.
+\newcommand{\landscapeexperimentpage}[1]{{
+\begin{landscape}
+  \begin{minipage}[t]{0.97\linewidth}
+    \raggedleft
+    \begin{minipage}[t]{0.97\linewidth}
+      \centering
+      #1
+    \end{minipage}
+  \end{minipage}
+\end{landscape}
+}}
+
 % Quickly create the table.
 \newcommand{\gasettingstable}[4]{{
 \begin{table}[H]
   \centering
-  \caption{#1}
-  \label{#2}
+  \caption{實驗 #2 之基因演算法參數配置}
+  \label{tbl:settings-of-experiment-#1}
   \bigskip
   \vspace{-5mm}
-  \begin{minipage}[t]{0.48\linewidth}
+  \begin{minipage}[t]{0.35\linewidth}
+    \centering
     \begin{tabular}[t]{| c | c | c |}
       \hline
       \multicolumn{1}{ |c| }{回合次數}
@@ -16,7 +30,8 @@
       \hline
     \end{tabular}
   \end{minipage}
-  \begin{minipage}[t]{0.48\linewidth}
+  \begin{minipage}[t]{0.35\linewidth}
+    \centering
     \begin{tabular}[t]{| c | c | c |}
       \hline
       \multicolumn{1}{ |c| }{指標}
@@ -31,47 +46,36 @@
 
 % Quickly show the evolution results via figure.
 \newcommand{\galayoutresults}[2]{{
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/experiments/#1-results.pdf}
-    \caption{實驗 #2 的演化結果及各演化耗時}
-    \label{fig:experiment-#1-results}
-  \end{center}
-\end{figure}
+\includegraphics[width=0.90\linewidth]{figures/experiments/#1-results.pdf}
+\captionof{figure}{實驗 #2 的演化結果及各演化耗時}
+\label{fig:experiment-#1-results}
 }}
 
 % Quickly create the table.
+\newcommand{\garesultssubtable}[1]{{
+\begin{minipage}[t]{0.48\linewidth}
+  \begin{tabular}[t]{
+    | >{\centering\arraybackslash}m{0.8cm}
+    | >{\centering\arraybackslash}m{1.7cm}
+    | >{\centering\arraybackslash}m{1.5cm} 
+    | >{\centering\arraybackslash}m{1.0cm} | }
+    \hline
+    \multirow{2}{*}{回合} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
+    & \multicolumn{3}{ c| }{總適應值} \\\hline
+    #1
+  \end{tabular}
+\end{minipage}
+}}
+
 \newcommand{\garesultstable}[5]{{
 \begin{table}[H]
   \centering
-  \caption{實驗 #1 - 共 #3 回合的最佳個體之標準化加權適應值}
-  \label{tbl:result-of-experiment-#2}
+  \caption{實驗 #2 - 共 #3 回合的最佳個體之標準化加權適應值}
+  \label{tbl:result-of-experiment-#1}
   \bigskip
   \vspace{-5mm}
-  \begin{minipage}[t]{0.48\linewidth}
-    \begin{tabular}[t]{
-      | >{\centering\arraybackslash}m{0.8cm}
-      | >{\centering\arraybackslash}m{1.7cm}
-      | >{\centering\arraybackslash}m{1.5cm} 
-      | >{\centering\arraybackslash}m{1.0cm} | }
-    \hline
-    \multirow{2}{*}{回合} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
-    & \multicolumn{3}{ c| }{總適應值} \\\hline
-    #4
-    \end{tabular}
-  \end{minipage}
-  \begin{minipage}[t]{0.48\linewidth}
-    \begin{tabular}[t]{
-      | >{\centering\arraybackslash}m{0.8cm}
-      | >{\centering\arraybackslash}m{1.7cm}
-      | >{\centering\arraybackslash}m{1.5cm} 
-      | >{\centering\arraybackslash}m{1.0cm} | }
-    \hline
-    \multirow{2}{*}{回合} & 指標 & \multicolumn{1}{ c| }{適應值} & \multicolumn{1}{ c| }{權重} \\\cline{2-4}
-    & \multicolumn{3}{ c| }{總適應值} \\\hline
-    #5
-    \end{tabular}
-  \end{minipage}
+  \garesultssubtable{#4}
+  \garesultssubtable{#5}
 \end{table}
 }}
 
@@ -173,23 +177,24 @@
 
 在第~\ref{ssec:method-segments-appliedonvolumes} 小節中，展示了寶藏房與戰鬥通道（狹路驅逐、鎮守要道）三種空間的局部佈局演化結果，隨著房間容器搭配不同的適應性函數，便能夠生成出多樣性的遊戲物件佈局。在本小節的各實驗中，將針對上述三種房間容器的演化結果做更進一步的分析，紀錄佈局演化結果上視圖與最佳個體之標準化加權適應值，由於各實驗、各回合產生的區域極值不同，影響標準化的量尺不同，我們便分開探討各實驗中的適應值成長趨勢。
 
-\subsection{寶藏房}
-\label{ssec:experiment-results-treasure}
+\landscapeexperimentpage{
+  \subsection{寶藏房}
+  \label{ssec:experiment-results-treasure}
 
-\subsubsection{實驗 A - 世代數量的影響}
-\label{sssec:experiment-results-treasure-gen}
+  \subsubsection{實驗 A - 世代數量的影響}
+  \label{sssec:experiment-results-treasure-gen}
 
-\gasettingstable{實驗 A1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-gen-i}
-  { $10$ & $50$ & $100$ \\ }
-  {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
-  }
+  \gasettingstable{a1}{A1}
+    { $10$ & $50$ & $100$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
 
-\galayoutresults{a1}{A1}
+  \galayoutresults{a1}{A1}
+}
 
-\garesultstable{A1}{a1}{10}
+\garesultstable{a1}{A1}{10}
   {
     \multirow{3}{*}{$1$}  & 守衛點   & $0.7002$ & $1$ \\\cline{2-4}
                           & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
@@ -225,20 +230,19 @@
                           & \multicolumn{3}{ r| }{$1.6840$} \\\hline
   }
 
-% Clean the page after this experiment.
-\clearpage
 
-\gasettingstable{實驗 A2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-gen-ii}
-  { $10$ & $100$ & $100$ \\ }
-  {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
-  }
+\landscapeexperimentpage{
+  \gasettingstable{a2}{A2}
+    { $10$ & $100$ & $100$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
 
-\galayoutresults{a2}{A2}
+  \galayoutresults{a2}{A2}
+}
 
-\garesultstable{A2}{a2}{10}
+\garesultstable{a2}{A2}{10}
   {
     \multirow{3}{*}{$1$}  & 守衛點   & $0.7416$ & $1$ \\\cline{2-4}
                           & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
@@ -274,20 +278,19 @@
                           & \multicolumn{3}{ r| }{$1.6270$} \\\hline
   }
 
-% Clean the page after this experiment.
-\clearpage
 
-\gasettingstable{實驗 A3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-gen-iii}
-  { $10$ & $200$ & $100$ \\ }
-  {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
-  }
+\landscapeexperimentpage{
+  \gasettingstable{a3}{A3}
+    { $10$ & $200$ & $100$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
 
-\galayoutresults{a3}{A3}
+  \galayoutresults{a3}{A3}
+}
 
-\garesultstable{A3}{a3}{10}
+\garesultstable{a3}{A3}{10}
   {
     \multirow{3}{*}{$1$}  & 守衛點   & $0.8235$ & $1$ \\\cline{2-4}
                           & 物件數量 & $1.0000$ & $1$ \\\cline{2-4}
@@ -323,123 +326,197 @@
                           & \multicolumn{3}{ r| }{$1.7029$} \\\hline
   }
 
-% Clean the page after this experiment.
-\clearpage
 
-\subsubsection{實驗 B - 個體數量的影響}
-\label{sssec:experiment-results-treasure-idv}
+\landscapeexperimentpage{
+  \subsubsection{實驗 B - 個體數量的影響}
+  \label{sssec:experiment-results-treasure-idv}
 
-\gasettingstable{實驗 B1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-idv-i}
-  { $10$ & $100$ & $50$ \\ }
+  \gasettingstable{b1}{B1}
+    { $10$ & $100$ & $50$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
+
+  % \galayoutresults{b1}{B1}
+}
+
+\garesultstable{b2}{B2}{10}
   {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+  {
   }
 
-\gasettingstable{實驗 B2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-idv-ii}
-  { $10$ & $100$ & $100$ \\ }
+
+\landscapeexperimentpage{
+  \gasettingstable{b2}{B2}
+    { $10$ & $100$ & $100$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
+
+  % \galayoutresults{b2}{B2}
+}
+
+\garesultstable{b2}{B2}{10}
   {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+  }
+  {
   }
 
-\gasettingstable{實驗 B3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-treasure-idv-iii}
-  { $10$ & $100$ & $200$ \\ }
+
+\landscapeexperimentpage{
+  \gasettingstable{b3}{B3}
+    { $10$ & $100$ & $200$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
+
+  % \galayoutresults{b3}{B3}
+}
+
+\garesultstable{b3}{B3}{10}
   {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
   }
+  {
+  }
+
 
 \subsubsection{小結}
 \label{sssec:experiment-results-treasure-summary}
 
 實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
 
+\landscapeexperimentpage{
+  \subsection{戰鬥通道（狹路驅逐）}
+  \label{ssec:experiment-results-narrow}
 
+  \subsubsection{實驗 C - 世代數量的影響}
+  \label{sssec:experiment-results-narrow-gen}
 
-\subsection{戰鬥通道（狹路驅逐）}
-\label{ssec:experiment-results-narrow}
+  \gasettingstable{c1}{C1}
+    { $10$ & $50$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
 
-\subsubsection{實驗 C - 世代數量的影響}
-\label{sssec:experiment-results-narrow-gen}
+  % \galayoutresults{c1}{C1}
+}
 
-C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
-
-\gasettingstable{實驗 C1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-gen-i}
-  { $1$ & $50$ & $100$ \\ }
+\garesultstable{c1}{C1}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+  {
   }
 
-C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\gasettingstable{實驗 C2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-gen-ii}
-  { $1$ & $100$ & $100$ \\ }
+\landscapeexperimentpage{
+  \gasettingstable{c2}{C2}
+    { $10$ & $100$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{c2}{C2}
+}
+
+\garesultstable{c2}{C2}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+  {
   }
 
-C 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\gasettingstable{實驗 C3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-gen-iii}
-  { $1$ & $200$ & $100$ \\ }
+\landscapeexperimentpage{
+  \gasettingstable{c3}{C3}
+    { $10$ & $200$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{c3}{C3}
+}
+
+\garesultstable{c3}{C3}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+  {
   }
 
-\subsubsection{實驗 D - 個體數量的影響}
-\label{sssec:experiment-results-narrow-idv}
 
-D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
+\landscapeexperimentpage{
+  \subsubsection{實驗 D - 個體數量的影響}
+  \label{sssec:experiment-results-narrow-idv}
 
-\gasettingstable{實驗 D1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-idv-i}
-  { $1$ & $100$ & $50$ \\ }
+  \gasettingstable{d1}{D1}
+    { $10$ & $100$ & $50$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{d1}{D1}
+}
+
+\garesultstable{d1}{D1}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+  {
   }
 
-D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\gasettingstable{實驗 D2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-idv-ii}
-  { $1$ & $100$ & $100$ \\ }
+\landscapeexperimentpage{
+  \gasettingstable{d2}{D2}
+    { $10$ & $100$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{d2}{D2}
+}
+
+\garesultstable{d2}{D2}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+  }
+  {
   }
 
-D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
 
-\gasettingstable{實驗 D3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-narrow-idv-iii}
-  { $1$ & $100$ & $200$ \\ }
+\landscapeexperimentpage{
+  \gasettingstable{d3}{D3}
+    { $10$ & $100$ & $200$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{d3}{D3}
+}
+
+\garesultstable{d3}{D3}{10}
   {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
   }
+  {
+  }
+
 
 \subsubsection{小結}
 \label{sssec:experiment-results-narrow-summary}
@@ -447,30 +524,28 @@ D 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
 實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結實驗小結
 
 
+\landscapeexperimentpage{
+  \subsection{戰鬥通道（鎮守要道）}
+  \label{ssec:experiment-results-trunk}
+
+  \subsubsection{實驗 E - 個體數量的影響}
+  \label{sssec:experiment-results-trunk-gen}
+
+  \gasettingstable{e1}{E1}
+    { $1$ & $50$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
+    }
+
+  \galayoutresults{e1}{E1}
+}
 
 
-
-\subsection{戰鬥通道（鎮守要道）}
-\label{ssec:experiment-results-trunk}
-
-\subsubsection{實驗 E - 世代數量的影響}
-\label{sssec:experiment-results-trunk-gen}
-
-E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文
-
-\gasettingstable{實驗 E1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-gen-i}
-  { $1$ & $50$ & $100$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
-  }
-
-
-\garesultstable{E1}{e1}{10}
+\garesultstable{e1}{E1}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $1.0000$  & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.5000$  & $0.5$ \\\cline{2-4}
@@ -526,19 +601,22 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
                           & \multicolumn{3}{ r| }{$3.9838$} \\\hline
   }
 
-\gasettingstable{實驗 E2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-gen-ii}
-  { $1$ & $100$ & $100$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
-  }
 
+\landscapeexperimentpage{
+  \gasettingstable{e2}{E2}
+    { $1$ & $100$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
+    }
 
-\garesultstable{E2}{e2}{10}
+  \galayoutresults{e2}{E2}
+}
+
+\garesultstable{e2}{E2}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $1.0000$ & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.4965$ & $0.5$ \\\cline{2-4}
@@ -594,19 +672,22 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
                           & \multicolumn{3}{ r| }{$3.7071$} \\\hline
   }
 
-\gasettingstable{實驗 E3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-gen-iii}
-  { $1$ & $200$ & $100$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
-  }
 
+\landscapeexperimentpage{
+  \gasettingstable{e3}{E3}
+    { $1$ & $200$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
+    }
 
-\garesultstable{E3}{e3}{10}
+  \galayoutresults{e3}{E3}
+}
+
+\garesultstable{e3}{E3}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $1.0000$ & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.5000$ & $0.5$ \\\cline{2-4}
@@ -662,22 +743,25 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
                           & \multicolumn{3}{ r| }{$3.9586$} \\\hline
   }
 
-\subsubsection{實驗 F - 個體數量的影響}
-\label{sssec:experiment-results-trunk-idv}
 
-\gasettingstable{實驗 F1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-idv-i}
-  { $1$ & $100$ & $50$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
-  }
+\landscapeexperimentpage{
+  \subsubsection{實驗 F - 個體數量的影響}
+  \label{sssec:experiment-results-trunk-idv}
 
+  \gasettingstable{f1}{F1}
+    { $1$ & $100$ & $50$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
+    }
 
-\garesultstable{F1}{f1}{10}
+  % \galayoutresults{f1}{F1}
+}
+
+\garesultstable{f1}{F1}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $0.0000$  & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.4730$  & $0.5$ \\\cline{2-4}
@@ -733,19 +817,22 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
                           & \multicolumn{3}{ r| }{$3.7003$} \\\hline
   }
 
-\gasettingstable{實驗 F2 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-idv-ii}
-  { $1$ & $100$ & $100$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
-  }
 
+\landscapeexperimentpage{
+  \gasettingstable{f2}{F2}
+    { $1$ & $100$ & $100$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    }
 
-\garesultstable{F2}{f2}{10}
+  % \galayoutresults{f2}{F2}
+}
+
+\garesultstable{f2}{F2}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $1.0000$ & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.4743$ & $0.5$ \\\cline{2-4}
@@ -801,18 +888,22 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
                           & \multicolumn{3}{ r| }{$3.9226$} \\\hline
   }
 
-\gasettingstable{實驗 F3 之基因演算法參數配置}
-  {tbl:settings-of-experiment-results-trunk-idv-iii}
-  { $1$ & $100$ & $200$ \\ }
-  {
-    阻攔點       & $1.00$  & \\
-    % 支援點       & $0.75$  & \\
-    巡邏點       & $0.50$  & \\
-    守衛點       & $-1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
-  }
 
-\garesultstable{F3}{f3}{10}
+\landscapeexperimentpage{
+  \gasettingstable{f3}{F3}
+    { $1$ & $100$ & $200$ \\ }
+    {
+      阻攔點       & $1.00$  & \\
+      % 支援點       & $0.75$  & \\
+      巡邏點       & $0.50$  & \\
+      守衛點       & $-1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+    }
+
+  % \galayoutresults{f3}{F3}
+}
+
+\garesultstable{f3}{F3}{10}
   {
     \multirow{5}{*}{$1$}  & 阻擋點   & $0.8165$ & $1$   \\\cline{2-4}
                           & 巡邏點   & $0.4730$ & $0.5$ \\\cline{2-4}
@@ -875,41 +966,42 @@ E 實驗內文實驗內文實驗內文實驗內文實驗內文實驗內文實驗
 
 
 
-
-
 \section{標準化結果之比較}
 \label{sec:experiment-normalized}
 
 在第~\ref{ssec:method-segments-multiobjectives} 小節中，提出了方程式~\ref{eq:fitnesses-all} 的標準化效果會根據常數 $c$ 的大小，影響適應值前期與後期的成長幅度。在本小節中，將改變常數 $c$（$c = 1$、$c = 2$、$c = 3$ 與 $c = 4$），觀察應用在「單一指標型」與「複合指標型」房間容器的收斂情形。單一指標型意指僅採用一項適應性函數（不包含平衡適應性函數）；反之，複合指標型表示採用多項適應性函數。
 
-\subsection{單一指標型 - 寶藏房}
-\label{ssec:experiment-normalized-treasure}
 
-\gasettingstable{實驗 X1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-normalized-treasure}
-  { $1$ & $100$ & $200$ \\ }
-  {
-    守衛點       & $1.00$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
-  }
+\landscapeexperimentpage{
+  \subsection{單一指標型 - 寶藏房}
+  \label{ssec:experiment-normalized-treasure}
 
+  \gasettingstable{x1}{X1}
+    { $1$ & $100$ & $200$ \\ }
+    {
+      守衛點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+    }
 
-
-
-\subsection{複合指標型 - 戰鬥通道（狹路驅逐）}
-\label{ssec:experiment-normalized-narrow}
-
-\gasettingstable{實驗 Y1 之基因演算法參數配置}
-  {tbl:settings-of-experiment-normalized-narrow}
-  { $1$ & $100$ & $200$ \\ }
-  {
-    阻攔點       & $1.00$ & \\
-    攔截點       & $0.75$ & \\
-    陷阱點       & $0.75$ & \\
-    遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
-  }
+  % \galayoutresults{x1}{X1}
+}
 
 
+\landscapeexperimentpage{
+  \subsection{複合指標型 - 戰鬥通道（狹路驅逐）}
+  \label{ssec:experiment-normalized-narrow}
+
+  \gasettingstable{y1}{Y1}
+    { $1$ & $100$ & $200$ \\ }
+    {
+      阻攔點       & $1.00$ & \\
+      攔截點       & $0.75$ & \\
+      % 陷阱點       & $0.75$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+    }
+
+  % \galayoutresults{y1}{Y1}
+}
 
 
 

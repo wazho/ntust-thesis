@@ -16,15 +16,20 @@
 %\usepackage[dvipdfm]{graphicx}  % for graphic   using eps
 %\usepackage{graphicx}  % for graphic   using eps
 
-% Salmon editted. Support the Chinese indent for the first line.
+% Salmon edited. Support the landscape pages in a (mainly) portrait document.
+\usepackage{pdflscape}
+\usepackage{lscape}
+\usepackage{caption}
+
+% Salmon edited. Support the Chinese indent for the first line.
 \usepackage{indentfirst}
 
-% Salmon editted. Support the hyperlink reference.
+% Salmon edited. Support the hyperlink reference.
 % \usepackage[hidelinks]{hyperref}
 
-% Salmon editted. Support the long table to change pages.
+% Salmon edited. Support the long table to change pages.
 \usepackage{longtable}
-% Salmon editted. Specifying your column width with m{...}.
+% Salmon edited. Specifying your column width with m{...}.
 \usepackage{array}
 
 %\usepackage{epstopdf} % 當使用pdflatex時打開，如使用latex則不需開啟，此功能為將xxx.eps 自動判讀為XXX.pdf
@@ -33,7 +38,7 @@
 % \usepackage{algorithmic}  %演算法使用
 \usepackage{algorithm}
 
-% Salmon editted. Support the pseudocode.
+% Salmon edited. Support the pseudocode.
 \usepackage{algpseudocode}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -111,7 +116,7 @@ commentstyle=\upshape,   % 預設是斜體字，會影響註解裏的英文，�
 
 
 % global page layout
-% Salmon editted. Default is 1.4.
+% Salmon edited. Default is 1.4.
 \newcommand{\mybaselinestretch}{1.4}                 % 行距 1.5 倍 + 20%, (約為 double space)
 \renewcommand{\baselinestretch}{\mybaselinestretch}  % 論文行距預設值
 \parskip=2ex     % 段落之間的間隔為兩個 x 的高度
