@@ -926,12 +926,12 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 戰鬥通道（狹路驅逐）無入口端點、有四個出口端點。在此房間容器中，西方出口為一廣場；東方出口位於二樓；在北方出口與南方出口之間有一狹長的通道，是連接各個出口的必經道路。
 
-在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果。
+在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻擋點權重: $1.00$
-  \item 遊戲物件數量限制: $[2, 3]$
+  \item 遊戲物件數量限制: $[4, 5]$
 \end{itemize}
 
 \begin{figure}[H]
@@ -942,13 +942,13 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-基於上述情境，在西方廣場或其它寬廣地區，亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-ii} 是戰鬥通道（狹路驅逐）的演化結果。
+基於上述情境，在西方廣場或其它寬廣地區，亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-ii} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻擋點權重: $1.00$
   \item 巡邏點權重: $0.75$
-  \item 遊戲物件數量限制: $[2, 3]$
+  \item 遊戲物件數量限制: $[4, 5]$
 \end{itemize}
 
 \begin{figure}[H]
@@ -993,3 +993,8 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     \label{fig:applied-ga-on-volume-all}
   \end{center}
 \end{figure}
+
+\section{方法彙整與總結}
+\label{sec:method-summary}
+
+第~\ref{sec:method-missiongrammars} 小節介紹了任務語法，讓關卡設計師能透過抽象宏觀的概念，藉由直覺的圖形介面生成出任務圖，表達出遊玩流程的拓撲結構。第~\ref{sec:method-spacepieces} 小節介紹了空間建構，從建構房間容器的最小體素單位至端點識別物，並且透過改寫將任務圖轉換至遊戲空間。第 ~\ref{sec:method-segments} 小節介紹了地圖片段演化的方法，將房間容器依照不同的戰略要素，給予不同遊玩特徵指標的權重，最後利用基因演算法逐步得到遊戲物件的關卡佈局。
