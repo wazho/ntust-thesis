@@ -738,10 +738,10 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-\subsubsection{阻攔點 (Block)}
+\subsubsection{阻擋點 (Block)}
 \label{sssec:method-segments-fitnesses-block}
 
-方程式~\ref{eq:fitnesses-block} 為阻攔點的適應性函數。敵人會專注於阻攔玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 $0$。圖~\ref{fig:fitnesses-block-gameplay} 為阻攔點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻攔玩家前行。
+方程式~\ref{eq:fitnesses-block} 為阻擋點的適應性函數。敵人會專注於阻攔玩家繼續前進，迫使玩家與其發生衝突。$f_{blk}$ 為加總 $M$ 個敵人於空間之動線權重 ($e_{i}$)，倘若敵人並未落在動線上，權重則為 $0$。圖~\ref{fig:fitnesses-block-gameplay} 為阻擋點指標的實際遊玩情形，灰色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線之上阻攔玩家前行。
 
 \begin{equation}
     \label{eq:fitnesses-block}
@@ -751,7 +751,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \begin{figure}[!htb]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{figures/fitnesses-block-gameplay.pdf}
-    \caption{阻攔點指標的遊戲體現情形}
+    \caption{阻擋點指標的遊戲體現情形}
     \label{fig:fitnesses-block-gameplay}
   \end{center}
 \end{figure}
@@ -759,7 +759,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{攔截點 (Intercept)}
 \label{sssec:method-segments-fitnesses-intercept}
 
-方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻攔點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
+方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻擋點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。
 
 \begin{equation}
     \label{eq:fitnesses-intercept}
@@ -867,7 +867,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{多項適應性函數合併}
 \label{ssec:method-segments-multiobjectives}
 
-在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房間容器的設定中，我們將守衛點、阻攔點的權重調整至 $1$，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻攔點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 $1$，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[0, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準，並於第~\ref{sec:experiment-normalized} 節進行相關驗證。
+在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房間容器的設定中，我們將守衛點、阻擋點的權重調整至 $1$，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻擋點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 $1$，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[0, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準，並於第~\ref{sec:experiment-normalized} 節進行相關驗證。
 
 方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，採計共 $M$ 種適應性函數，第 $i$ 項適應值為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [0, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由個體分數 $f_{i}$ 除以該世代最高得分 $f_{i}\cdot max$ 開 $c$ 次方根。
 
@@ -928,7 +928,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
-  \item 阻攔點權重: $1.00$
+  \item 阻擋點權重: $1.00$
   \item 攔截點權重: $0.75$
   % \item 陷阱點權重: $0.75$
   \item 遊戲物件數量限制: $[2, 3]$
@@ -949,7 +949,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
-  \item 阻攔點權重: $1.00$
+  \item 阻擋點權重: $1.00$
   % \item 支援點權重: $0.75$
   \item 巡邏點權重: $0.50$
   \item 守衛點權重: $-1.00$
@@ -958,7 +958,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/applied-ga-on-volume-battlepath-trunk.pdf}
     \caption{鎮守要道情境的遊戲物件佈局演化示意} 
     \label{fig:applied-ga-on-volume-battlepath-trunk}
   \end{center}
