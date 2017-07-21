@@ -122,31 +122,47 @@
 
 然而各個房間容器的適應性函數之權重如何決定？將取決於關卡設計師對於該房間容器預期產出進行調整，若希望該遊玩特徵指標能愈出現於房間容器，則將其權重調高 $(0, 1]$；反之，愈不希望該遊玩特徵指標出現在房間容器，則將其權重調低 $[-1, 0)$；若不理會該遊玩特徵指標的體現與否，則將其權重設定為 $0$。在本次研究的系列實驗中，將以關卡設計師視角進行權重的指派，並不代表實驗中所使用的權重最能夠體現其房間容器。
 
-\begin{table}[H]
-  \centering
-  \caption{實驗使用之名詞釋義}
-  \label{tbl:definition-of-terms-in-experiment}
-  \bigskip
-  \vspace{-5mm}
-  \begin{tabular}[t]{ | l | l | }
-    \hline
-    \multicolumn{1}{ |c| }{名詞}
-      & \multicolumn{1}{ c| }{解釋} \\\hline
-    回合 (run)
-      & 回合表示............................................................................. \\\hline
-    世代 (generation)
-      & 世代表示 \\\hline
-    個體 (individual)
-      & 世代表示 \\\hline
-    相鄰
-      & 周圍的定義是特定物件相距僅一格正四方或一格斜四方的距離範圍內 \\\hline
-  \end{tabular}
-\end{table}
+\setlength\LTcapwidth{\linewidth}
+\begin{longtable}{
+    | >{\arraybackslash} m{4.0cm}
+    | >{\arraybackslash} m{8.5cm} | }
+  \caption{實驗使用之名詞釋義}\label{tbl:definition-of-terms-in-experiment} \\
+  \hline
+  \multicolumn{1}{ |c| }{名詞} & \multicolumn{1}{ c| }{名詞解釋} \\
+  \hline
+  \endfirsthead
+  \multicolumn{2}{c}%
+  {\tablename\ \thetable\ -- \textit{接續前頁面}} \\
+  \hline
+  \multicolumn{1}{ |c| }{名詞} & \multicolumn{1}{ c| }{名詞解釋} \\
+  \hline
+  \endhead
+  \multicolumn{2}{r}{\textit{接續下頁面}} \\
+  \endfoot
+  \endlastfoot
+  回合 (run)
+    & 回合為使用相同參數進行的實驗，但實驗間的演化過程與結果是彼此獨立進行。 \\\hline
+  世代 (generation)
+    & 世代為完整地完成一輪的演化，包含了擇優交配、子代突變與世代交替。 \\\hline
+  族群 (population)
+    & 族群為每世代中個體的數量。 \\\hline
+  個體 (individual)
+    & 個體為染色體集合的單位，在本次實驗環境中個體僅有一條染色體，該染色體為遊戲物件佈局的基因序列。 \\\hline
+  相鄰
+    & 周圍是特定一遊戲物件，其相距僅一格正四方或一格斜四方的距離範圍內的其它遊戲物件。 \\\hline
+\end{longtable}
 
 \section{資料收集}
 \label{sec:experiment-datacollection}
 
-在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於實驗過程中輸出 CSV 格式資料。表~\ref{tbl:structure-of-rawdata-scores} 紀錄各回合、世代中，其各個個體（單一染色體）的適應值的得分狀況；表~\ref{tbl:structure-of-rawdata-positions} 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型；此外，在每一回合結束時，會輸出其演化運算之耗時。更多的原始資料節錄內容可參見附錄資源。
+在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於演化過程中收集下述資訊並輸出 CSV 格式資料：
+
+\begin{itemize}
+  \setlength\itemsep{-0.5em}
+  \item 紀錄各回合、世代中，其各個個體（單一染色體）的適應值經標準化後的得分狀況，見表~\ref{tbl:structure-of-rawdata-scores}。
+  \item 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型，見表~\ref{tbl:structure-of-rawdata-positions}。
+  \item 在每一回合結束時，會輸出其演化運算之耗時。更多的原始資料節錄內容可參見附錄資源。
+\end{itemize}
 
 \begin{table}[!htb]
   \centering
@@ -197,17 +213,21 @@
 
 在第~\ref{ssec:method-segments-appliedonvolumes} 小節中，展示了寶藏房與戰鬥通道（狹路驅逐、鎮守要道）三種空間的局部佈局演化結果，隨著房間容器搭配不同的適應性函數，便能夠生成出多樣性的遊戲物件佈局。在本小節的各實驗中，將針對上述三種房間容器的演化結果做更進一步的分析，紀錄佈局演化結果上視圖與最佳個體之標準化加權適應值，由於各實驗、各回合產生的區域極值不同，影響標準化的量尺不同，我們便分開探討各實驗中的適應值成長趨勢。
 
-% Clean the page after this section.
-\clearpage
+% % Clean the page after this section.
+% \clearpage
 
 \subsection{寶藏房}
 \label{ssec:experiment-results-treasure}
 
-第~\ref{ssec:experiment-results-treasure} 小節中，展示了寶藏房使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-b1}、~\ref{tbl:settings-of-experiment-b2} 與~\ref{tbl:settings-of-experiment-b3} 為採用的參數設定，。
+第~\ref{ssec:experiment-results-treasure} 小節中，展示了寶藏房使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-b1}、~\ref{tbl:settings-of-experiment-b2} 與~\ref{tbl:settings-of-experiment-b3} 為採用的參數設定，其中演化世代數量皆為 $100$ 次，族群大小分別為 $50$、$100$ 與 $200$ 個個體。
 
-在實驗開始進行前能夠預想到，期望寶藏房能夠體現出守衛點的特性，最好的守衛點得分配將會是達到遊戲物件數量上限 $5$ 個的同時，
+在實驗開始進行前能夠預想到，期望寶藏房能夠體現出守衛點的特性，最理想的守衛點佈局將會是達到遊戲物件數量上限 $5$ 個的當下，，，。
 
-圖~\ref{fig:experiment-b1-results}（第一實驗組）的演化結果中，能夠觀察到所有的結果中，都存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-b1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。藉此推估族群大小（即個體數量）有可能會導致演化過程陷入局部最佳解的問題，我們將族群大小調整至二倍與四倍，分別為圖~\ref{fig:experiment-b2-results}（第二實驗組）及圖~\ref{fig:experiment-b3-results}（第三實驗組），
+圖~\ref{fig:experiment-b1-results}（第一實驗組）的演化結果中，十個不同回合皆存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-b1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。
+
+我們提出一個假設，族群大小有可能會導致演化過程陷入局部最佳解的問題，接著將族群大小調整至 $2$ 倍與 $4$ 倍，分別為圖~\ref{fig:experiment-b2-results}（第二實驗組）及圖~\ref{fig:experiment-b3-results}（第三實驗組），
+
+然而在演化的時間上
 
 
 
