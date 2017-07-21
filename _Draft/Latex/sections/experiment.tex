@@ -83,7 +83,7 @@
 \chapter{實驗結果與分析}
 \label{cha:experiment}
 
-本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：第~\ref{sec:experiment-results} 小節中，針對所挑選的房間採用不同權重的適應性函數，其演化的世代數量、群族的個體數量會如何影響房間內的遊戲物件之配置結果。
+本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：第~\ref{sec:experiment-results} 小節中，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -168,28 +168,30 @@
 
 \begin{table}[!htb]
   \centering
-  \caption{演化適應值資料節錄}
+  \caption{演化適應值資料節錄示意}
   \label{tbl:structure-of-rawdata-scores}
   \bigskip
   \vspace{-5mm}
-  \begin{tabular}{| c | c | c | c | l |}
+  \begin{tabular}{| c | c | c | c | r |}
     \hline
     \multicolumn{1}{ |c| }{回合編號}
       & \multicolumn{1}{ c| }{世代編號}
       & \multicolumn{1}{ c| }{個體編號}
       & \multicolumn{1}{ c| }{指標}
-      & \multicolumn{1}{ c| }{得分} \\\hline
+      & \multicolumn{1}{ c| }{標準化加權適應值} \\\hline
     $1$ & $1$ & $1$ & 阻擋點       & $0$ \\
     $1$ & $1$ & $1$ & 巡邏點       & $0$ \\
     $1$ & $1$ & $1$ & 守衛點       & $0$ \\
     $1$ & $1$ & $1$ & 遊戲物件數量 & $0$ \\
+    $1$ & $1$ & $2$ & 阻擋點       & $0.6540$ \\
+    $1$ & $1$ & $2$ & 巡邏點       & $0.5587$ \\
     \hline
   \end{tabular}
 \end{table}
 
 \begin{table}[!htb]
   \centering
-  \caption{演化座標資料節錄}
+  \caption{演化座標資料節錄示意}
   \label{tbl:structure-of-rawdata-positions}
   \bigskip
   \vspace{-5mm}
@@ -200,11 +202,11 @@
       & \multicolumn{1}{ c| }{個體編號}
       & \multicolumn{1}{ c| }{座標}
       & \multicolumn{1}{ c| }{遊戲物件類型} \\\hline
-    $1$ & $1$ & $1$ & $(1.0, 1.0, 0.0)$ & $Empty$ \\
+    $1$ & $1$ & $1$ & $(1.0, 1.0, 0.0)$ & $Treasure$ \\
     $1$ & $1$ & $1$ & $(0.0, 1.0, 0.0)$ & $Empty$ \\
-    $1$ & $1$ & $1$ & $(0.0, 1.0, 1.0)$ & $Empty$ \\
     $1$ & $1$ & $1$ & $(0.0, 1.0, 2.0)$ & $Empty$ \\
-    $1$ & $1$ & $1$ & $(0.0, 1.0, 3.0)$ & $Empty$ \\
+    $1$ & $1$ & $2$ & $(1.0, 1.0, 0.0)$ & $Enemy$ \\
+    $1$ & $1$ & $2$ & $(0.0, 1.0, 0.0)$ & $Empty$ \\
     \hline
   \end{tabular}
 \end{table}
@@ -224,12 +226,11 @@
 
 在實驗開始進行前能夠預想到，期望寶藏房能夠體現出守衛點的特性，最理想的守衛點佈局將會是達到遊戲物件數量上限 $5$ 個的當下，，，。
 
-圖~\ref{fig:experiment-treasure-1-results}（第一實驗組）的演化結果中，十個不同回合皆存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-treasure-1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。
+圖~\ref{fig:experiment-treasure-1-results}（第一實驗組）的演化結果中，十個不同回合皆存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-treasure-1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。藉此我們提出一個假設，族群大小有可能會導致演化過程陷入局部最佳解的問題。
 
-我們提出一個假設，族群大小有可能會導致演化過程陷入局部最佳解的問題，接著將族群大小調整至 $2$ 倍與 $4$ 倍，分別為圖~\ref{fig:experiment-treasure-2-results}（第二實驗組）及圖~\ref{fig:experiment-treasure-3-results}（第三實驗組），
+接著將族群大小調整至 $2$ 倍與 $4$ 倍，分別為圖~\ref{fig:experiment-treasure-2-results}（第二實驗組）及圖~\ref{fig:experiment-treasure-3-results}（第三實驗組），
 
 然而在演化的時間上
-
 
 
 但敵人物件周圍不見得會有寶箱。
@@ -389,7 +390,7 @@
     {
       阻擋點       & $1.00$ & \\
       巡邏點       & $0.75$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+      遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
     }
 
   \galayoutresults{narrow-1}{Narrow-1}
@@ -448,7 +449,7 @@
     {
       阻擋點       & $1.00$ & \\
       巡邏點       & $0.75$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+      遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
     }
 
   \galayoutresults{narrow-2}{Narrow-2}
@@ -507,7 +508,7 @@
     {
       阻擋點       & $1.00$ & \\
       巡邏點       & $0.75$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+      遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
     }
 
   \galayoutresults{narrow-3}{Narrow-3}
@@ -573,7 +574,7 @@
       阻擋點       & $1.00$  & \\
       巡邏點       & $0.50$  & \\
       守衛點       & $-1.00$ & \\
-      遊戲物件數量 & $1.00$  & $Limit: [3, 5]$ \\
+      遊戲物件數量 & $2.50$  & $Limit: [3, 5]$ \\
     }
 
   \galayoutresults{trunk-1}{Trunk-1}
@@ -643,7 +644,7 @@
       阻擋點       & $1.00$  & \\
       巡邏點       & $0.50$  & \\
       守衛點       & $-1.00$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+      遊戲物件數量 & $2.50$ & $Limit: [3, 5]$ \\
     }
 
   \galayoutresults{trunk-2}{Trunk-2}
@@ -713,7 +714,7 @@
       阻擋點       & $1.00$  & \\
       巡邏點       & $0.50$  & \\
       守衛點       & $-1.00$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [3, 5]$ \\
+      遊戲物件數量 & $2.50$ & $Limit: [3, 5]$ \\
     }
 
   \galayoutresults{trunk-3}{Trunk-3}
@@ -782,14 +783,14 @@
 
 
 \landscapeexperimentpage{
-  \subsection{單一指標型 - 寶藏房}
+  \subsection{單一指標型 - 戰鬥通道（狹路驅逐 I）}
   \label{ssec:experiment-normalized-treasure}
 
   \gasettingstable{x1}{X1}
-    { $1$ & $100$ & $200$ \\ }
+    { $5$ & $100$ & $200$ \\ }
     {
-      守衛點       & $1.00$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [2, 5]$ \\
+      阻擋點       & $1.00$ & \\
+      遊戲物件數量 & $1.00$ & $Limit: [4, 5]$ \\
     }
 
   % \galayoutresults{x1}{X1}
@@ -797,16 +798,15 @@
 
 
 \landscapeexperimentpage{
-  \subsection{複合指標型 - 戰鬥通道（狹路驅逐）}
+  \subsection{複合指標型 - 戰鬥通道（狹路驅逐 II）}
   \label{ssec:experiment-normalized-narrow}
 
   \gasettingstable{y1}{Y1}
-    { $1$ & $100$ & $200$ \\ }
+    { $5$ & $100$ & $200$ \\ }
     {
       阻擋點       & $1.00$ & \\
-      攔截點       & $0.75$ & \\
-      % 陷阱點       & $0.75$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [2, 3]$ \\
+      巡邏點       & $0.75$ & \\
+      遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
     }
 
   % \galayoutresults{y1}{Y1}
