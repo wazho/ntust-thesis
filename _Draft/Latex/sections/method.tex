@@ -756,24 +756,24 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \end{center}
 \end{figure}
 
-\subsubsection{攔截點 (Intercept)}
-\label{sssec:method-segments-fitnesses-intercept}
+% \subsubsection{攔截點 (Intercept)}
+% \label{sssec:method-segments-fitnesses-intercept}
 
-方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻擋點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。圖~\ref{fig:fitnesses-intercept-gameplay} 為攔截點指標的實際遊玩情形，草綠色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線周圍快速地攔截玩家。
+% 方程式~\ref{eq:fitnesses-intercept} 為攔截點的適應性函數。與阻擋點近似，但敵人會避免被配置在空間動線上，為求快速追擊玩家為目的，將圍繞在空間動線附近。各敵人 ($E_{i}$) 越接近空間動線各點 ($MP_{j}$) 時影響愈大，且動線權重 ($mp_{j}$) 亦會影響加權程度。圖~\ref{fig:fitnesses-intercept-gameplay} 為攔截點指標的實際遊玩情形，草綠色區塊為系統計算出的空間動線的瓦磚，敵人將會被設置於動線周圍快速地攔截玩家。
 
-\begin{equation}
-    \label{eq:fitnesses-intercept}
-    f_{itc} = \sum_{i=1}^{M} \sum_{j=1}^{N} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
-    E_{i} \neq MP_{j}
-\end{equation}
+% \begin{equation}
+%     \label{eq:fitnesses-intercept}
+%     f_{itc} = \sum_{i=1}^{M} \sum_{j=1}^{N} \Big( \frac{1}{dist(E_{i}, MP_{j})} \times mp_{j} \Big), 
+%     E_{i} \neq MP_{j}
+% \end{equation}
 
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/fitnesses-intercept-gameplay.pdf}
-    \caption{攔截點指標的遊戲體現情形}
-    \label{fig:fitnesses-intercept-gameplay}
-  \end{center}
-\end{figure}
+% \begin{figure}[!htb]
+%   \begin{center}
+%     \includegraphics[width=1.0\textwidth]{figures/fitnesses-intercept-gameplay.pdf}
+%     \caption{攔截點指標的遊戲體現情形}
+%     \label{fig:fitnesses-intercept-gameplay}
+%   \end{center}
+% \end{figure}
 
 \subsubsection{巡邏點 (Patrol)}
 \label{sssec:method-segments-fitnesses-patrol}
