@@ -143,7 +143,7 @@
 \section{資料收集}
 \label{sec:experiment-datacollection}
 
-在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於實驗過程中輸出 CSV 格式資料。表~\ref{tbl:structure-of-rawdata-scores} 紀錄各回合、世代中，其各個個體（單一染色體）的適應值的得分狀況；表~\ref{tbl:structure-of-rawdata-positions} 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型。更多的原始資料節錄內容可參見附錄資源。
+在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於實驗過程中輸出 CSV 格式資料。表~\ref{tbl:structure-of-rawdata-scores} 紀錄各回合、世代中，其各個個體（單一染色體）的適應值的得分狀況；表~\ref{tbl:structure-of-rawdata-positions} 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型；此外，在每一回合結束時，會輸出其演化運算之耗時。更多的原始資料節錄內容可參見附錄資源。
 
 \begin{table}[!htb]
   \centering
@@ -154,7 +154,7 @@
     \hline
     \multicolumn{1}{ |c| }{回合編號}
       & \multicolumn{1}{ c| }{世代編號}
-      & \multicolumn{1}{ c| }{染色體編號}
+      & \multicolumn{1}{ c| }{個體編號}
       & \multicolumn{1}{ c| }{指標}
       & \multicolumn{1}{ c| }{得分} \\\hline
     1 & 1 & 1 & Block     & 0 \\
@@ -177,7 +177,7 @@
     \hline
     \multicolumn{1}{ |c| }{回合編號}
       & \multicolumn{1}{ c| }{世代編號}
-      & \multicolumn{1}{ c| }{染色體編號}
+      & \multicolumn{1}{ c| }{個體編號}
       & \multicolumn{1}{ c| }{座標}
       & \multicolumn{1}{ c| }{遊戲物件類型} \\\hline
     1 & 1 & 1 & (1.0, 1.0, 0.0) & Empty \\
