@@ -570,7 +570,22 @@
 
 在這一小節中，我們刻意將守衛點的權重調整為 $1$。在圖~\ref{fig:experiment-trunk-1-results}（第一實驗組）的 i 與 viii 中，仍出現了寶箱的物件；且 vii 的敵人皆不在空間動線上進行阻擋行為。觀察到表~\ref{tbl:result-of-experiment-trunk-1} 中，前述三個回合的演化適應值總分與其它回合相比遜色許多，藉此也驗證了平衡適應性函數的可靠性，依賴其高權重的緣故，能夠限制在絕大多數的情形下，確保演化結果落於限制範圍內。
 
-隨著族群大小的提升，我們在圖~\ref{fig:experiment-trunk-2-results}（第二實驗組）與圖~\ref{fig:experiment-trunk-3-results}（第三實驗組），已經看不見與未採用正權重適應性函數相關遊戲物件（寶箱），且各回合的最佳個體的得分也愈趨於平均。
+隨著族群大小的提升，我們在圖~\ref{fig:experiment-trunk-2-results}（第二實驗組）與圖~\ref{fig:experiment-trunk-3-results}（第三實驗組），已看不見與未採用正權重適應性函數相關遊戲物件（寶箱），且各回合最佳個體的適應值也愈趨於平均，總體標準差 $\sigma$ 也愈來愈小，見表~\ref{tbl:result-of-experiment-trunk-avg-sd}。
+
+\begin{table}[H]
+  \centering
+  \caption{戰鬥通道（鎮守要道）演化結果之平均適應值與總體標準差 $\sigma$}
+  \label{tbl:result-of-experiment-trunk-avg-sd}
+  \bigskip
+  \vspace{-5mm}
+  \begin{tabular}[t]{ | c | c | c | }
+    \hline
+    族群大小 & 平均適應值 & 總體標準差 $\sigma$ \\\hline
+    $50$  & $3.6347$ & $0.42099$ \\\hline
+    $100$ & $3.7713$ & $0.29068$ \\\hline
+    $200$ & $3.8458$ & $0.12758$ \\\hline
+  \end{tabular}
+\end{table}
 
 \landscapeexperimentpage{
   \gasettingstable{trunk-1}{Trunk-1}
@@ -781,56 +796,56 @@
                           & \multicolumn{3}{ r| }{$4.0000$} \\\hline
   }
 
-\section{標準化結果之比較}
-\label{sec:experiment-normalized}
+% \section{標準化結果之比較}
+% \label{sec:experiment-normalized}
 
-在第~\ref{ssec:method-segments-multiobjectives} 小節中，提出了方程式~\ref{eq:fitnesses-all} 的標準化效果會根據常數 $c$ 的大小，影響適應值前期與後期的成長幅度。在本小節中，將改變常數 $c$（$c = 1$、$c = 2$、$c = 3$ 與 $c = 4$），觀察應用在「單一指標型」與「複合指標型」房間容器的收斂情形。單一指標型意指僅採用一項適應性函數（同時採用平衡適應性函數）；反之，複合指標型表示採用多項適應性函數。
+% 在第~\ref{ssec:method-segments-multiobjectives} 小節中，提出了方程式~\ref{eq:fitnesses-all} 的標準化效果會根據常數 $c$ 的大小，影響適應值前期與後期的成長幅度。在本小節中，將改變常數 $c$（$c = 1$、$c = 2$、$c = 3$ 與 $c = 4$），觀察應用在「單一指標型」與「複合指標型」房間容器的收斂情形。單一指標型意指僅採用一項適應性函數（同時採用平衡適應性函數）；反之，複合指標型表示採用多項適應性函數。
 
 
-\landscapeexperimentpage{
-  \subsection{單一指標型 - 戰鬥通道（狹路驅逐 I）}
-  \label{ssec:experiment-normalized-treasure}
+% \landscapeexperimentpage{
+%   \subsection{單一指標型 - 戰鬥通道（狹路驅逐 I）}
+%   \label{ssec:experiment-normalized-treasure}
 
-  \gasettingstable{x1}{X1}
-    { $5$ & $100$ & $200$ \\ }
-    {
-      阻擋點       & $1.00$ & \\
-      遊戲物件數量 & $1.00$ & $Limit: [4, 5]$ \\
-    }
+%   \gasettingstable{x1}{X1}
+%     { $5$ & $100$ & $200$ \\ }
+%     {
+%       阻擋點       & $1.00$ & \\
+%       遊戲物件數量 & $1.00$ & $Limit: [4, 5]$ \\
+%     }
 
-  % \galayoutresults{x1}{X1}
-}
+%   % \galayoutresults{x1}{X1}
+% }
 
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/experiments/experiment-normalized-single-heatmap.pdf}
-    \caption{單一指標型的空磚對敵人磚之數量比例} 
-    \label{fig:experiment-normalized-single-heatmap}
-  \end{center}
-\end{figure}
+% \begin{figure}[H]
+%   \begin{center}
+%     \includegraphics[width=1.0\textwidth]{figures/experiments/experiment-normalized-single-heatmap.pdf}
+%     \caption{單一指標型的空磚對敵人磚之數量比例} 
+%     \label{fig:experiment-normalized-single-heatmap}
+%   \end{center}
+% \end{figure}
 
-\landscapeexperimentpage{
-  \subsection{複合指標型 - 戰鬥通道（狹路驅逐 II）}
-  \label{ssec:experiment-normalized-narrow}
+% \landscapeexperimentpage{
+%   \subsection{複合指標型 - 戰鬥通道（狹路驅逐 II）}
+%   \label{ssec:experiment-normalized-narrow}
 
-  \gasettingstable{y1}{Y1}
-    { $5$ & $100$ & $200$ \\ }
-    {
-      阻擋點       & $1.00$ & \\
-      巡邏點       & $0.75$ & \\
-      遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
-    }
+%   \gasettingstable{y1}{Y1}
+%     { $5$ & $100$ & $200$ \\ }
+%     {
+%       阻擋點       & $1.00$ & \\
+%       巡邏點       & $0.75$ & \\
+%       遊戲物件數量 & $1.75$ & $Limit: [4, 5]$ \\
+%     }
 
-  % \galayoutresults{y1}{Y1}
-}
+%   % \galayoutresults{y1}{Y1}
+% }
 
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/experiments/experiment-normalized-multi-heatmap.pdf}
-    \caption{複合指標型的空磚對敵人磚之數量比例} 
-    \label{fig:experiment-normalized-multi-heatmap}
-  \end{center}
-\end{figure}
+% \begin{figure}[H]
+%   \begin{center}
+%     \includegraphics[width=1.0\textwidth]{figures/experiments/experiment-normalized-multi-heatmap.pdf}
+%     \caption{複合指標型的空磚對敵人磚之數量比例} 
+%     \label{fig:experiment-normalized-multi-heatmap}
+%   \end{center}
+% \end{figure}
 
 
 % \section{房型規模之比較}
