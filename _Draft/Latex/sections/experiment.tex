@@ -222,18 +222,13 @@
 \subsection{寶藏房}
 \label{ssec:experiment-results-treasure}
 
-第~\ref{ssec:experiment-results-treasure} 小節中，展示了寶藏房使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-treasure-1}、~\ref{tbl:settings-of-experiment-treasure-2} 與~\ref{tbl:settings-of-experiment-treasure-3} 為採用的參數設定，其中演化世代數量皆為 $100$ 次，族群大小分別為 $50$、$100$ 與 $200$ 個個體。
+於本小節中，展示了寶藏房使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-treasure-1}、~\ref{tbl:settings-of-experiment-treasure-2} 與~\ref{tbl:settings-of-experiment-treasure-3} 為採用的參數設定，其中演化世代數量皆為 $100$ 次，族群大小分別為 $50$、$100$ 與 $200$ 個個體，表~\ref{tbl:result-of-experiment-treasure-1}、~\ref{tbl:result-of-experiment-treasure-2} 與~\ref{tbl:result-of-experiment-treasure-3} 分別為其演化結果的最佳個體適應值的得分情形。
 
-在實驗開始進行前能夠預想到，期望寶藏房能夠體現出守衛點的特性，最理想的守衛點佈局將會是達到遊戲物件數量上限 $5$ 個的當下，，，。
+在實驗開始進行前能夠預想到，期望寶藏房能夠體現出守衛點的特性，最理想的守衛點佈局便是達到遊戲物件數量上限 $5$ 個的當下，所有的遊戲物件皆由敵人與寶箱所組成，不存在其它的遊戲物件。我們觀察到圖~\ref{fig:experiment-treasure-1-results}（第一實驗組）的 ix 演化結果中含有一個陷阱物件，而在圖~\ref{fig:experiment-treasure-2-results}（第二實驗組）及圖~\ref{fig:experiment-treasure-3-results}（第三實驗組）皆沒有任何陷阱物件被生成。
 
-圖~\ref{fig:experiment-treasure-1-results}（第一實驗組）的演化結果中，十個不同回合皆存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-treasure-1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。藉此我們提出一個假設，族群大小有可能會導致演化過程陷入局部最佳解的問題。
+圖~\ref{fig:experiment-treasure-1-results}（第一實驗組）的演化結果中，十個不同回合皆存在著寶箱物件相鄰敵人物件的遊玩特徵。但圖~\ref{fig:experiment-treasure-1-results} vi 與 vii 中，發現當中各有一個寶箱的周圍沒有任何敵人物件（圖 vi，廣場東南方向；圖 vii，階梯上），這對於守衛點的設計理念來說，這並不是一個優良的特徵。
 
-接著將族群大小調整至 $2$ 倍與 $4$ 倍，分別為圖~\ref{fig:experiment-treasure-2-results}（第二實驗組）及圖~\ref{fig:experiment-treasure-3-results}（第三實驗組），
-
-然而在演化的時間上
-
-
-但敵人物件周圍不見得會有寶箱。
+綜合上述兩段落的現象，我們提出一個假說，族群大小有可能會導致演化過程陷入局部最佳解的困境。在演化耗時上，族群大小幾乎是與演化耗時成等比例成長的關係，因此考量到玩家在進行遊戲時的遊玩體驗，遊戲進行演化的讀取時間與演化族群的大小之間必須取得一平衡。
 
 \landscapeexperimentpage{
   \gasettingstable{treasure-1}{Treasure-1}
@@ -383,6 +378,10 @@
 
 \subsection{戰鬥通道（狹路驅逐）}
 \label{ssec:experiment-results-narrow}
+
+於本小節中，展示了戰鬥通道（狹路驅逐）使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-narrow-1}、~\ref{tbl:settings-of-experiment-narrow-2} 與~\ref{tbl:settings-of-experiment-narrow-3} 為採用的參數設定，其中演化世代數量皆為 $100$ 次，族群大小分別為 $50$、$100$ 與 $200$ 個個體，表~\ref{tbl:result-of-experiment-narrow-1}、~\ref{tbl:result-of-experiment-narrow-2} 與~\ref{tbl:result-of-experiment-narrow-3} 分別為其演化結果的最佳個體適應值的得分情形。
+
+為了驗證於前一小節提出的假說，將觀察規模較小的族群大小情形下，是否吻合局部最佳解的特徵。在圖~\ref{fig:experiment-narrow-1-results}（第一實驗組）的 iv 中可見，遊戲物件的數量遠遠超乎我們所規定的範疇內，更進一步的查看其配分情形，於表~\ref{tbl:result-of-experiment-narrow-1} 中可得知該次演化結果的阻擋點為 $1.0000$ 分與巡邏點 $0.7500$ 分，二種遊玩指標皆取得了滿分的適應值，推估於該次演化世代中，所有的個體演化後皆已超過限制的個體數量範圍，導致無法順利獲得個體數量的平衡適應值分數 $1.7500$ 分。因含有機率的性質，雷同的情形亦會發生於較大族群大小的案例中，但發生的機會明顯會少上許多。
 
 \landscapeexperimentpage{
   \gasettingstable{narrow-1}{Narrow-1}
@@ -566,6 +565,12 @@
 
 \subsection{戰鬥通道（鎮守要道）}
 \label{ssec:experiment-results-trunk}
+
+於本小節中，展示了戰鬥通道（鎮守要道）使用三種不同參數的演化結果，表~\ref{tbl:settings-of-experiment-trunk-1}、~\ref{tbl:settings-of-experiment-trunk-2} 與~\ref{tbl:settings-of-experiment-trunk-3} 為採用的參數設定，其中演化世代數量皆為 $100$ 次，族群大小分別為 $50$、$100$ 與 $200$ 個個體，表~\ref{tbl:result-of-experiment-trunk-1}、~\ref{tbl:result-of-experiment-trunk-2} 與~\ref{tbl:result-of-experiment-trunk-3} 分別為其演化結果的最佳個體適應值的得分情形。
+
+在這一小節中，我們刻意將守衛點的權重調整為 $1$。在圖~\ref{fig:experiment-trunk-1-results}（第一實驗組）的 i 與 viii 中，仍出現了寶箱的物件；且 vii 的敵人皆不在空間動線上進行阻擋行為。觀察到表~\ref{tbl:result-of-experiment-trunk-1} 中，前述三個回合的演化適應值總分與其它回合相比遜色許多，藉此也驗證了平衡適應性函數的可靠性，依賴其高權重的緣故，能夠限制在絕大多數的情形下，確保演化結果落於限制範圍內。
+
+隨著族群大小的提升，我們在圖~\ref{fig:experiment-trunk-2-results}（第二實驗組）與圖~\ref{fig:experiment-trunk-3-results}（第三實驗組），已經看不見與未採用正權重適應性函數相關遊戲物件（寶箱），且各回合的最佳個體的得分也愈趨於平均。
 
 \landscapeexperimentpage{
   \gasettingstable{trunk-1}{Trunk-1}
