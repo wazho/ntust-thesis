@@ -22,7 +22,7 @@
 
 我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出\textit{Dungeon Generator} 工具。遊戲設計師能夠藉由\textit{Dungeon Generator} 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
-在任務語法的設計階段，我們參考~\ref{ssec:relatedworks-gameswithprocedural-isaac} 小節所提及之遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+在任務語法的設計階段，我們參考遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -926,23 +926,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 戰鬥通道（狹路驅逐）無入口端點、有四個出口端點。在此房間容器中，西方出口為一廣場；東方出口位於二樓；在北方出口與南方出口之間有一狹長的通道，是連接各個出口的必經道路。
 
-在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
-
-\begin{itemize}
-  \setlength\itemsep{-0.5em}
-  \item 阻擋點權重: $1.00$
-  \item 遊戲物件數量限制: $[4, 5]$
-\end{itemize}
-
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/applied-ga-on-volume-battlepath-narrow-i.pdf}
-    \caption{狹路驅逐情境 I 的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-narrow-i}
-  \end{center}
-\end{figure}
-
-基於上述情境，在西方廣場或其它寬廣地區，亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-ii} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
+在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$，並以南方出口作為入口。且在寬廣地區亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-ii} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
@@ -953,9 +937,9 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/applied-ga-on-volume-battlepath-narrow-i.pdf}
     \caption{狹路驅逐情境 II 的遊戲物件佈局演化示意} 
-    \label{fig:applied-ga-on-volume-battlepath-narrow-ii}
+    \label{fig:applied-ga-on-volume-battlepath-narrow-i}
   \end{center}
 \end{figure}
 
@@ -988,7 +972,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/applied-ga-on-volume-all.png}
     \caption{將關卡中全部房間容器進行遊戲物件的佈局演化} 
     \label{fig:applied-ga-on-volume-all}
   \end{center}
