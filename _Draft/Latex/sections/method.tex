@@ -7,7 +7,7 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b-c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d-f。
+圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器 (volume)，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b-c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d-f。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -20,9 +20,9 @@
 \section{任務語法}
 \label{sec:method-missiongrammars}
 
-我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出\textit{Dungeon Generator} 工具。遊戲設計師能夠藉由\textit{Dungeon Generator} 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出\textit{Dungeon Generator} 工具，見圖~\ref{fig:dungeon-generator}。遊戲設計師能夠藉由\textit{Dungeon Generator} 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
-在任務語法的設計階段，我們參考遊戲 \textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
+在任務語法的設計階段，我們參考遊戲\textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -42,6 +42,7 @@
   \caption{系統預設的任務符號}
   \label{tbl:mission-grammars-alphabet-default}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.8cm}
     | >{\centering\arraybackslash} m{2.0cm}
@@ -52,10 +53,20 @@
       & \multicolumn{1}{ c| }{名稱}
       & \multicolumn{1}{ c| }{符號}
       & \multicolumn{1}{ c| }{說明} \\\hline
+    en (entrance)
+      & 起點
+      & \missionalphabetnode{t-entrance}{10mm}
+      & 玩家於遊戲關卡開始時的起始位置。
+      \\\hline
+    go (goal)
+      & 終點
+      & \missionalphabetnode{t-goal}{10mm}
+      & 玩家抵達此位置時遊戲將結束。
+      \\\hline
     ? (any)
       & 任一節點
-      & \begin{minipage}{.3\textwidth}\includegraphics[height=10mm]{figures/mission-grammars-alphabet/sys-any.png}\end{minipage}
-      & 此節點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中，任一節點能夠被判別為任何節點，促使其同構。
+      & \missionalphabetnode{sys-any}{10mm}
+      & 此節點能夠被判別為任何節點，相同索引值的對應符號將，促使其同構。此節點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中有其釋例。
       \\\hline
   \end{tabular}
 \end{table}
@@ -63,7 +74,7 @@
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 將列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance\missionalphabetnode{t-entrance}{5mm})、終點 (goal\missionalphabetnode{t-goal}{5mm})、魔王房 (boss\missionalphabetnode{t-boss}{5mm})、一般房 (normal\missionalphabetnode{t-normal}{5mm})」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret\missionalphabetnode{t-secret}{5mm})、商店 (shop\missionalphabetnode{t-shop}{5mm})、寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm})」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb\missionalphabetnode{t-bomb}{5mm})，以及從秘密房取得的鑰匙能夠進行解鎖 (lock\missionalphabetnode{t-lock}{5mm})，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start\missionalphabetnode{nt-start}{5mm})、一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance\missionalphabetnode{t-entrance}{5mm})、終點 (goal\missionalphabetnode{t-goal}{5mm})、魔王房 (boss\missionalphabetnode{t-boss}{5mm})、一般房 (normal\missionalphabetnode{t-normal}{5mm})」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret\missionalphabetnode{t-secret}{5mm})、商店 (shop\missionalphabetnode{t-shop}{5mm})、寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm})」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb\missionalphabetnode{t-bomb}{5mm})，以及從秘密房取得的鑰匙能夠進行解鎖 (lock\missionalphabetnode{t-lock}{5mm})，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start\missionalphabetnode{nt-start}{5mm})、一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
@@ -91,22 +102,11 @@
     & \missionalphabetnode{nt-start}{10mm}
     & 任務圖進入改寫階段時，系統預設的根節點。
     & 起始節點 \\\hline
-  en (entrance)
-    & 起點
-    & \missionalphabetnode{t-entrance}{10mm}
-    & 玩家於遊戲關卡開始時的起始位置。
-    & \multirow{8.5}{*}{ 主線任務 } \\\cline{1-4}
-    % 8.5 is special to centering.
-  go (goal)
-    & 終點
-    & \missionalphabetnode{t-goal}{10mm}
-    & 玩家抵達此位置時遊戲將結束。
-    &  \\\cline{1-4}
   boss (boss)
     & 魔王房
     & \missionalphabetnode{t-boss}{10mm}
     & 房間中存在著較強大的怪物。
-    &  \\\cline{1-4}
+    & \multirow{5.5}{*}{ 主線任務 } \\\cline{1-4}
   NM (Normal)
     & 一般房
     & \missionalphabetnode{nt-normal}{10mm}
@@ -186,6 +186,7 @@
   \caption{線性任務規則範例，建立主線任務}
   \label{tbl:missiongrammars-rules-linear-example}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.5cm}
     | >{\centering\arraybackslash} m{2.5cm}
@@ -228,6 +229,7 @@
   \caption{非線性任務規則範例，設置特殊房}
   \label{tbl:missiongrammars-rules-nonlinear-example1}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.5cm}
     | >{\centering\arraybackslash} m{2.5cm}
@@ -257,6 +259,7 @@
   \caption{非線性任務規則範例，建立支線任務}
   \label{tbl:missiongrammars-rules-nonlinear-example2}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.5cm}
     | >{\centering\arraybackslash} m{2.5cm}
@@ -278,6 +281,7 @@
   \caption{非線性任務規則範例，鎖的提前出現與房間攤平}
   \label{tbl:missiongrammars-rules-nonlinear-example3}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{2.5cm}
     | >{\centering\arraybackslash} m{2.5cm}
@@ -402,7 +406,7 @@
     \end{algorithmic}
 \end{algorithm}
 
-圖~\ref{fig:mission-graph-generating-progress} 根據任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）生成任務圖，並使用亂數種子 $894730$ 作舉例，每次的疊代生成依照演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} 將當前任務圖的所有節點遍歷。根據前述章節定義，當圖~\ref{fig:mission-graph-generating-progress} d 時已不存在非終端節點，任務圖已趨穩定，但因為鎖向前規則與房間攤平規則，其規則左側皆為終端節點的情形下，儘管任務圖已趨穩定，只要任務圖中仍有同構子圖存在，改寫系統便能持續運行下去。在 \textit{Dungeon Generator} 中，亂數種子會同時決定一隨機次數，讓已趨穩定的任務圖仍能夠在有限次數下持續進行疊代，直至無任何規則可以被採用，見圖~\ref{fig:mission-graph-generating-progress} g。在圖~\ref{fig:final-mission-graph} 中展示了根據不同亂數種子，能夠得到豐富結果的任務圖。
+圖~\ref{fig:mission-graph-generating-progress} 根據任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}）生成任務圖，並使用亂數種子 $894730$ 作舉例，每次的疊代生成依照演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} 將當前任務圖的所有節點遍歷 (traversal)。根據前述章節定義，當圖~\ref{fig:mission-graph-generating-progress} d 時已不存在非終端節點，任務圖已趨穩定，但因為鎖向前規則與房間攤平規則，其規則左側皆為終端節點的情形下，儘管任務圖已趨穩定，只要任務圖中仍有同構子圖存在，改寫系統便能持續運行下去。在 \textit{Dungeon Generator} 中，亂數種子會同時決定一隨機次數，讓已趨穩定的任務圖仍能夠在有限次數下持續進行疊代，直至無任何規則可以被採用，見圖~\ref{fig:mission-graph-generating-progress} g。在圖~\ref{fig:final-mission-graph} 中展示了根據不同亂數種子，能夠得到豐富結果的任務圖。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -527,7 +531,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{從任務圖轉為遊戲空間}
 \label{ssec:method-spacepieces-frommissiontospace}
 
-Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」能將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過空間替換表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置，相關演示可參考第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}、~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 二小節，將會逐一介紹演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 的實際應用流程。
+Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」（表~\ref{tbl:mission-to-space-instruction}）將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」（表~\ref{tbl:mission-to-space-replace}）把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過空間替換表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置，相關演示可參考第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}、~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 二小節，將會逐一介紹演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 的實際應用流程。
 
 \begin{algorithm}[!htb]
     \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
@@ -652,6 +656,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
   \caption{空間替換表，出口端點與房間容器對應之範例}
   \label{tbl:mission-to-space-replace}
   \bigskip
+  \vspace{-5mm}
   \begin{tabular}{
     | >{\centering\arraybackslash} m{1.5cm}
     | >{\centering\arraybackslash} m{3.5cm} | }
@@ -867,7 +872,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsection{多項適應性函數合併}
 \label{ssec:method-segments-multiobjectives}
 
-在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標，舉例來說，在某一房間容器的設定中，我們將守衛點、阻擋點的權重調整至 $1$，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻擋點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 $1$，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[0, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準，並於第~\ref{sec:experiment-normalized} 節進行相關驗證。
+在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標。舉例來說，在某一房間容器的設定中，我們將守衛點、阻擋點的權重調整至 $1$，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻擋點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 $1$，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[0, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準。
 
 方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，參考 Abdullah Konak 提出的~\textit{Weighted sum approaches}~\cite{konak2006multi} 並予以改良。採計共 $M$ 種適應性函數，第 $i$ 項適應值為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [0, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由個體分數 $f_{i}$ 除以該世代最高得分 $f_{i}\cdot max$ 開 $c$ 次方根。
 
@@ -879,7 +884,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
     Normalized(f_{i}) = (\frac{f_{i}}{f_{i}\cdot max})^{\frac{1}{c}}
 \end{gather*}
 
-圖~\ref{fig:fitnesses-normalized} 中顯示了方程式~\ref{eq:fitnesses-all} 依照不同的非零自然數常數 $c$ 進行適應值的標準化，在此圖中定義 $x\cdot max = 10$ 方便後續的解釋工作。$y_{1}$ 為原始分數除以原始分數最大值之標準化，初期的成長幅度為 $x_{12} - x_{11} = 0.1000$，隨著原始分數的增加並不影響後續的成長幅度 $x_{14} - x_{13} = 0.1000$。為了要體現出前述之定義「首次出現相關遊玩特徵的得分幅度最顯著」的現象，我們對 $y_{1}$ 的數值再進行開 $c$ 次方根，分別以 $c = 2$、$c = 3$ 與 $c = 4$ 得到 $y_{2}$、$y_{3}$ 與 $y_{4}$ 三種線性方程式，其中 $y_{2}$ 的初期成長幅度為 $x_{22} - x_{21} = 0.1310$ 高於 $y_{1}$ 同期的成長幅度，到了後期的成長幅度為 $x_{24} - x_{23} = 0.0847$，逐漸衰減同時已低於 $y_{1}$ 同期的成長幅度，然而這樣的現象隨著常數 $c$ 上升對於分數初期的成長幅度愈大、後期的成長幅度愈小。
+圖~\ref{fig:fitnesses-normalized} 中顯示了方程式~\ref{eq:fitnesses-all} 依照不同的自然數常數 $c$ 進行適應值的標準化。在此圖~\ref{fig:fitnesses-normalized} 中定義 $x\cdot max = 10$ 方便後續的解釋工作。$y_{1}$ 為原始分數除以原始分數最大值之標準化，初期的成長幅度為 $x_{12} - x_{11} = 0.1000$，隨著原始分數的增加並不影響後續的成長幅度 $x_{14} - x_{13} = 0.1000$。為了要體現出前述之定義「首次出現相關遊玩特徵的得分幅度最顯著」的現象，我們對 $y_{1}$ 的數值再進行開 $c$ 次方根，分別以 $c = 2$、$c = 3$ 與 $c = 4$ 得到 $y_{2}$、$y_{3}$ 與 $y_{4}$ 三種線性方程式，其中 $y_{2}$ 的初期成長幅度為 $x_{22} - x_{21} = 0.1310$ 高於 $y_{1}$ 同期的成長幅度，到了後期的成長幅度為 $x_{24} - x_{23} = 0.0847$，逐漸衰減同時已低於 $y_{1}$ 同期的成長幅度，然而這樣的現象隨著常數 $c$ 上升對於分數初期的成長幅度愈大、後期的成長幅度愈小。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -905,7 +910,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{寶藏房}
 \label{sssec:method-segments-appliedonvolumes-treasure}
 
-寶藏房的端點識別物僅只有一個入口端點，便不存在空間動線，與空間動線相關的適應性函數不予採計。圖~\ref{fig:applied-ga-on-volume-treasure} 是寶藏房的演化結果。
+寶藏房的端點識別物僅只有一個入口端點，便不存在空間動線，與空間動線相關的適應性函數不予採計。圖~\ref{fig:applied-ga-on-volume-treasure} 是寶藏房的演化結果，圖~\ref{fig:applied-ga-on-volume-treasure} i-iii 的演化結果呈現出，敵人與寶箱物件彼此間的距離關係鄰近，敵人物件便能夠對相鄰寶箱物件進行守衛動作。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
