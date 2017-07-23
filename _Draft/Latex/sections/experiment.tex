@@ -158,14 +158,26 @@
 \section{實驗流程}
 \label{sec:experiment-diagram}
 
-第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法，搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
+\subsection{透過任務語法建立任務圖}
+\label{ssec:experiment-diagram-missiongrammars}
 
-第二步驟，
+第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法與改寫系統 I，搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
+
+
+
+
+\subsection{基於任務圖轉換為遊戲空間}
+\label{ssec:experiment-diagram-missiontospace}
+
+第二步驟，基於前一小節所生成的任務圖（圖XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX），搭配第~\ref{sec:method-spacepieces} 節所建置的房間容器（圖~\ref{fig:roomtype-mainpath-i}、~\ref{fig:roomtype-mainpath-ii}、~\ref{fig:roomtype-special}、~\ref{fig:roomtype-wall}），與其對應的建造方式表（表~\ref{tbl:mission-to-space-instruction}）與空間替換表（表~\ref{tbl:mission-to-space-replace}），將該任務圖轉換為遊戲空間。
+
+
+
 
 \subsection{資料收集}
-\label{ssec:experiment-datacollection}
+\label{ssec:experiment-diagram-datacollection}
 
-在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於演化過程中收集下述資訊並輸出 CSV 格式資料：
+第三步驟，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於演化過程中收集下述資訊並輸出 CSV 格式資料：
 
 \begin{itemize}
   \vspace{-5mm}
@@ -219,6 +231,11 @@
     \hline
   \end{tabular}
 \end{table}
+
+\subsection{房間容器演化}
+\label{ssec:experiment-diagram-volumesevolution}
+
+
 
 \section{房間容器佈局演化之結果}
 \label{sec:experiment-results}
