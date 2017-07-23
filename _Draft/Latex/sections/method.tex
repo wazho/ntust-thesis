@@ -35,7 +35,7 @@
 \subsection{建立任務符號表}
 \label{ssec:method-missiongrammars-alphabet}
 
-在本小節，會以 \textit{The binding of Isaac} 遊戲關卡作為範例，解析其遊玩特徵並作為任務語法的節點。表~\ref{tbl:mission-grammars-alphabet-default} 為系統預設任務符號表。
+在本小節，會以\textit{The binding of Isaac} 遊戲關卡~\cite{isaacWikiRooms} 作為範例，解析其遊玩特徵並作為任務語法的節點。表~\ref{tbl:mission-grammars-alphabet-default} 為系統預設任務符號表。
 
 \begin{table}[!htb]
   \centering
@@ -66,7 +66,7 @@
     ? (any)
       & 任一節點
       & \missionalphabetnode{sys-any}{10mm}
-      & 此節點能夠被判別為任何節點，相同索引值的對應符號將，促使其同構。此節點無法修改，於~\ref{ssec:method-missiongrammars-rules} 小節 - 建立任務規則中有其釋例。
+      & 此節點能夠被判別為任何節點，定義任務規則時有著特殊用途。於~\ref{ssec:method-missiongrammars-rules} 小節中，對其使用方式將進行闡述。
       \\\hline
   \end{tabular}
 \end{table}
@@ -74,7 +74,7 @@
 \subsubsection{解析遊玩特徵}
 \label{sssec:method-missiongrammars-alphabet-extractpatterns}
 
-在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance\missionalphabetnode{t-entrance}{5mm})、終點 (goal\missionalphabetnode{t-goal}{5mm})、魔王房 (boss\missionalphabetnode{t-boss}{5mm})、一般房 (normal\missionalphabetnode{t-normal}{5mm})」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret\missionalphabetnode{t-secret}{5mm})、商店 (shop\missionalphabetnode{t-shop}{5mm})、寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm})」。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb\missionalphabetnode{t-bomb}{5mm})，以及從秘密房取得的鑰匙能夠進行解鎖 (lock\missionalphabetnode{t-lock}{5mm})，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start\missionalphabetnode{nt-start}{5mm})、一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
+在任務語法中，任務節點可表示為一項事件、挑戰、動作或遊戲物件等。藉由觀察 \textit{The binding of Isaac} 的遊戲關卡後，能夠發現房間擁有固定類型，並且對於房間之間進行程序化的排列組合。然而固定的房間類型便是我們所尋找的節點種類，表~\ref{tbl:mission-grammars-alphabet} 列舉利用遊玩特徵所建立的任務符號表，藉此歸納出「起點 (entrance\missionalphabetnode{t-entrance}{5mm})、終點 (goal\missionalphabetnode{t-goal}{5mm})、魔王房 (boss\missionalphabetnode{t-boss}{5mm})、一般房 (normal\missionalphabetnode{t-normal}{5mm})」外，以及一定機率會出現的稀有特殊房間「秘密房 (secret\missionalphabetnode{t-secret}{5mm})、商店 (shop\missionalphabetnode{t-shop}{5mm})、寶藏房 (treasure\missionalphabetnode{t-treasure}{5mm})」，其中起點與終點為系統預設之終端節點。這些稀有房間帶來了一些制式的事件，在進入秘密房前必須使用炸彈將牆壁給破壞的事件 (bomb\missionalphabetnode{t-bomb}{5mm})，以及從秘密房取得的鑰匙能夠進行解鎖 (lock\missionalphabetnode{t-lock}{5mm})，開通進入商店或寶藏房的權限。而前述的遊玩特徵將轉化為終端節點 (terminal nodes) 的圓形符號形式，表示較為詳盡的任務內容；另外一種為方形符號的非終端節點 (non-terminal nodes)，相較於終端節點更為高階、抽象化，在此我們定義出起始節點 (Start\missionalphabetnode{nt-start}{5mm})、一般房 (Normal\missionalphabetnode{nt-normal}{5mm}) 與特殊房 (Special\missionalphabetnode{nt-special}{5mm}) 等，其應用方式將在下一小節~\ref{ssec:method-missiongrammars-rules} 中介紹。
 
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
@@ -350,7 +350,9 @@
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-根據 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改至符合我方實驗需求，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法），當中會應用到演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖，過程中遵循圖~\ref{fig:rewrite-system-i-flow} 以下步驟順序。第一步驟，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。第二步驟，將任務圖含有索引值的節點，其相連的連接線移除。第三步驟，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。第四步驟，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。第五步驟，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟，將任務圖中的索引值移除。
+上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
+
+圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。圖~\ref{fig:rewrite-system-i-flow} d，將匹配規則右側中沒有與左側等價的節點添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值移除。
 
 \begin{figure}[!htb]
   \begin{center}
