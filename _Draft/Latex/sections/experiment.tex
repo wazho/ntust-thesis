@@ -84,7 +84,7 @@
 \label{cha:experiment}
 
 本章節將探討前述章節之方法是否符合研究目標：第~\ref{sec:experiment-definition} 節，對本次實驗之環境建置、演算法使用之參數進行解釋；第~\ref{sec:experiment-diagram} 節
-，描述本次研究實驗之各項步驟；第~\ref{sec:experiment-results} 節，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果。
+，描述本次研究實驗之各項步驟；第~\ref{sec:experiment-results} 節，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果；第~\ref{sec:experiment-overall} 節，將展示不同關卡的生成結果。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -161,18 +161,28 @@
 \subsection{透過任務語法建立任務圖}
 \label{ssec:experiment-diagram-missiongrammars}
 
-第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法與改寫系統 I，搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
+第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法與改寫系統 I（演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}），搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
 
-
-
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{利用不同的亂數種子，所生成對應之任務圖}
+    \label{fig:experiment-missiongraphs}
+  \end{center}
+\end{figure}
 
 \subsection{基於任務圖轉換為遊戲空間}
 \label{ssec:experiment-diagram-missiontospace}
 
-第二步驟，基於前一小節所生成的任務圖（圖XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX），搭配第~\ref{sec:method-spacepieces} 節所建置的房間容器（圖~\ref{fig:roomtype-mainpath-i}、~\ref{fig:roomtype-mainpath-ii}、~\ref{fig:roomtype-special}、~\ref{fig:roomtype-wall}），與其對應的建造方式表（表~\ref{tbl:mission-to-space-instruction}）與空間替換表（表~\ref{tbl:mission-to-space-replace}），將該任務圖轉換為未配置遊戲物件的遊戲空間。
+第二步驟，基於前一小節所生成的任務圖（圖~\ref{fig:experiment-missiongraphs} a），搭配第~\ref{sec:method-spacepieces} 節所建置的房間容器（圖~\ref{fig:roomtype-mainpath-i}、~\ref{fig:roomtype-mainpath-ii}、~\ref{fig:roomtype-special}、~\ref{fig:roomtype-wall}），與其對應的建造方式表（表~\ref{tbl:mission-to-space-instruction}）與空間替換表（表~\ref{tbl:mission-to-space-replace}），利用改寫系統 II（演算法~\ref{alg:algorithm-mission-to-space-rewritesystem}）將該任務圖轉換為未配置遊戲物件的遊戲空間。
 
-
-
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \caption{利用不同的亂數種子，將圖~\protect\ref{fig:experiment-missiongraphs} a 之任務團轉換為遊戲空間}
+    \label{fig:experiment-space}
+  \end{center}
+\end{figure}
 
 \subsection{資料收集}
 \label{ssec:experiment-diagram-datacollection}
@@ -625,7 +635,6 @@ Population Standard deviation
                           & \multicolumn{3}{ r| }{$3.1885$} \\\hline
   }
 
-
 % Clean the page after this section.
 \clearpage
 
@@ -862,8 +871,11 @@ Population Standard deviation
                           & \multicolumn{3}{ r| }{$4.0000$} \\\hline
   }
 
-\subsection{完整關卡演化結果}
-\label{ssec:experiment-results-overall}
+% Clean the page after this section.
+\clearpage
+
+\section{完整關卡演化結果}
+\label{sec:experiment-overall}
 
 
 % \section{標準化結果之比較}
