@@ -445,7 +445,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 
 我們對於空間語法做了修改以利實驗環境建置。在一個關卡 (level) 中包含數個房間容器 (volumes)，每一房間容器由不定數量的房間塊 (chucks) 組成，且房間塊固定以 $9\times 9\times 9$ 個長方體體素 (voxels) 所構成，每一體素的大小為 $3\times 2\times 3$。
 
-此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。圖~\ref{fig:decorations-with-directions} a-c 可見，不同的裝飾物會依照其特性決定能夠放置的方位，如地面則放置於中心點；牆壁、階梯或門放置於正四方；牆壁柱放置於斜四方。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} d-g 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的體素建置工作。
+此外，每一個體素被分為九種方向，分別為正四方、斜四方與中心點。圖~\ref{fig:decorations-with-directions} a-c 可見，進行房間容器編輯模式下，選定一裝飾物後需透過提示色框進行位置的確認與擺放，水藍色立方體為當前體素，紅色方框為當前方位。不同的裝飾物會依照其特性決定能夠放置的方位，如地面則放置於中心點，圖~\ref{fig:decorations-with-directions} a；牆壁、階梯或門放置於正四方，圖~\ref{fig:decorations-with-directions} b；牆壁柱放置於斜四方，圖~\ref{fig:decorations-with-directions} c。在一個體素中，多個裝飾物是能夠同時並存的，例如在其放置地面、一道牆壁、兩道牆壁柱。在本次實驗環境中，我們將會使用圖~\ref{fig:decorations-with-directions} d-g 中，「地面、階梯、牆壁、牆壁柱、門」共五種裝飾物進行房間容器的體素建置工作。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -477,7 +477,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsubsection{起點、終點、魔王房}
 \label{sssec:method-spacepieces-types-mainpath-i}
 
-圖~\ref{fig:roomtype-mainpath-i}為 a 起點擁有一個入口與三個出口，為玩家重生的起始房間；圖~\ref{fig:roomtype-mainpath-i} b 為終點擁有一個入口，為遊戲關卡結束的房間；圖~\ref{fig:roomtype-mainpath-i}為 c 為魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
+圖~\ref{fig:roomtype-mainpath-i} a 為起點擁有一個入口與三個出口，為玩家重生的起始房間；圖~\ref{fig:roomtype-mainpath-i} b 為終點擁有一個入口，為遊戲關卡結束的房間；圖~\ref{fig:roomtype-mainpath-i} c 為魔王房擁有一個入口與一個出口，玩家會在此房間遭遇強大敵人。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -986,7 +986,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \section{方法彙整與總結}
 \label{sec:method-summary}
 
-第~\ref{sec:method-missiongrammars} 小節介紹了任務語法，讓關卡設計師能透過抽象宏觀的概念，藉由直覺的圖形介面生成出任務圖，表達出遊玩流程的拓撲結構。第~\ref{sec:method-spacepieces} 小節介紹了空間建構，從建構房間容器的最小體素單位至端點識別物，並且透過改寫將任務圖轉換至遊戲空間。第 ~\ref{sec:method-segments} 小節介紹了地圖片段演化的方法，將房間容器依照不同的戰略要素，給予不同遊玩特徵指標的權重，最後利用基因演算法逐步得到遊戲物件的關卡佈局。圖~\ref{fig:completed-framework} 將上述所提及之方法彙整至其中，共計三大項目。
+圖~\ref{fig:completed-framework} 將上述所提及之方法彙整至其中，共計三大項目。第~\ref{sec:method-missiongrammars} 小節介紹了「任務語法」，讓關卡設計師能透過抽象宏觀的概念，藉由直覺的圖形介面生成出任務圖，表達出遊玩流程的拓撲結構。第~\ref{sec:method-spacepieces} 小節介紹了「空間建構」，從建構房間容器的最小體素單位至端點識別物，並且透過改寫將任務圖轉換至遊戲空間。第 ~\ref{sec:method-segments} 小節介紹了「地圖片段演化方法」，將房間容器依照不同的戰略要素，給予不同遊玩特徵指標的權重，最後利用基因演算法逐步演化得到遊戲物件的關卡最適佈局。
 
 \begin{landscape}
   \begin{figure}[!htb]
