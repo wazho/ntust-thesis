@@ -347,12 +347,51 @@
   \end{center}
 \end{figure}
 
+\subsubsection{關聯權重與數量限制}
+\label{sssec:method-missiongrammars-rules-relativeweight-quantitylimit}
+
+關聯權重 (relative weight) 提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率。
+
+
+表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與特定特定方法終選擇出一規則。於下一小節中，關於關聯權重有詳細的解釋。
+
+\setlength\LTcapwidth{\linewidth}
+\begin{longtable}{
+    | >{\centering\arraybackslash} p{4cm}
+    | >{\centering\arraybackslash} p{4cm}
+    | >{\centering\arraybackslash} p{2.75cm}
+    | >{\centering\arraybackslash} p{2.75cm} | }
+  \caption{關聯權重表，任務規則的關聯權重設定範例}\label{tbl:mission-rules-relative-weight} \\
+  \hline
+  任務規則代號 & 任務規則名稱 & 關聯權重 & 數量限制 \\
+  \hline
+  \endfirsthead
+  \multicolumn{4}{c}%
+  {\tablename\ \thetable\ -- \textit{接續前頁面}} \\
+  \hline
+  任務規則代號 & 任務規則名稱 & 關聯權重 & 數量限制 \\
+  \hline
+  \endhead
+  \multicolumn{4}{r}{\textit{接續下頁面}} \\
+  \endfoot
+  \endlastfoot
+  Main Path    & 主線任務   & $10$  & $[0,\infty]$ \\\hline
+  Boss Room    & 配置魔王房 & $150$ & $[0,1]$      \\\hline
+  Exporation   & 探索通道   & $10$  & $[0,\infty]$ \\\hline
+  Set Secret   & 配置特殊房 & $30$  & $[0,1]$      \\\hline
+  Shop         & 商店       & $10$  & $[0,1]$      \\\hline
+  Treasure     & 寶藏房     & $10$  & $[0,1]$      \\\hline
+  More Branch  & 建立支線   & $20$  & $[0,2]$      \\\hline
+  Forward Lock & 鎖向前     & $10$  & $[0,2]$      \\\hline
+  Flat Rooms   & 房間攤平   & $10$  & $[0,\infty]$ \\\hline
+\end{longtable}
+
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
 上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
 
-圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重 (relative weight) 從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值移除。
+圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值移除。
 
 \begin{figure}[!htb]
   \begin{center}
