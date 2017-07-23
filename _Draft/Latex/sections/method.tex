@@ -350,10 +350,7 @@
 \subsubsection{關聯權重與數量限制}
 \label{sssec:method-missiongrammars-rules-relativeweight-quantitylimit}
 
-關聯權重 (relative weight) 提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率。
-
-
-表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與特定特定方法終選擇出一規則。於下一小節中，關於關聯權重有詳細的解釋。
+「關聯權重 (relative weight) 」與「數量限制」提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率與套用的次數。表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與特定特定方法終選擇出一規則。於下一小節中，關於關聯權重有詳細的解釋。
 
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
@@ -361,7 +358,7 @@
     | >{\centering\arraybackslash} p{4cm}
     | >{\centering\arraybackslash} p{2.75cm}
     | >{\centering\arraybackslash} p{2.75cm} | }
-  \caption{關聯權重表，任務規則的關聯權重設定範例}\label{tbl:mission-rules-relative-weight} \\
+  \caption{關聯權重表，任務規則的關聯權重與數量設定之範例}\label{tbl:mission-rules-relative-weight} \\
   \hline
   任務規則代號 & 任務規則名稱 & 關聯權重 & 數量限制 \\
   \hline
