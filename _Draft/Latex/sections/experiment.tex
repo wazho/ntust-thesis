@@ -83,7 +83,8 @@
 \chapter{實驗結果與分析}
 \label{cha:experiment}
 
-本章節將探討前述章節之方法是否符合研究目標，將進行以下實驗：第~\ref{sec:experiment-results} 小節中，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果。
+本章節將探討前述章節之方法是否符合研究目標：第~\ref{sec:experiment-definition} 節，對本次實驗之環境建置、演算法使用之參數進行解釋；第~\ref{sec:experiment-diagram} 節
+，描述本次研究實驗之各項步驟；第~\ref{sec:experiment-results} 節，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -115,7 +116,7 @@
 
 % 當玩家碰觸到陷阱時，會受到一定程度的損傷。
 
-\subsection{實驗參數設定}
+\subsection{實驗參數設定與名詞解釋}
 \label{ssec:experiment-parameters}
 
 本次實驗中將專注於檢視遊戲物件佈局的結果，而任務語法將沿用圖~\ref{fig:mission-to-space-instruction-flow} 所生成之任務圖，為使實驗結果清晰易讀，將移除無關聯之房間容器於實驗範例。房間容器的遊戲物件佈局演化階段時，每一次世代的演化過程有 $80\%$ 機率於父母代進行兩點交配 (two-point crossover)；$10\%$ 機率令衍生子代會進行突變，個體的染色體有 $5\%$ 至 $20\%$ 的基因會轉換成其它的遊戲物件種類，設定值參考自~\cite{liapis2017multi}。相關實驗所使用之名詞，請參照表~\ref{tbl:definition-of-terms-in-experiment} 之釋義。
@@ -154,8 +155,15 @@
     & 原始的適應值進行標準化處理後，並依照對應權重值進行加權，最後得到一數值 $score = [-1, 1]$。 \\\hline
 \end{longtable}
 
-\section{資料收集}
-\label{sec:experiment-datacollection}
+\section{實驗流程}
+\label{sec:experiment-diagram}
+
+第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法，搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
+
+第二步驟，
+
+\subsection{資料收集}
+\label{ssec:experiment-datacollection}
 
 在資料收集階段中，將收集第~\ref{sec:method-segments} 節中，房間容器進行基因演算法演化時，於演化過程中收集下述資訊並輸出 CSV 格式資料：
 
@@ -212,7 +220,7 @@
   \end{tabular}
 \end{table}
 
-\section{演化結果與其品質}
+\section{房間容器佈局演化之結果}
 \label{sec:experiment-results}
 
 在第~\ref{ssec:method-segments-appliedonvolumes} 小節中，展示了寶藏房與戰鬥通道（狹路驅逐、鎮守要道）三種空間的局部佈局演化結果，隨著房間容器搭配不同的適應性函數，便能夠生成出多樣性的遊戲物件佈局。在本小節的各實驗中，將針對上述三種房間容器的演化結果做更進一步的分析，紀錄佈局演化結果上視圖與最佳個體之標準化加權適應值，由於各實驗、各回合產生的區域極值不同，影響標準化的量尺不同，我們便分開探討各實驗中的適應值成長趨勢。
@@ -796,6 +804,10 @@
                           & 物件數量 & $2.5000$ & $2.5$ \\\cline{2-4}
                           & \multicolumn{3}{ r| }{$4.0000$} \\\hline
   }
+
+\subsection{完整關卡演化結果}
+\label{ssec:experiment-results-overall}
+
 
 % \section{標準化結果之比較}
 % \label{sec:experiment-normalized}
