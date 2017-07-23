@@ -937,7 +937,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 戰鬥通道（狹路驅逐）無入口端點、有四個出口端點。在此房間容器中，西方出口為一廣場；東方出口位於二樓；在北方出口與南方出口之間有一狹長的通道，是連接各個出口的必經道路。
 
-在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$，並以南方出口作為入口。且在寬廣地區亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口。
+在此房間容器的佈局預期讓玩家體驗到重要幹道被敵人所盤據，玩家必須在該幹道上與敵人發生衝突方可通過，便將阻擋點指標之權重設為 $1.00$，並以南方出口作為入口。且在寬廣地區亦有機會設置敵人進行巡邏監視，便將巡邏點指標之權重設為 $0.75$。圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} 是戰鬥通道（狹路驅逐）的演化結果，並以南方出口作為入口，圖~\ref{fig:applied-ga-on-volume-battlepath-narrow-i} i-iii 能觀察到，並非所有的點都坐落在高權重的空間動線座標上，因為巡邏點指標的關係，將敵人物件放置於他處也能獲得相當不錯的部分適應值。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
@@ -957,12 +957,11 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \subsubsection{戰鬥通道（鎮守要道）}
 \label{sssec:method-segments-appliedonvolumes-battlepath-trunk}
 
-戰鬥通道（鎮守要道）有一個入口端點及一個出口端點，在此房間容器的佈局與狹路驅逐近似，但敵人將專注於戰鬥陣行，將不會存在寶箱。圖~\ref{fig:applied-ga-on-volume-battlepath-trunk} 是戰鬥通道（鎮守要道）的演化結果。
+戰鬥通道（鎮守要道）有一個入口端點及一個出口端點，在此房間容器的佈局與狹路驅逐近似，但敵人將專注於戰鬥陣行，將不會存在寶箱。圖~\ref{fig:applied-ga-on-volume-battlepath-trunk} 是戰鬥通道（鎮守要道）的演化結果，圖~\ref{fig:applied-ga-on-volume-battlepath-trunk} i-iii 能夠觀察到演化結果中都不再存在寶箱物件。
 
 \begin{itemize}
   \setlength\itemsep{-0.5em}
   \item 阻擋點權重: $1.00$
-  % \item 支援點權重: $0.75$
   \item 巡邏點權重: $0.50$
   \item 守衛點權重: $-1.00$
   \item 遊戲物件數量限制: $[3, 5]$
