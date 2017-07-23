@@ -161,28 +161,39 @@
 \subsection{透過任務語法建立任務圖}
 \label{ssec:experiment-diagram-missiongrammars}
 
-第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法與改寫系統 I（演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}），搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。
+第一步驟，藉由第~\ref{sec:method-missiongrammars} 節所介紹的任務語法與改寫系統 I（演算法~\ref{alg:algorithm-missiongrammars-rewritesystem}），搭配任務符號表（表~\ref{tbl:mission-grammars-alphabet-default}、~\ref{tbl:mission-grammars-alphabet}）以及任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example}、~\ref{tbl:missiongrammars-rules-nonlinear-example1}、~\ref{tbl:missiongrammars-rules-nonlinear-example2}、~\ref{tbl:missiongrammars-rules-nonlinear-example3}），進行任務圖的生成工作。圖~\ref{fig:experiment-mission-graphs} 是透過上述條件，使用六種不同的亂數種子得到的任務圖。
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
+    \includegraphics[width=1.0\textwidth]{figures/experiments/experiment-mission-graphs.pdf}
     \caption{利用不同的亂數種子，所生成對應之任務圖}
-    \label{fig:experiment-missiongraphs}
+    \label{fig:experiment-mission-graphs}
   \end{center}
 \end{figure}
 
 \subsection{基於任務圖轉換為遊戲空間}
 \label{ssec:experiment-diagram-missiontospace}
 
-第二步驟，基於前一小節所生成的任務圖（圖~\ref{fig:experiment-missiongraphs} a），搭配第~\ref{sec:method-spacepieces} 節所建置的房間容器（圖~\ref{fig:roomtype-mainpath-i}、~\ref{fig:roomtype-mainpath-ii}、~\ref{fig:roomtype-special}、~\ref{fig:roomtype-wall}），與其對應的建造方式表（表~\ref{tbl:mission-to-space-instruction}）與空間替換表（表~\ref{tbl:mission-to-space-replace}），利用改寫系統 II（演算法~\ref{alg:algorithm-mission-to-space-rewritesystem}）將該任務圖轉換為未配置遊戲物件的遊戲空間。
+第二步驟，基於前一小節所生成的任務圖（圖~\ref{fig:experiment-mission-graphs} a），搭配第~\ref{sec:method-spacepieces} 節所建置的房間容器（圖~\ref{fig:roomtype-mainpath-i}、~\ref{fig:roomtype-mainpath-ii}、~\ref{fig:roomtype-special}、~\ref{fig:roomtype-wall}），與其對應的建造方式表（表~\ref{tbl:mission-to-space-instruction}）與空間替換表（表~\ref{tbl:mission-to-space-replace}），利用改寫系統 II（演算法~\ref{alg:algorithm-mission-to-space-rewritesystem}）將該任務圖轉換為未配置遊戲物件的遊戲空間。
 
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/under_construction.png}
-    \caption{利用不同的亂數種子，將圖~\protect\ref{fig:experiment-missiongraphs} a 之任務團轉換為遊戲空間}
-    \label{fig:experiment-space}
-  \end{center}
-\end{figure}
+\begin{landscape}
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=1.05\linewidth]{figures/experiments/experiment-spaces-722780748.pdf}
+      \caption{利用不同的亂數種子，將圖~\protect\ref{fig:experiment-mission-graphs} a 之任務團轉換為遊戲空間}
+      \label{fig:experiment-spaces}
+    \end{center}
+  \end{figure}
+\end{landscape}
+
+\begin{landscape}
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=1.05\linewidth]{figures/experiments/experiment-spaces-722780748.pdf}
+      \caption{利用不同的亂數種子，將圖~\protect\ref{fig:experiment-mission-graphs} a 之任務團轉換為遊戲空間}
+    \end{center}
+  \end{figure}
+\end{landscape}
 
 \subsection{資料收集}
 \label{ssec:experiment-diagram-datacollection}
@@ -192,8 +203,8 @@
 \begin{itemize}
   \vspace{-5mm}
   \setlength\itemsep{-0.5em}
-  \item 紀錄各回合、世代中，其各個個體（單一染色體）的適應值經標準化後的得分狀況，見表~\ref{tbl:structure-of-rawdata-scores}。
-  \item 紀錄各回合、世代中，其各個個體（單一染色體）的所有座標資訊與其遊戲物件類型，見表~\ref{tbl:structure-of-rawdata-positions}。
+  \item 紀錄各回合、世代中，其各個體的適應值經標準化後的得分狀況，見表~\ref{tbl:structure-of-rawdata-scores}。
+  \item 紀錄各回合、世代中，其各個體的所有座標與其遊戲物件類型，見表~\ref{tbl:structure-of-rawdata-positions}。
   \item 在每一回合結束時，會輸出其演化運算之耗時。更多的原始資料節錄內容可參見附錄資源。
 \end{itemize}
 
@@ -245,9 +256,17 @@
 \subsection{房間容器演化}
 \label{ssec:experiment-diagram-volumesevolution}
 
-第四步驟，延續前述小節的遊戲空間，本小節將各房間容器參照遊玩指標的適應性函數（第~\ref{ssec:method-segments-fitnesses} 小節）與平衡適應性函數（第~\ref{ssec:method-segments-balancefitness} 小節），設定不同的適應性函數之權重後進行演化，並輸出最適之遊戲物件配置。
+第四步驟，延續前述小節的遊戲空間，本小節將各房間容器參照遊玩指標的適應性函數（第~\ref{ssec:method-segments-fitnesses} 小節）與平衡適應性函數（第~\ref{ssec:method-segments-balancefitness} 小節），設定不同的適應性函數之權重後進行演化，並輸出最適之遊戲物件配置。圖~\ref{fig:experiment-volumes-evolution} 基於圖~\ref{fig:experiment-spaces} a 的遊戲空間進行房間容器的演化。
 
-
+\begin{landscape}
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=1.05\linewidth]{figures/experiments/experiment-evolution-722780748.pdf}
+      \caption{將圖~\protect\ref{fig:experiment-spaces} a 之遊戲空間進行演化}
+      \label{fig:experiment-volumes-evolution}
+    \end{center}
+  \end{figure}
+\end{landscape}
 
 \section{房間容器佈局演化之結果}
 \label{sec:experiment-results}
