@@ -7,12 +7,12 @@
 
 本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
-圖~\ref{fig:system-framework} 為系統的整體流程圖。遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)，圖~\ref{fig:system-framework} a。依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器 (volume)，並得到尚未包含遊戲物件的遊戲地圖，圖~\ref{fig:system-framework} b-c。接下來，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解，圖~\ref{fig:system-framework} d-f。
+圖~\ref{fig:system-framework} 為系統的整體流程。圖~\ref{fig:system-framework} a，遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)。圖~\ref{fig:system-framework} b-c，依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器 (volume)，並得到尚未包含遊戲物件的遊戲地圖。圖~\ref{fig:system-framework} d-e，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解。
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/系統框架.png}
-    \caption{本論文提出系統之流程圖} 
+    \includegraphics[width=1.0\textwidth]{figures/system-framework.pdf}
+    \caption{本論文提出系統之流程} 
     \label{fig:system-framework}
   \end{center}
 \end{figure}
