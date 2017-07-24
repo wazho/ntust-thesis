@@ -407,19 +407,19 @@
     \begin{algorithmic}[1]
         \Require
             \Statex $root$ is current $pointer$ in the mission graph.
-            \Statex $rules$ is a rule set of mission grammars.
+            \Statex $rules$ is a rule set of mission grammars.             \Comment{已過濾非法規則，篩選次數仍餘者}
             \Statex $seed$ is the random seed.
         \Ensure
             \State {Initialize random number generator via $seed$}         \Comment{初始化亂數表，如 C 的 srand}
             \State {}
             \Function{RewriteSystem1}{$root$, $rules$, $seed$}
-                \State {$matchedRule$ = FindMatchs($root$, $rules$)}       \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法，尋找匹配規則}
-                \If {$matchedRule$ is found from $root$ and $root$ doesn't be explored}
-                    \State {RemoveConnections($root$, $matchedRule$)}      \Comment{圖~\ref{fig:rewrite-system-i-flow} b，移除連接線}
-                    \State {ReplaceNodes($root$, $matchedRule$)}           \Comment{圖~\ref{fig:rewrite-system-i-flow} c，替換等價節點}
-                    \State {AppendNodes($root$, $matchedRule$)}            \Comment{圖~\ref{fig:rewrite-system-i-flow} d，補充額外節點}
-                    \State {ReAddConnections($root$, $matchedRule$)}       \Comment{圖~\ref{fig:rewrite-system-i-flow} e，重建連接線}
-                    \State {RevokeIndexes($root$, $matchedRule$)}          \Comment{圖~\ref{fig:rewrite-system-i-flow} f，移除索引值}
+                \State {$mRule$ = FindMatchs($root$, $rules$)}             \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法，尋找匹配規則}
+                \If {$mRule$ is found from $root$ and $root$ doesn't be explored}
+                    \State {RemoveConnections($root$, $mRule$)}            \Comment{圖~\ref{fig:rewrite-system-i-flow} b，移除連接線}
+                    \State {ReplaceNodes($root$, $mRule$)}                 \Comment{圖~\ref{fig:rewrite-system-i-flow} c，替換等價節點}
+                    \State {AppendNodes($root$, $mRule$)}                  \Comment{圖~\ref{fig:rewrite-system-i-flow} d，補充額外節點}
+                    \State {ReAddConnections($root$, $mRule$)}             \Comment{圖~\ref{fig:rewrite-system-i-flow} e，重建連接線}
+                    \State {RevokeIndexes($root$, $mRule$)}                \Comment{圖~\ref{fig:rewrite-system-i-flow} f，移除索引值}
                 \EndIf
                 \ForAll {$child\in children$ of $root$}:
                     \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $3$}
@@ -437,15 +437,18 @@
             \Statex $root$ is current $pointer$ in the mission graph.
             \Statex $rules$ is a rule set of mission grammars.
         \Ensure
-            \State {$matchedRules$ is an empty array of $rule$}
-            \State {$graph$ = TransformToGraph($root$)}               \Comment{以該節點作為新圖之根}
-            \ForAll {$rule\in$ $rules$}:                              \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
-                \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該規則左側同構}
-                    \State {$matchedRules$ add $rule$}                \Comment{將該規則加入候選名單}
-                \EndIf
-            \EndFor
-            \State {$selectedRule$ = RouletteWheel($matchedRules$)}   \Comment{採輪盤法，return $rule$ or $null$}
-            \State {\Return {$selectedRule$}}
+            \Function{FindMatchs}{$root$, $rules$}
+                \State {$mRules$ is an empty array of $rule$}
+                \State {$graph$ = TransformToGraph($root$)}               \Comment{以該節點作為新圖之根}
+                \ForAll {$rule\in$ $rules$}:                              \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
+                    \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該規則同構}
+                        \State {$mRules$ add $rule$}                      \Comment{將該規則加入候選名單}
+                    \EndIf
+                \EndFor
+                \State {$sRule$ = RouletteWheel($mRules$)}                \Comment{採輪盤法並受演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} Line $1$ 影響}
+                \State {SetIndexes($root$, $sRule$)}                      \Comment{圖~\ref{fig:rewrite-system-i-flow} a，設定索引值}
+                \State {\Return {$sRule$}}
+            \EndFunction
     \end{algorithmic}
 \end{algorithm}
 
