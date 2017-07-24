@@ -350,7 +350,7 @@
 \subsubsection{關聯權重與數量限制}
 \label{sssec:method-missiongrammars-rules-relativeweight-quantitylimit}
 
-「關聯權重 (relative weight) 」與「數量限制」提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率與套用的次數。表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與特定特定方法終選擇出一規則。於下一小節中，關於關聯權重有詳細的解釋。
+「關聯權重 (relative weight) 」與「數量限制」提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率與套用的次數。表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與選定方法挑選出一任務規則。於下一小節中，關於關聯權重有詳細的解釋。
 
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
@@ -386,9 +386,9 @@
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
+上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時，以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
 
-圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點取代成匹配規則右側的等價節點。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。最後一步驟圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值移除。
+圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點（\textbf{1:A} 與 \textbf{2:B}）取代成匹配規則右側的等價節點（\textbf{1:a} 與 \textbf{2:B}）。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值屬性移除。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -402,7 +402,7 @@
 在~\ref{ssec:method-missiongrammars-rules} 小節提及，完整的任務圖必不包含任何的非終端節點，倘若經過多次疊代改寫仍有非終端節點存在，關卡設計師必須修改任務語法其規則，使之能夠完整轉換成全終端節點的任務圖，方可進入下一階段的空間轉換。
 
 \begin{algorithm}[!htb]
-    \caption{RewriteSystem1 - 改寫系統（任務語法）}
+    \caption{改寫系統（任務語法）}
     \label{alg:algorithm-missiongrammars-rewritesystem}
     \begin{algorithmic}[1]
         \Require
@@ -410,31 +410,36 @@
             \Statex $rules$ is a rule set of mission grammars.
             \Statex $seed$ is the random seed.
         \Ensure
-            \If {$matchedRule$ is found from $root$ and $root$ doesn't be explored}
-                \State {$matchedRule$ = FindMatchs($root$)}            \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法}
-                \State {移除與 $matchedRule$ 相符子圖節點間的連接線}
-                \State {依照對應索引值替換成 $matchedRule$ 的規則右側}
-                \State {將 $matchedRule$ 剩餘的節點填充至任務圖中}
-                \State {依照 $matchedRule$ 的連接情況，移轉到任務圖中}
-                \State {移除節點的索引值相關資訊}
-            \EndIf
-            \ForAll {$child\in children$ of $root$}:
-                \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $1$}
-            \EndFor \\
-            \Return {$root$}
+            \State {Initialize random number generator via $seed$}         \Comment{初始化亂數表，如 C 的 srand}
+            \State {}
+            \Function{RewriteSystem1}{$root$, $rules$, $seed$}
+                \State {$matchedRule$ = FindMatchs($root$, $rules$)}       \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法，尋找匹配規則}
+                \If {$matchedRule$ is found from $root$ and $root$ doesn't be explored}
+                    \State {RemoveConnections($root$, $matchedRule$)}      \Comment{圖~\ref{fig:rewrite-system-i-flow} b，移除連接線}
+                    \State {ReplaceNodes($root$, $matchedRule$)}           \Comment{圖~\ref{fig:rewrite-system-i-flow} c，替換等價節點}
+                    \State {AppendNodes($root$, $matchedRule$)}            \Comment{圖~\ref{fig:rewrite-system-i-flow} d，補充額外節點}
+                    \State {ReAddConnections($root$, $matchedRule$)}       \Comment{圖~\ref{fig:rewrite-system-i-flow} e，重建連接線}
+                    \State {RevokeIndexes($root$, $matchedRule$)}          \Comment{圖~\ref{fig:rewrite-system-i-flow} f，移除索引值}
+                \EndIf
+                \ForAll {$child\in children$ of $root$}:
+                    \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $3$}
+                \EndFor
+                \State {\Return {$root$}}
+            \EndFunction
     \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[!htb]
-    \caption{Part of RewriteSystem1 - 搜尋匹配規則}
+    \caption{搜尋匹配規則}
     \label{alg:algorithm-matchedrule}
     \begin{algorithmic}[1]
         \Require
             \Statex $root$ is current $pointer$ in the mission graph.
+            \Statex $rules$ is a rule set of mission grammars.
         \Ensure
             \State {$matchedRules$ is an empty array of $rule$}
             \State {$graph$ = TransformToGraph($root$)}               \Comment{以該節點作為新圖之根}
-            \ForAll {$rule\in$ GetAllRules()}:                        \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
+            \ForAll {$rule\in$ $rules$}:                              \Comment{參照任務規則表，表~\ref{tbl:missiongrammars-rules-linear-example}-~\ref{tbl:missiongrammars-rules-nonlinear-example3}}
                 \If {$graph$ is isomorphic with $left$ of $rule$}     \Comment{若當前圖與該規則左側同構}
                     \State {$matchedRules$ add $rule$}                \Comment{將該規則加入候選名單}
                 \EndIf
