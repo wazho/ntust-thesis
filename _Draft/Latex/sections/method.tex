@@ -166,7 +166,7 @@
 \subsection{建立任務規則}
 \label{ssec:method-missiongrammars-rules}
 
-圖~\ref{fig:missiongrammars-tutorial}，任務規則分為規則左側及規則右側，二者皆為圖形語法 (Graph Grammars) 所構成，圖形與則由終端節點、非終端節點與連接線 (connection) 所構成的有向圖。規則左側為被取代方、規則右側為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側，可參照第~\ref{ssec:method-missiongrammars-graph} 小節之說明。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+圖~\ref{fig:missiongrammars-tutorial}，任務規則分為規則左側及規則右側，二者皆為圖形語法 (Graph Grammars) 所構成，圖形與則由終端節點、非終端節點與連接線 (connection) 所構成的有向圖。規則左側為被取代方、規則右側為取代方，在任務圖中若有子圖符合任務規則的左側，將會依照流程進行替換改寫動作至規則右側，可參照第~\ref{ssec:method-missiongrammars-graph} 小節之說明。為了方便管理與分類不同性質的規則，在 \textit{Dungeon Generator} 中定義一任務語法包含了多個任務規則群組，各自群組底下有複數個任務改寫規則。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -310,6 +310,14 @@
 
 設計規則時，\textit{Dungeon Generator} 將排除不合法的九項設計原則，非法的設計特徵會導致改寫系統出現錯誤，見圖~\ref{fig:missiongrammars-illegal-rules}。例如：改寫系統陷入無限循環或任務圖破碎化。在表~\ref{tbl:illegal-mission-rules} 所列舉之條件於某些情況中，可能彼此會同時符合多項非法條件，系統將依照判斷順序擇一輸出。
 
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-illegal-rules.pdf}
+    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
+    \label{fig:missiongrammars-illegal-rules}
+  \end{center}
+\end{figure}
+
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
     | >{\centering\arraybackslash} p{4cm}
@@ -339,18 +347,12 @@
   OverflowedAnyNode  & 當規則右側使用 Any 節點時，其對應到左側索引值的節點亦必須為 Any 節點。反之，規則左側使用 Any 節點將不在此限。 \\\hline
 \end{longtable}
 
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{figures/missiongrammars-illegal-rules.pdf}
-    \caption{於 Dungeon Generator 工具中，若規則為非法狀態將不予生效}
-    \label{fig:missiongrammars-illegal-rules}
-  \end{center}
-\end{figure}
-
 \subsubsection{關聯權重與數量限制}
 \label{sssec:method-missiongrammars-rules-relativeweight-quantitylimit}
 
-「關聯權重 (relative weight) 」與「數量限制」提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率與套用的次數。表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與選定方法挑選出一任務規則。於下一小節中，關於關聯權重有詳細的解釋。
+「關聯權重 (relative weight) 」與「數量限制」提供 \textit{Dungeon Generator} 在設計任務規則時更多地彈性，關卡設計師能夠針調整特定的任務規則被套用的機率與套用的次數。任務規則被賦予使用數量上的條件限制，分為使用上限次數與下限次數，上限次數表示完整的改寫系統運行過程，最多能夠套用該規則的次數上限，多為了因應部分遊玩特徵的獨特性或稀有性；反之，下限次數表示套用該規則的次數下限，能用於改寫系統的疊代結果已趨於穩定、無剩餘任何非終端節點的情形下，作為持續進行改寫系統的強制約束條件。
+
+表~\ref{tbl:mission-rules-relative-weight} 是基於任務規則表（表~\ref{tbl:missiongrammars-rules-linear-example} - ~\ref{tbl:missiongrammars-rules-nonlinear-example3}）所建立的關聯權重表，關聯權重是一自然常數，當改寫系統進行時，會依照關聯權重與選定方法挑選出一任務規則。於下一小節中，關於關聯權重有詳細的解釋。
 
 \setlength\LTcapwidth{\linewidth}
 \begin{longtable}{
@@ -388,7 +390,15 @@
 
 上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時，以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
 
-圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換，符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點（\textbf{1:A} 與 \textbf{2:B}）取代成匹配規則右側的等價節點（\textbf{1:a} 與 \textbf{2:B}）。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值屬性移除。
+圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換。符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，見圖~\ref{fig:rewrite-system-isomorphic}。在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點（\textbf{1:A} 與 \textbf{2:B}）取代成匹配規則右側的等價節點（\textbf{1:a} 與 \textbf{2:B}）。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值屬性移除。
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{figures/rewrite-system-isomorphic.pdf}
+    \caption{匹配規則的子圖同構判定方式示意，當前根節點為 \textbf{A}}
+    \label{fig:rewrite-system-isomorphic}
+  \end{center}
+\end{figure}
 
 \begin{figure}[!htb]
   \begin{center}
@@ -411,7 +421,7 @@
             \Statex $seed$ is the random seed.
         \Ensure
             \State {Initialize random number generator via $seed$}         \Comment{初始化亂數表，如 C 的 srand}
-            \State {}
+            \Statex
             \Function{RewriteSystem1}{$root$, $rules$, $seed$}
                 \State {$mRule$ = FindMatchs($root$, $rules$)}             \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法，尋找匹配規則}
                 \If {$mRule$ is found from $root$ and $root$ doesn't be explored}
@@ -422,7 +432,7 @@
                     \State {RevokeIndexes($root$, $mRule$)}                \Comment{圖~\ref{fig:rewrite-system-i-flow} f，移除索引值}
                 \EndIf
                 \ForAll {$child\in children$ of $root$}:
-                    \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $3$}
+                    \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $2$}
                 \EndFor
                 \State {\Return {$root$}}
             \EndFunction
@@ -505,7 +515,7 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 \subsection{端點識別物}
 \label{ssec:method-spacepieces-connections}
 
-逐一設計出各式各樣的房間容器後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房間容器添加端點識別物 (connections)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房間容器中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
+逐一設計出各式各樣的房間容器後，必須正確地將個空間相互連接。參考 Joris Dormans 的空間語法~\cite{dormans2012engineering}，我們為體素型的房間容器添加端點識別物 (connection markers)，而端點可再細分為入口 (entrance) 與出口 (exit)，依照遊戲設計師需求，能夠自行擴充出口的類型，可為複數個出口識別物。在一房間容器中，最多僅能擁有一個入口識別物，而出口識別物的數量不在此限，且二者之數量總和必大於零。倘若空間當中沒有一個以上入口識別物，便會從現有的出口識別物中隨機挑選一與入口識別物相同功能執行之。圖~\ref{fig:connections-in-volume} 中描述了端點識別物的使用情境，入口的箭頭朝向空間內部，而出口的箭頭會朝向空間外部。
 
 \begin{figure}[!htb]
   \begin{center}
@@ -580,28 +590,34 @@ Joris Dormans 於文獻中提到為二維空間的範例~\cite{dormans2010advent
 Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者同構~\cite{dormans2010adventures}。本小節將解釋 \textit{Dungeon Generator} 工具運行「將任務轉為空間的改寫系統」的流程，以及如何搭配任務圖的語法分析器。其一，藉由「建造方式表」（表~\ref{tbl:mission-to-space-instruction}）將任務圖轉換成有意義拓撲關係的遊戲空間；其二，利用「空間替換表」（表~\ref{tbl:mission-to-space-replace}）把前述遊戲空間不足之處補足。完成上述改寫系統進程後，便能夠輸出帶有任務邏輯的遊戲空間。演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 中，系統會遵循第~\ref{ssec:method-missiongrammars-graph} 小節產生的任務圖，以深度優先搜尋法遍歷任務圖，經過的源節點便從建造方式表中挑選出一個房間容器，逐一將各個終端節點轉換為實際空間，接著透過空間替換表，將場面上剩餘的端點識別物依序替換成對應房間容器，以完成遊戲空間之建置，相關演示可參考第~\ref{sssec:method-spacepieces-frommissiontospace-instruction}、~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 二小節，將會逐一介紹演算法~\ref{alg:algorithm-mission-to-space-rewritesystem} 的實際應用流程。
 
 \begin{algorithm}[!htb]
-    \caption{RewriteSystem2 - 改寫系統（任務轉換空間）}
+    \caption{改寫系統（任務轉換空間）}
     \label{alg:algorithm-mission-to-space-rewritesystem}
     \begin{algorithmic}[1]
         \Require
             \Statex $graph$ is $MissionGraph$.
             \Statex $seed$ is the random seed.
         \Ensure
-            \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction} 小節}
-                \State {$volume$ = GetVolumeFromInstructionTable($node$, $seed$)}   \Comment{參照表~\ref{tbl:mission-to-space-instruction}}
-                \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
-                \If {$isSucceed$ is $false$}
-                    \Return {$false$}
-                \EndIf
-            \EndFor
-            \ForAll {$marker\in ConnectionsInGraph$}:                               \Comment{Replacement，第~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 小節}
-                \State {$volume$ = GetVolumeFromReplacementTable($marker$, $seed$)} \Comment{參照表~\ref{tbl:mission-to-space-replace}}
-                \State {$isSucceed$ = SetVolumeToSpace($volume$, $seed$)}           \Comment{return $true$ or $false$}
-                \If {$isSucceed$ is $false$}
-                    \Return {$false$}
-                \EndIf
-            \EndFor \\
-            \Return {$true$}                                                        \Comment{Successfully generated a game space}
+            \State {Initialize random number generator via $seed$}                      \Comment{初始化亂數表，如 C 的 srand}
+            \Statex
+            \Function{RewriteSystem2}{$graph$}
+                \ForAll {$node\in graph$}:                                              \Comment{Instrcution，第~\ref{sssec:method-spacepieces-frommissiontospace-instruction} 小節}
+                    \State {$volume$ = GetVolumeFromInstructionTable($node$)}
+                    \Statex                                                             \Comment{參照表~\ref{tbl:mission-to-space-instruction}，受 Line $1$ 影響}
+                    \State {$isSucceed$ = SetVolumeToSpace($volume$)}                   \Comment{圖~\ref{fig:mission-to-space-instruction-flow}，受 Line $1$ 影響}
+                    \If {$isSucceed$ is $false$}
+                        \Return {$false$}
+                    \EndIf
+                \EndFor
+                \ForAll {$marker\in ConnectionsInGraph$}:                               \Comment{Replacement，第~\ref{sssec:method-spacepieces-frommissiontospace-replacement} 小節}
+                    \State {$volume$ = GetVolumeFromReplacementTable($marker$)}
+                    \Statex                                                             \Comment{參照表~\ref{tbl:mission-to-space-replace}，受 Line $1$ 影響}
+                    \State {$isSucceed$ = SetVolumeToSpace($volume$)}                   \Comment{圖~\ref{fig:mission-to-space-replacement-result}，受 Line $1$ 影響}
+                    \If {$isSucceed$ is $false$}
+                        \Return {$false$}
+                    \EndIf
+                \EndFor
+                \State {\Return {$true$}}                                               \Comment{成功轉換成遊戲空間}
+            \EndFunction
     \end{algorithmic}
 \end{algorithm}
 
