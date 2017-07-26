@@ -422,7 +422,7 @@
         \Ensure
             \State {Initialize random number generator via $seed$}         \Comment{初始化亂數表，如 C 的 srand}
             \Statex
-            \Function{RewriteSystem1}{$root$, $rules$, $seed$}
+            \Function{RewriteSystem1}{$root$, $rules$}
                 \State {$mRule$ = FindMatchs($root$, $rules$)}             \Comment{演算法~\ref{alg:algorithm-matchedrule} 之方法，尋找匹配規則}
                 \If {$mRule$ is found from $root$ and $root$ doesn't be explored}
                     \State {RemoveConnections($root$, $mRule$)}            \Comment{圖~\ref{fig:rewrite-system-i-flow} b，移除連接線}
@@ -432,7 +432,7 @@
                     \State {RevokeIndexes($root$, $mRule$)}                \Comment{圖~\ref{fig:rewrite-system-i-flow} f，移除索引值}
                 \EndIf
                 \ForAll {$child\in children$ of $root$}:
-                    \State {RewriteSystem1($child$, $rules$, $seed$)}      \Comment{遞迴式，跳往 Line $2$}
+                    \State {RewriteSystem1($child$, $rules$)}              \Comment{遞迴式，跳往 Line $2$}
                 \EndFor
                 \State {\Return {$root$}}
             \EndFunction
