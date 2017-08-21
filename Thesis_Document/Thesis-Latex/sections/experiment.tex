@@ -50,6 +50,11 @@
 \captionof{figure}{實驗 #2 的演化結果及各演化耗時}
 \label{fig:experiment-#1-results}
 }}
+\newcommand{\randlayoutresults}[2]{{
+\includegraphics[width=0.90\linewidth]{figures/experiments/#1-results.pdf}
+\captionof{figure}{實驗 #2 的隨機生成結果}
+\label{fig:experiment-#1-results}
+}}
 
 % Quickly create the table.
 \newcommand{\garesultssubtable}[1]{{
@@ -84,7 +89,7 @@
 \label{cha:experiment}
 
 本章節將探討前述章節之方法是否符合研究目標：第~\ref{sec:experiment-definition} 節，對本次實驗之環境建置、演算法使用之參數進行解釋；第~\ref{sec:experiment-diagram} 節
-，描述本次研究實驗之各項步驟；第~\ref{sec:experiment-results} 節，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果；第~\ref{sec:experiment-overall} 節，將展示關卡的生成結果。
+，描述本次研究實驗之各項步驟；第~\ref{sec:experiment-results} 節，針對所挑選的房間採用不同權重的適應性函數，其族群大小會如何影響房間內的遊戲物件之佈局結果；第~\ref{sec:experiment-comparison} 節，將與他法比較佈局生成結果；第~\ref{sec:experiment-overall} 節，將展示完整關卡的生成結果；第~\ref{sec:experiment-feedbacks} 節，數名遊戲開發者使用本方法之工具，給予使用心得之反饋。
 
 \section{實驗定義}
 \label{sec:experiment-definition}
@@ -901,24 +906,24 @@
 \section{與他法比較生成結果}
 \label{sec:experiment-comparison}
 
-本節中將比較 \textit{Dungeon Generator} 提出之方法與隨機生成的結果進行比較。分別以前述三種房間容器的生成結果進行比較。
+本節中將比較 \textit{Dungeon Generator} 提出之方法與隨機生成的結果進行比較，比較對象為前述三種房間容器的佈局生成結果。在此項實驗中，僅限制其遊戲物件的出現數量，其數量級與對應實驗組相同，將不採計特定遊玩特徵指標的適應性函數。
 
-圖~\ref{fig:experiment-random-treasure-results} 寶藏房的房間容器生成結果中，能夠觀察到並非所有的佈局結果含有寶藏，且無法體現出敵人守衛寶箱的遊玩特徵。
+圖~\ref{fig:experiment-random-treasure-results} 寶藏房的房間容器隨機生成結果中，能夠觀察到並非所有的佈局結果含有寶箱物件，僅圖~\ref{fig:experiment-random-treasure-results} i、iii、iv、ix 與 x 擁有寶箱。且出現寶箱的佈局中無法控制敵人物件與其距離，便無法體現出敵人守衛寶箱的遊玩特徵。
 
-圖~\ref{fig:experiment-random-narrow-results} 狹路驅逐的房間容器生成結果中，能夠觀察到。
+圖~\ref{fig:experiment-random-narrow-results} 狹路驅逐的房間容器隨機生成結果中，能夠觀察到敵人物件並無穩定的戰略因素之佈局配置，圖~\ref{fig:experiment-random-narrow-results} v 與 x 更是沒有任何的敵人物件存在，與房間容器的設計理念背道而馳。
 
-圖~\ref{fig:experiment-random-trunk-results} 鎮守要道的房間容器生成結果中，能夠觀察到。
+圖~\ref{fig:experiment-random-trunk-results} 鎮守要道的房間容器隨機生成結果中，無法正確限制住守衛點指標的體現情形，僅只有圖~\ref{fig:experiment-random-trunk-results} iii 未出現任何的寶箱，而其餘的佈局結果皆生成出寶箱。同時佈局結果顯示，敵人物件並不會穩定配置於動線之上或寬廣腹地的位置，便無法體現出阻擋點與巡邏點的遊玩特徵。
 
 \landscapeexperimentpage{
-  \galayoutresults{random-treasure}{Random-Treasure}
+  \randlayoutresults{random-treasure}{Random-Treasure}
 }
 
 \landscapeexperimentpage{
-  \galayoutresults{random-narrow}{Random-Narrow}
+  \randlayoutresults{random-narrow}{Random-Narrow}
 }
 
 \landscapeexperimentpage{
-  \galayoutresults{random-trunk}{Random-Trunk}
+  \randlayoutresults{random-trunk}{Random-Trunk}
 }
 
 
@@ -938,8 +943,21 @@
 \end{landscape}
 
 \section{用戶反饋}
-\label{sec:experiment-*----*--}
+\label{sec:experiment-feedbacks}
 
+本節將讓數名遊戲關卡設計師使用 \textit{Dungeon Generator} 工具，並嘗試建立遊戲關卡後，給予對應之心得與反饋。
+
+\subsubsection{用戶 A}
+
+整體功能配置相當棒，可以很輕易地找到自己想使用的功能。其中比較有趣的功能為使用基因演算法生成關卡的部分，因採用有目標性的隨機生成，讓關卡設計師對於每次的結果可以有不同的期待，雖然最後大多需要人工在微調一些部分，但我認為此功能讓關卡生成上比較不會陷入團隊特定的風格。
+
+\subsubsection{用戶 B}
+
+在使用者介面上，操作直覺簡易且具有提醒機制，相當細膩符合人性。在生成任務圖和房間串接的過程中使用亂數種子，讓使用者於未來期望操作出同樣結果時，更加有依據。使用此工具，讓最終結果既不失去關卡設計師所設計的遊戲體驗，且具有多樣性。
+
+\subsubsection{用戶 C}
+
+傳統的關卡設計必須透過遊戲企劃不斷與其它單位的溝通、協調才可製作出遊戲關卡，並從溝通的過程中構築出關卡設計的經驗法則，再以人工的方式輔以實現。但藉由這項工具，關卡設計師便能夠將該經驗法則化身為抽象的節點，並將這些節點以直覺的方式相互連接其依賴關係，以體現出更高階的遊玩特徵。透過程序化生成的技術，便能夠維持關卡設計師對於關卡的標準，藉著參數化的設定生成出各式各樣的結果。
 
 % \section{標準化結果之比較}
 % \label{sec:experiment-normalized}

@@ -5,7 +5,7 @@
 \chapter{研究方法}
 \label{cha:methodology}
 
-本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以改良，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
+本論文中，我們仍保持 Joris Dormans~\cite{dormans2010adventures}~\cite{dormans2012engineering} 與 Antonios Liapis~\cite{liapis2013generating} 為求遊戲設計過程抽象化與高階化的訴求。將「Mission/Space 框架」與「Multi-segment 演化」兩種關卡生成方法結合並予以修改，保留了前者追求的遊戲進程之順序性，後者帶來穩定且多樣化的遊戲內容，希冀藉此提升整體遊戲體驗、相輔相成。
 
 圖~\ref{fig:system-framework} 為系統的整體流程。圖~\ref{fig:system-framework} a，遊戲設計師能夠透過宏觀的觀點來構築遊戲體驗流，將遊玩特徵拆分成多項規則，利用生成語法及改寫系統生成出任務圖 (mission graph)。圖~\ref{fig:system-framework} b-c，依照任務圖中對應的終端節點 (terminal nodes) 轉換為事先建構完成的房間容器 (volume)，並得到尚未包含遊戲物件的遊戲地圖。圖~\ref{fig:system-framework} d-e，針對動作冒險遊戲我們提出了數項評估遊戲性的適應性函數 (fitness functions)，藉由基因演算法演化房間容器的流程，令各房間遵守適應性函數的限制，以得到符合訴求的最適解。
 
@@ -20,7 +20,7 @@
 \section{任務語法}
 \label{sec:method-missiongrammars}
 
-我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與改良出\textit{Dungeon Generator} 工具，見圖~\ref{fig:dungeon-generator}。遊戲設計師能夠藉由\textit{Dungeon Generator} 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
+我們基於 Joris Dormans 提出之 Mission Grammars 概念，進行實作與修改出\textit{Dungeon Generator} 工具，見圖~\ref{fig:dungeon-generator}。遊戲設計師能夠藉由\textit{Dungeon Generator} 工具進行任務語法的建置，並執行改寫系統以輸出任務圖，進一步利用任務圖產出遊戲關卡空間。
 
 在任務語法的設計階段，我們參考遊戲\textit{The binding of Isaac} 的關卡地圖，分析其遊戲進程結構，構想期望的任務圖並將觀察其遊玩特徵，接著拆分成任務語法規則使用改寫規則產生出近似結構的任務圖。
 
@@ -388,7 +388,7 @@
 \subsection{產生任務圖}
 \label{ssec:method-missiongrammars-graph}
 
-上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並改良之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時，以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
+上一小節中定義了任務規則，本小節將利用任務規則進行生成任務圖的步驟。我們參考 Joris Dormans~\cite{dormans2010adventures} 提出的方法並修改之，歸納出演算法~\ref{alg:algorithm-missiongrammars-rewritesystem} - 改寫系統（任務語法）與演算法~\ref{alg:algorithm-matchedrule} - 搜尋匹配規則。圖~\ref{fig:rewrite-system-i-flow}，任務語法的改寫系統運行時，以深度優先搜尋法 (Depth-first search) 遍歷整個任務圖。
 
 圖~\ref{fig:rewrite-system-i-flow} a，源節點會從任務規則集合中過濾出相符的規則，若有多項規則同時符合替換的條件時，系統會基於它們的關聯權重，從複數個規則中依照採輪盤法 (roulette wheel selection)~\cite{lipowski2012roulette} 選擇出一項任務規則稱之為匹配規則 (matched rule)，並從源節點進行與匹配規則的改寫替換。符合的條件為定義遍歷中的源節點作為新圖，而新圖存在一個子圖與匹配規則的左側之圖形語法同構，同構的參考基準為節點的符號種類，見圖~\ref{fig:rewrite-system-isomorphic}。在確認子圖同構的同時，有關連的節點會標記與匹配規則一致的索引值。圖~\ref{fig:rewrite-system-i-flow} b，將任務圖含有索引值的節點，其相連的連接線移除。圖~\ref{fig:rewrite-system-i-flow} c，任務圖含有有索引值的節點（\textbf{1:A} 與 \textbf{2:B}）取代成匹配規則右側的等價節點（\textbf{1:a} 與 \textbf{2:B}）。圖~\ref{fig:rewrite-system-i-flow} d，索引值編號為 \textbf{3} 與 \textbf{4} 的節點僅出現於匹配規則右側，於是將匹配規則右側中沒有與左側等價的節點（\textbf{3:b} 與 \textbf{4:B}）添加至任務圖中。圖~\ref{fig:rewrite-system-i-flow} e，依照匹配規則右側的連接線，以相同方式放入任務圖中。圖~\ref{fig:rewrite-system-i-flow} f，將任務圖中的索引值屬性移除。
 
@@ -749,7 +749,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 \section{地圖片段}
 \label{sec:method-segments}
 
-為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，令地圖片段為房間容器，並進行改良以合適我方實驗環境。
+為了將第~\ref{ssec:relatedworks-proceduralgamepatterns} 小節提及的程序化遊戲物件擺放技術付諸實現，構築出遊戲內部的複雜系統，讓玩家體驗到突現型 (emergence) 的遊玩機制，我們將延續上一節的遊戲關卡結構，參考 Antonios Liapis 提出的地圖片段演化方法~\cite{liapis2017multi}，令地圖片段為房間容器，並進行修改以合適我方實驗環境。
 
 圖~\ref{fig:segments-with-ga} 介紹地圖片段的演化流程。第一步驟，基於第~\ref{ssec:method-segments-gene} 小節中定義的基因結構，產生初始父母代族群時，讓全部的基因先預設為空磚；第二步驟，透過適應性函數計算各個體的適應值 (fitnesses)，完整的適應性函數在第~\ref{ssec:method-segments-fitnesses} 小節中說明；第三步驟將會從族群中挑選最優異的兩個父母染色體，高機率進行交配，若無進行交配將會將子代沿用父母代的基因；第四步驟有低機率讓衍生的子代進行突變；第五步驟以新的衍生子代取代舊有的父母代族群；第六步驟會檢查是否達到終止條件，若尚未滿足終止條件，便會回到第二步驟，直到輸出最適解。前述之交配、突變事件的機率與其方法屬於實驗變因，將在第~\ref{cha:experiment} 章進行定義與相關釋義。
 
@@ -938,7 +938,7 @@ Joris Dormans 提到任務圖與空間圖應當是非常近似，甚至是二者
 
 在設計適應性函數初期，為求多個適應性函數相互牽制，進而求得限制條件的最佳解。而初期函數會力求場上所有的敵人必須盡可能符合各項指標。舉例來說，在某一房間容器的設定中，我們將守衛點、阻擋點的權重調整至 $1$，其餘指標將不採計得分即不調整權重，倘若場面上存在著敵人 A 與 敵人 B，他們會同時被設置在動線上且一定距離內會有作為守護對象的寶箱物件。但對於遊戲設計師在某些情形下，敵人 A 與敵人 B 僅需要分別符合守衛點、阻擋點指標，才是理想中的遊玩特徵。因此，我們定義「首次出現相關遊玩特徵的得分幅度最顯著」，並依照出現數量逐漸下降成長幅度且逼近於 $1$，呈現近似於對數函數圖形的曲線，因此上述兩種情形都有機會成為演化過程中的最適解。取代原先的線性成長關係，進行數值的標準化，強制將值域規範至 $[0, 1]$ 以求最後適應性函數加權總分時，不偏袒任何適應性函數以達到公平基準。
 
-方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，參考 Abdullah Konak 提出的~\textit{Weighted sum approaches}~\cite{konak2006multi} 並予以改良。採計共 $M$ 種適應性函數，第 $i$ 項適應值為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [0, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由個體分數 $f_{i}$ 除以該世代最高得分 $f_{i}\cdot max$ 開 $c$ 次方根。
+方程式~\ref{eq:fitnesses-all} 中定義房間容器（個體）的品質，參考 Abdullah Konak 提出的~\textit{Weighted sum approaches}~\cite{konak2006multi} 並予以修改。採計共 $M$ 種適應性函數，第 $i$ 項適應值為 $f_{i}$ 並經過標準化 $Normalized(f_{i}) = [0, 1]$，依照各函數得分與其權重值 $w_{i} = [-1, 1]$ 加權後加總得到 $f_{all}$。而標準化由個體分數 $f_{i}$ 除以該世代最高得分 $f_{i}\cdot max$ 開 $c$ 次方根。
 
 \begin{equation}
     \label{eq:fitnesses-all}
