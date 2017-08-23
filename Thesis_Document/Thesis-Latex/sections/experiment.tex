@@ -309,12 +309,12 @@
   \label{tbl:result-of-experiment-treasure-avg-sd}
   \bigskip
   \vspace{-5mm}
-  \begin{tabular}[t]{ | c | c | c | }
+  \begin{tabular}[t]{ | c | c | c | c | }
     \hline
-    族群大小 & 平均適應值 & 總體標準差 $\sigma$ \\\hline
-    $50$  & $1.6651$ & $0.1034$ \\\hline
-    $100$ & $1.6741$ & $0.0613$ \\\hline
-    $200$ & $1.7094$ & $0.0898$ \\\hline
+    族群大小 & 平均適應值 & 總體標準差 $\sigma$ & 平均耗時 ($ms$) \\\hline
+    $50$  & $1.6651$ & $0.1034$ & $1594.00$ \\\hline
+    $100$ & $1.6741$ & $0.0613$ & $3241.00$ \\\hline
+    $200$ & $1.7094$ & $0.0898$ & $6811.00$ \\\hline
   \end{tabular}
 \end{table}
 
@@ -479,12 +479,12 @@
   \label{tbl:result-of-experiment-narrow-avg-sd}
   \bigskip
   \vspace{-5mm}
-  \begin{tabular}[t]{ | c | c | c | }
+  \begin{tabular}[t]{ | c | c | c | c | }
     \hline
-    族群大小 & 平均適應值 & 總體標準差 $\sigma$ \\\hline
-    $50$  & $3.0087$ & $0.4739$ \\\hline
-    $100$ & $3.2116$ & $0.1069$ \\\hline
-    $200$ & $3.2596$ & $0.0855$ \\\hline
+    族群大小 & 平均適應值 & 總體標準差 $\sigma$ & 平均耗時 ($ms$) \\\hline
+    $50$  & $3.0087$ & $0.4739$ & $3255.40$ \\\hline
+    $100$ & $3.2116$ & $0.1069$ & $6148.70$ \\\hline
+    $200$ & $3.2596$ & $0.0855$ & $12947.00$ \\\hline
   \end{tabular}
 \end{table}
 
@@ -674,7 +674,7 @@
 
 在這一小節中，我們刻意將守衛點的權重調整為 $1$。在圖~\ref{fig:experiment-trunk-1-results}（第一實驗組）的 i 與 viii 中，仍出現了寶箱的物件；且 vii 的敵人皆不在空間動線上進行阻擋行為。觀察到表~\ref{tbl:result-of-experiment-trunk-1} 中，前述三個回合的演化適應值總分與其它回合相比遜色許多，藉此也驗證了平衡適應性函數的可靠性，依賴其高權重的緣故，能夠限制在絕大多數的情形下，確保演化結果落於限制範圍內。
 
-隨著族群大小的提升，我們在圖~\ref{fig:experiment-trunk-2-results}（第二實驗組）與圖~\ref{fig:experiment-trunk-3-results}（第三實驗組），已看不見與未採用正權重適應性函數相關遊戲物件（寶箱），且各回合最佳個體的適應值也愈趨於平均，總體標準差 $\sigma$ 也愈來愈小，見表~\ref{tbl:result-of-experiment-trunk-avg-sd}。
+隨著族群大小的提升，我們在圖~\ref{fig:experiment-trunk-2-results}（第二實驗組）與圖~\ref{fig:experiment-trunk-3-results}（第三實驗組），已看不見與未採用正權重適應性函數相關遊戲物件（寶箱），且各回合最佳個體的適應值也愈趨於平均，總體標準差 $\sigma$ 也愈來愈小，見表~\ref{tbl:result-of-experiment-trunk-avg-sd}。且回顧表~\ref{tbl:result-of-experiment-treasure-avg-sd}、表~\ref{tbl:result-of-experiment-narrow-avg-sd} 與本階段的表~\ref{tbl:result-of-experiment-trunk-avg-sd} 中，能夠觀察到族群大小、平均適應值與平均耗時呈正相關，但族群大小與平均耗時呈線性關係；族群大小與平均適應值呈非線性關係，其中平均適應值的成長幅度趨小。
 
 \begin{table}[H]
   \centering
@@ -682,12 +682,12 @@
   \label{tbl:result-of-experiment-trunk-avg-sd}
   \bigskip
   \vspace{-5mm}
-  \begin{tabular}[t]{ | c | c | c | }
+  \begin{tabular}[t]{ | c | c | c | c | }
     \hline
-    族群大小 & 平均適應值 & 總體標準差 $\sigma$ \\\hline
-    $50$  & $3.6347$ & $0.42099$ \\\hline
-    $100$ & $3.7713$ & $0.29068$ \\\hline
-    $200$ & $3.8458$ & $0.12758$ \\\hline
+    族群大小 & 平均適應值 & 總體標準差 $\sigma$ & 平均耗時 ($ms$) \\\hline
+    $50$  & $3.6347$ & $0.42099$ & $2707.90$ \\\hline
+    $100$ & $3.7713$ & $0.29068$ & $5438.60$ \\\hline
+    $200$ & $3.8458$ & $0.12758$ & $10983.20$ \\\hline
   \end{tabular}
 \end{table}
 
